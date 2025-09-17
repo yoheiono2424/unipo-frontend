@@ -2,7 +2,6 @@
 
 import StoreLayout from "@/components/store/StoreLayout";
 import {
-  Store,
   CreditCard,
   TrendingUp,
   Users,

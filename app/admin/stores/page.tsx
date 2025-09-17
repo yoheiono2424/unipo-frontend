@@ -2,7 +2,7 @@
 
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useState } from "react";
-import { Search, Filter, Plus, Eye, Edit, Trash2, MapPin } from "lucide-react";
+import { Search, Filter, Plus, Eye, Edit, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { mockStores } from "@/lib/mock-data";
@@ -97,7 +97,7 @@ export default function AdminStoresPage() {
                   </td>
                 </tr>
               ) : (
-                stores.map((store: any) => (
+                stores.map((store) => (
                   <tr
                     key={store.id}
                     className="hover:bg-gray-50 cursor-pointer"

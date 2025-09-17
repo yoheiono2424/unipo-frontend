@@ -94,7 +94,7 @@ export default function AdminMembersPage() {
                   </td>
                 </tr>
               ) : (
-                members.map((member: any) => (
+                members.map((member) => (
                   <tr
                     key={member.id}
                     className="hover:bg-gray-50 cursor-pointer"

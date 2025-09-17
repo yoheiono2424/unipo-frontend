@@ -2,7 +2,7 @@
 
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useState } from "react";
-import { Search, Filter, Eye, Edit, CheckCircle, XCircle } from "lucide-react";
+import { Search, Filter, Eye, CheckCircle, XCircle } from "lucide-react";
 import Link from "next/link";
 import { mockCampaigns } from "@/lib/mock-data";
 
@@ -122,7 +122,7 @@ export default function AdminCampaignsPage() {
                   </td>
                 </tr>
               ) : (
-                campaigns.map((campaign: any) => (
+                campaigns.map((campaign) => (
                   <tr key={campaign.id}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {campaign.id}

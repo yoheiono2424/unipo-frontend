@@ -15,8 +15,6 @@ import {
   FileText,
   Package,
   Folder,
-  MapPin,
-  Briefcase,
   Bell,
   Settings,
   FileSpreadsheet,
@@ -25,12 +23,13 @@ import {
   X,
   ChevronDown,
   ChevronRight,
+  type LucideIcon,
 } from "lucide-react";
 
 type MenuItem = {
   title: string;
   href?: string;
-  icon: any;
+  icon: LucideIcon;
   children?: { title: string; href: string }[];
 };
 

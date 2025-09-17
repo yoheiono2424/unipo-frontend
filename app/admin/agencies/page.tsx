@@ -2,7 +2,7 @@
 
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useState } from "react";
-import { Search, Plus, Eye, Edit, Trash2, Store } from "lucide-react";
+import { Search, Plus, Eye, Edit, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { mockAgencies } from "@/lib/mock-data";

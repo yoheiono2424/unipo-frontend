@@ -17,14 +17,8 @@ export default function AdvertiserDetailPage({ params }: { params: Promise<{ id:
     totalCampaigns: advertiserCampaigns.length,
     activeCampaigns: advertiserCampaigns.filter(c => c.status === 'active').length,
     totalBudget: advertiserCampaigns.reduce((sum, c) => {
-      // budgetが文字列か数値かを確認
-      let budgetValue = 0;
-      if (typeof c.budget === 'string') {
-        budgetValue = parseInt(c.budget.replace(/[^0-9]/g, '')) || 0;
-      } else if (typeof c.budget === 'number') {
-        budgetValue = c.budget;
-      }
-      return sum + budgetValue;
+      // budgetは数値型なのでそのまま加算
+      return sum + (c.budget || 0);
     }, 0),
     totalDistributed: advertiserCampaigns.reduce((sum, c) => sum + c.distributed, 0),
   };
@@ -179,7 +173,7 @@ export default function AdvertiserDetailPage({ params }: { params: Promise<{ id:
                         </Link>
                       </td>
                       <td className="py-2 text-sm text-gray-600">{campaign.period}</td>
-                      <td className="py-2 text-sm text-gray-600">{campaign.budget}</td>
+                      <td className="py-2 text-sm text-gray-600">¥{campaign.budget.toLocaleString()}</td>
                       <td className="py-2 text-sm text-gray-600">
                         {campaign.distributed}/{campaign.total}
                       </td>

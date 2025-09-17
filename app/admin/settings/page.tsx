@@ -1,7 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { Save, Globe, Bell, Shield, Database, Mail, Smartphone } from "lucide-react";
+import { Save, Globe, Bell, Shield, Database, Mail } from "lucide-react";
 
 export default function AdminSettingsPage() {
   return (

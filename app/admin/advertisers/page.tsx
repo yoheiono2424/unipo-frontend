@@ -2,7 +2,7 @@
 
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useState } from "react";
-import { Search, Filter, Plus, Eye, Edit, Trash2, CheckCircle, XCircle } from "lucide-react";
+import { Search, Plus, Eye, CheckCircle, XCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { mockAdvertisers } from "@/lib/mock-data";

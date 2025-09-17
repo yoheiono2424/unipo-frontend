@@ -1,7 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { Plus, Edit, Trash2, Package, Star } from "lucide-react";
+import { Plus, Trash2, Package, Star } from "lucide-react";
 import Link from "next/link";
 import { mockPointItems } from "@/lib/mock-data";
 

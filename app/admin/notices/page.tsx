@@ -1,7 +1,6 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { useState } from "react";
 import { Plus, Eye, Edit, Trash2, Bell, Users, Calendar } from "lucide-react";
 import Link from "next/link";
 import { mockNotices } from "@/lib/mock-data";
