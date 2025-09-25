@@ -1,10 +1,9 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Edit, Gift, Store, Calendar, User, Hash, CreditCard, TrendingUp, Package } from "lucide-react";
+import { ArrowLeft, Edit, Gift, Store, Calendar, User, CreditCard, TrendingUp, Package } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
-import { useRouter } from "next/navigation";
 
 const mockDistributionRecords = [
   {
@@ -46,7 +45,6 @@ const mockDistributionRecords = [
 ];
 
 export default function DistributionRecordDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const router = useRouter();
   const resolvedParams = use(params);
   const record = mockDistributionRecords.find(r => r.id === resolvedParams.id) || mockDistributionRecords[0];
 

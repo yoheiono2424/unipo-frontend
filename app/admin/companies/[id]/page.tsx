@@ -1,10 +1,9 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Edit, Building2, User, Phone, Mail, Calendar, MapPin, Store, Hash, CheckCircle, XCircle, Shield } from "lucide-react";
+import { ArrowLeft, Edit, Building2, User, Phone, Mail, Calendar, MapPin, Store, CheckCircle, XCircle, Shield } from "lucide-react";
 import Link from "next/link";
 import { use, useState } from "react";
-import { useRouter } from "next/navigation";
 
 type Company = {
   id: string;
@@ -55,7 +54,6 @@ const mockCompanies: Company[] = [
 ];
 
 export default function CompanyDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const router = useRouter();
   const resolvedParams = use(params);
   const company = mockCompanies.find(c => c.id === resolvedParams.id) || mockCompanies[0];
 

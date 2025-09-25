@@ -1,7 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Save, X, Store, Phone, Mail, MapPin, Building2, Hash, Shield, Tag, Users, Globe, Camera, FileText, AlertCircle, Calendar } from "lucide-react";
+import { ArrowLeft, Save, X, Store, Phone, MapPin, Building2, Hash, Users, Camera, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { mockStores } from "@/lib/mock-data";
 import { use, useState } from "react";

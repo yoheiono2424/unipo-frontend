@@ -1,7 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Save, X, Store, Phone, Mail, MapPin, Building2, Hash, Users, Camera, AlertCircle } from "lucide-react";
+import { ArrowLeft, Save, X, Store, Phone, MapPin, Building2, Hash, Users, Camera, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
