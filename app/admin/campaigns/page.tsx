@@ -2,8 +2,7 @@
 
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useState } from "react";
-import { Search, Calendar } from "lucide-react";
-import Link from "next/link";
+import { Search } from "lucide-react";
 import { mockCampaigns } from "@/lib/mock-data";
 
 export default function AdminCampaignsPage() {
