@@ -23,7 +23,6 @@ export const mockMembers = [
     lastUpdatedDate: "2025-01-15T14:20:00",
     // 後方互換性のため
     name: "田中太郎",
-    registeredDate: "2025-01-01",
     status: "active",
     points: 1500,
     birthdate: "1990-01-15",
@@ -51,7 +50,6 @@ export const mockMembers = [
     lastUpdatedDate: "2025-01-20T11:45:00",
     // 後方互換性のため
     name: "鈴木花子",
-    registeredDate: "2025-01-05",
     status: "active",
     points: 2300,
     birthdate: "1985-03-22",
@@ -79,7 +77,6 @@ export const mockMembers = [
     lastUpdatedDate: "2025-01-18T13:30:00",
     // 後方互換性のため
     name: "佐藤健",
-    registeredDate: "2025-01-10",
     status: "inactive",
     points: 500,
     birthdate: "1995-07-10",
@@ -296,7 +293,6 @@ export const mockAdvertisers = [
     registeredDate: "2024-12-01T10:30:00",
     lastUpdatedDate: "2025-01-15T14:20:00",
     // 後方互換性のため
-    contactName: "山田一郎",
     industryCode: "003",
     campaigns: 3,
     totalBudget: 5000000,
@@ -341,7 +337,6 @@ export const mockAdvertisers = [
     registeredDate: "2024-12-15T09:15:00",
     lastUpdatedDate: "2024-12-20T11:30:00",
     // 後方互換性のため
-    contactName: "佐藤二郎",
     industryCode: "004",
     campaigns: 0,
     totalBudget: 0,
@@ -355,6 +350,7 @@ export const mockAgencies = [
     contactName: "代理店太郎",
     email: "agency-a@example.com",
     phone: "03-5555-6666",
+    address: "東京都千代田区丸の内1-1-1",
     commissionRate: 15,
     stores: 25,
     status: "active",
@@ -366,6 +362,7 @@ export const mockAgencies = [
     contactName: "代理店花子",
     email: "agency-b@example.com",
     phone: "06-7777-8888",
+    address: "大阪府大阪市北区梅田2-2-2",
     commissionRate: 12,
     stores: 18,
     status: "active",
