@@ -2,7 +2,7 @@
 
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useState } from "react";
-import { Plus, Download, Eye, CheckCircle } from "lucide-react";
+import { Plus } from "lucide-react";
 import Link from "next/link";
 import { mockInvoices } from "@/lib/mock-data";
 

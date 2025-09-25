@@ -10,7 +10,6 @@ import {
   UserCog,
   Megaphone,
   CreditCard,
-  Gift,
   FileText,
   Package,
   Folder,
