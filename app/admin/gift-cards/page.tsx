@@ -58,7 +58,11 @@ export default function AdminGiftCardsPage() {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {giftCards.map((card) => (
-                <tr key={card.id}>
+                <tr
+                  key={card.id}
+                  className="hover:bg-gray-50 cursor-pointer"
+                  onClick={() => window.location.href = `/admin/gift-cards/${card.id}`}
+                >
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     {card.serialNumber}
                   </td>

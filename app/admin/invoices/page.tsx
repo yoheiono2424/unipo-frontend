@@ -31,7 +31,7 @@ export default function AdminInvoicesPage() {
             <p className="text-sm text-gray-600 mt-1">広告主への請求と決済管理</p>
           </div>
           <Link
-            href="/admin/invoices/create"
+            href="/admin/invoices/new"
             className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center gap-2"
           >
             <Plus className="h-4 w-4" />
@@ -141,7 +141,11 @@ export default function AdminInvoicesPage() {
                   new Date(invoice.dueDate) < new Date();
 
                 return (
-                  <tr key={invoice.id}>
+                  <tr
+                    key={invoice.id}
+                    className="hover:bg-gray-50 cursor-pointer"
+                    onClick={() => window.location.href = `/admin/invoices/${invoice.id}`}
+                  >
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {invoice.id}
                     </td>

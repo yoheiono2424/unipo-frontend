@@ -1,7 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Edit, Store, Phone, Mail, MapPin, Clock, QrCode, CreditCard } from "lucide-react";
+import { ArrowLeft, Edit, Store, Phone, Mail, MapPin, Clock, Building2, Hash, Shield, Tag, Users, Globe, Camera, FileText, AlertCircle, Calendar } from "lucide-react";
 import Link from "next/link";
 import { mockStores } from "@/lib/mock-data";
 import { use } from "react";
@@ -12,18 +12,6 @@ export default function StoreDetailPage({ params }: { params: Promise<{ id: stri
   // モックデータから該当店舗を取得
   const store = mockStores.find(s => s.id === resolvedParams.id) || mockStores[0];
 
-  const giftCardStats = {
-    total: 100,
-    distributed: 45,
-    remaining: 55,
-  };
-
-  const recentDistributions = [
-    { date: "2025-01-15", member: "田中太郎", cardType: "Amazon 500円" },
-    { date: "2025-01-14", member: "鈴木花子", cardType: "Amazon 1000円" },
-    { date: "2025-01-13", member: "佐藤健", cardType: "Amazon 500円" },
-  ];
-
   return (
     <AdminLayout>
       <div className="space-y-6">
@@ -31,19 +19,19 @@ export default function StoreDetailPage({ params }: { params: Promise<{ id: stri
           <div className="flex items-center gap-4">
             <Link
               href="/admin/stores"
-              className="p-2 hover:bg-gray-100 rounded-lg"
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <ArrowLeft className="h-5 w-5" />
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-gray-900">加盟店詳細</h1>
-              <p className="text-sm text-gray-600 mt-1">店舗ID: {store.id}</p>
+              <p className="text-sm text-gray-600 mt-1">加盟店ID: {store.id} | 加盟店NO: {store.storeNo}</p>
             </div>
           </div>
           <div className="flex gap-3">
             <Link
               href={`/admin/stores/${store.id}/edit`}
-              className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center gap-2"
+              className="bg-indigo-600 text-white px-5 py-2.5 rounded-lg hover:bg-indigo-700 flex items-center gap-2 transition-colors"
             >
               <Edit className="h-4 w-4" />
               編集
@@ -51,175 +39,431 @@ export default function StoreDetailPage({ params }: { params: Promise<{ id: stri
           </div>
         </div>
 
-        {/* 基本情報 */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold mb-4">基本情報</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex items-start gap-3">
-              <Store className="h-5 w-5 text-gray-400 mt-0.5" />
-              <div>
-                <p className="text-sm text-gray-600">店舗名</p>
-                <p className="font-medium">{store.name}</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="h-5 w-5 mt-0.5"></div>
-              <div>
-                <p className="text-sm text-gray-600">企業名</p>
-                <p className="font-medium">{store.company}</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <Phone className="h-5 w-5 text-gray-400 mt-0.5" />
-              <div>
-                <p className="text-sm text-gray-600">電話番号</p>
-                <p className="font-medium">{store.phone}</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <Mail className="h-5 w-5 text-gray-400 mt-0.5" />
-              <div>
-                <p className="text-sm text-gray-600">メールアドレス</p>
-                <p className="font-medium">{store.email}</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <MapPin className="h-5 w-5 text-gray-400 mt-0.5" />
-              <div>
-                <p className="text-sm text-gray-600">住所</p>
-                <p className="font-medium">{store.address}</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <Clock className="h-5 w-5 text-gray-400 mt-0.5" />
-              <div>
-                <p className="text-sm text-gray-600">営業時間</p>
-                <p className="font-medium">{store.businessHours}</p>
-              </div>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">カテゴリ</p>
-              <p className="font-medium">{store.category}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">エリア</p>
-              <p className="font-medium">{store.area}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">業種コード</p>
-              <p className="font-medium">{store.industryCode}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">代理店</p>
-              <p className="font-medium">{store.agency || "直接契約"}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">来店ポイント</p>
-              <span className={`inline-flex px-2 text-xs leading-5 font-semibold rounded-full ${
-                store.visitPoint
-                  ? 'bg-green-100 text-green-800'
-                  : 'bg-gray-100 text-gray-800'
-              }`}>
-                {store.visitPoint ? '有効' : '無効'}
-              </span>
-            </div>
-            <div>
-              <p className="text-sm text-gray-600">ステータス</p>
-              <span className={`inline-flex px-2 text-xs leading-5 font-semibold rounded-full ${
-                store.status === '営業中'
-                  ? 'bg-green-100 text-green-800'
-                  : store.status === '準備中'
-                  ? 'bg-yellow-100 text-yellow-800'
-                  : 'bg-gray-100 text-gray-800'
-              }`}>
-                {store.status}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* QRコード */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">店舗QRコード</h2>
-              <QrCode className="h-5 w-5 text-gray-400" />
-            </div>
-            <div className="flex justify-center">
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8">
-                <QrCode className="h-32 w-32 text-gray-300" />
-                <p className="text-sm text-gray-500 mt-4 text-center">
-                  QRコード: {store.id}-QR
-                </p>
-              </div>
-            </div>
-            <button className="w-full mt-4 bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700">
-              QRコードをダウンロード
-            </button>
-          </div>
-
-          {/* ギフトカード在庫 */}
-          <div className="bg-white rounded-lg shadow p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">ギフトカード在庫</h2>
-              <CreditCard className="h-5 w-5 text-purple-500" />
-            </div>
-            <div className="space-y-4">
-              <div>
-                <div className="flex justify-between mb-1">
-                  <span className="text-sm text-gray-600">配布済み</span>
-                  <span className="text-sm font-medium">{giftCardStats.distributed} / {giftCardStats.total}</span>
+        <div className="space-y-6">
+          {/* ステータスヘッダー */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+            <div className="p-6">
+              <div className="flex items-center gap-4">
+                <div className="h-16 w-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center text-white">
+                  <Store className="h-8 w-8" />
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className="bg-indigo-600 h-2 rounded-full"
-                    style={{ width: `${(giftCardStats.distributed / giftCardStats.total) * 100}%` }}
-                  ></div>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4 pt-4">
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-green-600">{giftCardStats.remaining}</p>
-                  <p className="text-sm text-gray-600">残り枚数</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-2xl font-bold text-blue-600">{giftCardStats.distributed}</p>
-                  <p className="text-sm text-gray-600">配布済み</p>
+                <div className="flex-1">
+                  <h3 className="text-xl font-semibold text-gray-900">{store.storeName}</h3>
+                  <p className="text-sm text-gray-600 mt-1">{store.storeNameKana}</p>
+                  <div className="flex items-center gap-3 mt-3">
+                    <span className={`inline-flex items-center px-3 py-1 text-xs font-medium rounded-full ${
+                      store.status === '営業中'
+                        ? 'bg-green-50 text-green-700 ring-1 ring-green-600/20'
+                        : store.status === '準備中'
+                        ? 'bg-yellow-50 text-yellow-700 ring-1 ring-yellow-600/20'
+                        : 'bg-red-50 text-red-700 ring-1 ring-red-600/20'
+                    }`}>
+                      <Shield className="h-3 w-3 mr-1" />
+                      {store.status}
+                    </span>
+                    <span className="text-xs text-gray-500">
+                      利用期間: {store.serviceStartDate?.replace(/(\d{4})(\d{2})(\d{2})/, '$1/$2/$3')} - {store.serviceEndDate?.replace(/(\d{4})(\d{2})(\d{2})/, '$1/$2/$3')}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* 最近の配布履歴 */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-lg font-semibold mb-4">最近の配布履歴</h2>
-          <div className="overflow-x-auto">
-            <table className="min-w-full">
-              <thead>
-                <tr className="border-b">
-                  <th className="text-left py-2 text-sm font-medium text-gray-700">日時</th>
-                  <th className="text-left py-2 text-sm font-medium text-gray-700">会員名</th>
-                  <th className="text-left py-2 text-sm font-medium text-gray-700">カード種別</th>
-                </tr>
-              </thead>
-              <tbody>
-                {recentDistributions.map((dist, index) => (
-                  <tr key={index} className="border-b">
-                    <td className="py-2 text-sm text-gray-600">{dist.date}</td>
-                    <td className="py-2 text-sm text-gray-600">{dist.member}</td>
-                    <td className="py-2 text-sm text-gray-600">{dist.cardType}</td>
-                  </tr>
+          {/* 基本情報セクション */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+            <div className="p-6 border-b border-gray-100">
+              <h2 className="text-lg font-semibold text-gray-900">基本情報</h2>
+            </div>
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                      <Hash className="h-5 w-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">加盟店NO</p>
+                      <p className="mt-1 text-sm font-medium text-gray-900">{store.storeNo}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                      <Building2 className="h-5 w-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">業種</p>
+                      <p className="mt-1 text-sm font-medium text-gray-900">{store.industry}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                      <Calendar className="h-5 w-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">登録日時</p>
+                      <p className="mt-1 text-sm font-medium text-gray-900">
+                        {store.registeredDate ? new Date(store.registeredDate).toLocaleString('ja-JP') : "—"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                      <Calendar className="h-5 w-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">最終更新</p>
+                      <p className="mt-1 text-sm font-medium text-gray-900">
+                        {store.lastUpdatedDate ? new Date(store.lastUpdatedDate).toLocaleString('ja-JP') : "—"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 加盟店情報セクション */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+            <div className="p-6 border-b border-gray-100">
+              <h2 className="text-lg font-semibold text-gray-900">加盟店情報</h2>
+            </div>
+            <div className="p-6">
+              <div className="grid grid-cols-1 gap-6">
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                      <Store className="h-5 w-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">加盟店名</p>
+                      <p className="mt-1 text-sm font-medium text-gray-900">{store.storeName}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                      <Store className="h-5 w-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">加盟店名（カナ）</p>
+                      <p className="mt-1 text-sm font-medium text-gray-900">{store.storeNameKana}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                      <FileText className="h-5 w-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">加盟店説明文</p>
+                      <p className="mt-1 text-sm text-gray-900 leading-relaxed">{store.storeDescription}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                      <MapPin className="h-5 w-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">加盟店住所</p>
+                      <p className="mt-1 text-sm font-medium text-gray-900">
+                        〒{store.postalCode?.replace(/(\d{3})(\d{4})/, '$1-$2')} {store.prefecture}{store.city}{store.streetAddress} {store.buildingName}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                        <Phone className="h-5 w-5 text-gray-600" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">電話番号</p>
+                        <p className="mt-1 text-sm font-medium text-gray-900">
+                          {store.phone?.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                        <Phone className="h-5 w-5 text-gray-600" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">FAX番号</p>
+                        <p className="mt-1 text-sm font-medium text-gray-900">
+                          {store.fax?.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                      <Mail className="h-5 w-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">メールアドレス</p>
+                      <p className="mt-1 text-sm font-medium text-gray-900 break-all">{store.email}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                      <Globe className="h-5 w-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">加盟店URL</p>
+                      <a href={store.storeUrl} target="_blank" rel="noopener noreferrer" className="mt-1 text-sm font-medium text-blue-600 hover:text-blue-800 break-all">
+                        {store.storeUrl}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 加盟店写真セクション */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+            <div className="p-6 border-b border-gray-100">
+              <div className="flex items-center gap-2">
+                <Camera className="h-5 w-5 text-blue-500" />
+                <h2 className="text-lg font-semibold text-gray-900">加盟店写真</h2>
+              </div>
+            </div>
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[store.storePhoto1, store.storePhoto2, store.storePhoto3].map((photo, index) => (
+                  <div key={index} className="group">
+                    <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+                      {photo ? (
+                        <img
+                          src={photo}
+                          alt={`${store.storeName} 写真${index + 1}`}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-gray-400">
+                          <Camera className="h-12 w-12" />
+                        </div>
+                      )}
+                    </div>
+                    <p className="text-xs text-gray-500 mt-2 text-center">写真{index + 1}</p>
+                  </div>
                 ))}
-              </tbody>
-            </table>
+              </div>
+            </div>
           </div>
-          <Link
-            href={`/admin/stores/${store.id}/distributions`}
-            className="mt-4 inline-block text-sm text-indigo-600 hover:text-indigo-700"
-          >
-            すべての配布履歴を見る →
-          </Link>
+
+          {/* 連絡先情報セクション */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+            <div className="p-6 border-b border-gray-100">
+              <h2 className="text-lg font-semibold text-gray-900">連絡先情報</h2>
+            </div>
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                      <Users className="h-5 w-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">担当者氏名</p>
+                      <p className="mt-1 text-sm font-medium text-gray-900">{store.contactName}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                      <Phone className="h-5 w-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">担当者電話番号</p>
+                      <p className="mt-1 text-sm font-medium text-gray-900">
+                        {store.contactPhone?.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 請求先情報セクション */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+            <div className="p-6 border-b border-gray-100">
+              <h2 className="text-lg font-semibold text-gray-900">請求先情報</h2>
+            </div>
+            <div className="p-6">
+              <div className="grid grid-cols-1 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                        <Building2 className="h-5 w-5 text-gray-600" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">請求先企業名</p>
+                        <p className="mt-1 text-sm font-medium text-gray-900">{store.billingCompanyName}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                        <Building2 className="h-5 w-5 text-gray-600" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">請求先部署名</p>
+                        <p className="mt-1 text-sm font-medium text-gray-900">{store.billingDepartment}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                        <Users className="h-5 w-5 text-gray-600" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">請求先担当者名</p>
+                        <p className="mt-1 text-sm font-medium text-gray-900">{store.billingContactName}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                        <Tag className="h-5 w-5 text-gray-600" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">支払条件</p>
+                        <p className="mt-1 text-sm font-medium text-gray-900">{store.paymentTerms}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                      <Mail className="h-5 w-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">請求先メールアドレス</p>
+                      <p className="mt-1 text-sm font-medium text-gray-900 break-all">{store.billingEmail}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                      <MapPin className="h-5 w-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">請求先住所</p>
+                      <p className="mt-1 text-sm font-medium text-gray-900">
+                        〒{store.billingPostalCode?.replace(/(\d{3})(\d{4})/, '$1-$2')} {store.billingPrefecture}{store.billingCity}{store.billingStreetAddress} {store.billingBuildingName}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                        <Phone className="h-5 w-5 text-gray-600" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">請求先電話番号</p>
+                        <p className="mt-1 text-sm font-medium text-gray-900">
+                          {store.billingPhone?.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                        <Phone className="h-5 w-5 text-gray-600" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">請求先FAX番号</p>
+                        <p className="mt-1 text-sm font-medium text-gray-900">
+                          {store.billingFax?.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3')}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 運営メモセクション */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+            <div className="p-6 border-b border-gray-100">
+              <div className="flex items-center gap-2">
+                <AlertCircle className="h-5 w-5 text-amber-500" />
+                <h2 className="text-lg font-semibold text-gray-900">運営メモ（機密情報）</h2>
+              </div>
+            </div>
+            <div className="p-6">
+              <div className="space-y-4">
+                {[1, 2, 3, 4, 5].map((num) => {
+                  const memoValue = store[`memo${num}` as keyof typeof store] as string;
+                  return memoValue ? (
+                    <div key={num} className="bg-red-50 border border-red-100 rounded-lg p-4">
+                      <div className="flex items-start gap-3">
+                        <div className="p-2 bg-red-100 rounded-lg">
+                          <FileText className="h-4 w-4 text-red-600" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-xs font-medium text-red-700 uppercase tracking-wider">メモ{num}</p>
+                          <p className="mt-1 text-sm text-red-900">{memoValue}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null;
+                })}
+                {![1, 2, 3, 4, 5].some(num => store[`memo${num}` as keyof typeof store]) && (
+                  <p className="text-sm text-gray-500 text-center py-4">運営メモはありません</p>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </AdminLayout>

@@ -14,7 +14,7 @@ import {
   Package,
   Folder,
   Bell,
-  Settings,
+  Award,
   LogOut,
   Menu,
   X,
@@ -58,7 +58,7 @@ const menuItems: MenuItem[] = [
     ],
   },
   { title: "お知らせ管理", href: "/admin/notices", icon: Bell },
-  { title: "システム設定", href: "/admin/settings", icon: Settings },
+  { title: "ポイント設定", href: "/admin/point-settings", icon: Award },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

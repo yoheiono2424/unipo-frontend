@@ -1,12 +1,89 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { Plus, Trash2, Package, Star } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import Link from "next/link";
-import { mockPointItems } from "@/lib/mock-data";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+const mockPointItems = [
+  {
+    id: "PI001",
+    name: "Amazonギフト券 500円",
+    category: "ギフト券",
+    requiredPoints: 500,
+    stock: 100,
+    description: "Amazonで利用可能な500円分のギフト券",
+    validityPeriod: "発行から6ヶ月",
+    status: "有効",
+  },
+  {
+    id: "PI002",
+    name: "スターバックスカード 1000円",
+    category: "ギフト券",
+    requiredPoints: 1000,
+    stock: 50,
+    description: "スターバックスで利用可能な1000円分のカード",
+    validityPeriod: "発行から12ヶ月",
+    status: "有効",
+  },
+  {
+    id: "PI003",
+    name: "楽天ポイント 1000pt",
+    category: "ポイント",
+    requiredPoints: 1000,
+    stock: 200,
+    description: "楽天市場で利用可能な1000ポイント",
+    validityPeriod: "発行から3ヶ月",
+    status: "有効",
+  },
+  {
+    id: "PI004",
+    name: "ユニクロクーポン 2000円",
+    category: "クーポン",
+    requiredPoints: 2000,
+    stock: 30,
+    description: "ユニクロ店舗・オンラインで利用可能な2000円分のクーポン",
+    validityPeriod: "発行から6ヶ月",
+    status: "有効",
+  },
+  {
+    id: "PI005",
+    name: "iTunesカード 3000円",
+    category: "ギフト券",
+    requiredPoints: 3000,
+    stock: 0,
+    description: "App Store、iTunes Storeで利用可能な3000円分のカード",
+    validityPeriod: "無期限",
+    status: "在庫切れ",
+  },
+];
 
 export default function AdminPointItemsPage() {
-  const items = mockPointItems;
+  const [searchName, setSearchName] = useState("");
+  const [searchCategory, setSearchCategory] = useState("");
+  const [searchStatus, setSearchStatus] = useState("");
+  const router = useRouter();
+
+  const filteredItems = mockPointItems.filter(item => {
+    const nameMatch = searchName === "" || item.name.toLowerCase().includes(searchName.toLowerCase());
+    const categoryMatch = searchCategory === "" || item.category === searchCategory;
+    const statusMatch = searchStatus === "" || item.status === searchStatus;
+    return nameMatch && categoryMatch && statusMatch;
+  });
+
+  const getStatusBadge = (status: string) => {
+    switch(status) {
+      case '有効':
+        return 'bg-green-100 text-green-800';
+      case '無効':
+        return 'bg-gray-100 text-gray-800';
+      case '在庫切れ':
+        return 'bg-red-100 text-red-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
 
   return (
     <AdminLayout>
@@ -17,7 +94,7 @@ export default function AdminPointItemsPage() {
             <p className="text-sm text-gray-600 mt-1">ポイント交換商品の登録と管理</p>
           </div>
           <Link
-            href="/admin/point-items/create"
+            href="/admin/point-items/new"
             className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center gap-2"
           >
             <Plus className="h-4 w-4" />
@@ -25,82 +102,117 @@ export default function AdminPointItemsPage() {
           </Link>
         </div>
 
-        {/* カテゴリフィルタ */}
+        {/* 検索・フィルタ */}
         <div className="bg-white rounded-lg shadow p-4">
-          <div className="flex gap-4">
-            <button className="px-4 py-2 bg-indigo-100 text-indigo-600 rounded-lg font-medium">
-              すべて
-            </button>
-            <button className="px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg">
-              ギフト券
-            </button>
-            <button className="px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg">
-              クーポン
-            </button>
-            <button className="px-4 py-2 text-gray-600 hover:bg-gray-50 rounded-lg">
-              商品
-            </button>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <input
+                type="text"
+                placeholder="商品名で検索"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                value={searchName}
+                onChange={(e) => setSearchName(e.target.value)}
+              />
+            </div>
+            <div>
+              <select
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                value={searchCategory}
+                onChange={(e) => setSearchCategory(e.target.value)}
+              >
+                <option value="">すべてのカテゴリ</option>
+                <option value="ギフト券">ギフト券</option>
+                <option value="ポイント">ポイント</option>
+                <option value="クーポン">クーポン</option>
+                <option value="商品">商品</option>
+              </select>
+            </div>
+            <div>
+              <select
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                value={searchStatus}
+                onChange={(e) => setSearchStatus(e.target.value)}
+              >
+                <option value="">すべてのステータス</option>
+                <option value="有効">有効</option>
+                <option value="無効">無効</option>
+                <option value="在庫切れ">在庫切れ</option>
+              </select>
+            </div>
           </div>
         </div>
 
-        {/* 商品グリッド */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {items.map((item) => (
-            <div key={item.id} className="bg-white rounded-lg shadow overflow-hidden">
-              {/* 商品画像 */}
-              <div className="h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                <Package className="h-16 w-16 text-gray-400" />
-              </div>
-
-              {/* 商品情報 */}
-              <div className="p-4">
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="font-semibold text-gray-900">{item.name}</h3>
-                  <span className="px-2 py-1 text-xs bg-indigo-100 text-indigo-800 rounded">
-                    {item.category}
-                  </span>
-                </div>
-
-                <p className="text-sm text-gray-600 mb-3">{item.description}</p>
-
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-1">
-                    <Star className="h-4 w-4 text-yellow-500" />
-                    <span className="text-lg font-bold text-indigo-600">
-                      {item.requiredPoints} pt
-                    </span>
-                  </div>
-                  <div className="text-sm text-gray-500">
-                    在庫: <span className="font-medium">{item.stock}</span>
-                  </div>
-                </div>
-
-                {/* 操作ボタン */}
-                <div className="flex gap-2 pt-3 border-t">
-                  <Link
-                    href={`/admin/point-items/${item.id}/edit`}
-                    className="flex-1 py-2 px-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-center text-sm font-medium"
+        {/* テーブル */}
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  商品ID
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  商品名
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  カテゴリ
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  必要ポイント
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  在庫
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  有効期限
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  ステータス
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {filteredItems.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
+                    商品データがありません
+                  </td>
+                </tr>
+              ) : (
+                filteredItems.map((item) => (
+                  <tr
+                    key={item.id}
+                    className="hover:bg-gray-50 cursor-pointer"
+                    onClick={() => router.push(`/admin/point-items/${item.id}`)}
                   >
-                    編集
-                  </Link>
-                  <button className="py-2 px-3 bg-red-100 text-red-700 rounded-lg hover:bg-red-200">
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-
-          {/* 新規追加カード */}
-          <Link
-            href="/admin/point-items/create"
-            className="bg-white rounded-lg shadow overflow-hidden border-2 border-dashed border-gray-300 hover:border-indigo-400 transition-colors"
-          >
-            <div className="h-full flex flex-col items-center justify-center p-8 text-gray-400 hover:text-indigo-600">
-              <Plus className="h-12 w-12 mb-3" />
-              <p className="font-medium">新規商品を追加</p>
-            </div>
-          </Link>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {item.id}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {item.name}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {item.category}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+                      {item.requiredPoints.toLocaleString()} pt
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {item.stock.toLocaleString()}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {item.validityPeriod}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusBadge(item.status)}`}>
+                        {item.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </AdminLayout>

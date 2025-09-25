@@ -2,7 +2,8 @@
 
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useState } from "react";
-import { Search } from "lucide-react";
+import Link from "next/link";
+import { Search, Plus } from "lucide-react";
 import { mockCampaigns } from "@/lib/mock-data";
 
 export default function AdminCampaignsPage() {
@@ -57,6 +58,13 @@ export default function AdminCampaignsPage() {
             <h1 className="text-2xl font-bold text-gray-900">広告キャンペーン管理</h1>
             <p className="text-sm text-gray-600 mt-1">キャンペーンの一覧と審査</p>
           </div>
+          <Link
+            href="/admin/campaigns/new"
+            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 flex items-center gap-2"
+          >
+            <Plus className="h-4 w-4" />
+            新規キャンペーン作成
+          </Link>
         </div>
 
         {/* 検索・フィルタ */}
@@ -181,12 +189,16 @@ export default function AdminCampaignsPage() {
                 </tr>
               ) : (
                 campaigns.map((campaign) => (
-                  <tr key={campaign.id}>
+                  <tr key={campaign.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {campaign.id}
+                      <Link href={`/admin/campaigns/${campaign.id}`} className="hover:text-indigo-600">
+                        {campaign.id}
+                      </Link>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {campaign.name}
+                      <Link href={`/admin/campaigns/${campaign.id}`} className="hover:text-indigo-600">
+                        {campaign.name}
+                      </Link>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {campaign.advertiser}

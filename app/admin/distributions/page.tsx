@@ -205,7 +205,7 @@ export default function AdminDistributionsPage() {
                   <tr
                     key={dist.id}
                     className="hover:bg-gray-50 cursor-pointer"
-                    onClick={() => router.push(`/admin/distributions/${dist.id}`)}
+                    onClick={() => router.push(`/admin/distribution-records/${dist.id}`)}
                   >
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                       {dist.id}

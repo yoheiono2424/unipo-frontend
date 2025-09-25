@@ -75,7 +75,7 @@ export default function AdminCampaignPlansPage() {
             <p className="text-sm text-gray-600 mt-1">キャンペーンプランの一覧と管理</p>
           </div>
           <Link
-            href="/admin/campaign-plans/create"
+            href="/admin/campaign-plans/new"
             className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center gap-2"
           >
             <Plus className="h-4 w-4" />
