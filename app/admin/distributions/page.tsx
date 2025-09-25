@@ -2,46 +2,98 @@
 
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useState } from "react";
-import { Plus, Download, Eye, CheckCircle } from "lucide-react";
-import Link from "next/link";
-import { mockInvoices } from "@/lib/mock-data";
+import { useRouter } from "next/navigation";
 
-export default function AdminInvoicesPage() {
+type Distribution = {
+  id: string;
+  storeName: string;
+  campaignName: string;
+  userName: string;
+  giftCardSerial: string;
+  amount: number;
+  distributionDate: string;
+  usageDate: string | null;
+  status: string;
+};
+
+const mockDistributions: Distribution[] = [
+  {
+    id: "DST001",
+    storeName: "ユニーポマート新宿店",
+    campaignName: "春の新生活応援キャンペーン",
+    userName: "山田太郎",
+    giftCardSerial: "AMZN-2024-0001",
+    amount: 1000,
+    distributionDate: "2024-03-10 14:30",
+    usageDate: "2024-03-12 10:15",
+    status: "使用済み",
+  },
+  {
+    id: "DST002",
+    storeName: "ユニーポストア渋谷店",
+    campaignName: "期間限定ポイント2倍",
+    userName: "佐藤花子",
+    giftCardSerial: "AMZN-2024-0002",
+    amount: 500,
+    distributionDate: "2024-03-11 16:45",
+    usageDate: null,
+    status: "配布済み",
+  },
+  {
+    id: "DST003",
+    storeName: "ユニーポマート池袋店",
+    campaignName: "春の新生活応援キャンペーン",
+    userName: "鈴木一郎",
+    giftCardSerial: "AMZN-2024-0003",
+    amount: 2000,
+    distributionDate: "2024-03-12 11:20",
+    usageDate: null,
+    status: "審査中",
+  },
+];
+
+export default function AdminDistributionsPage() {
+  const [searchStoreName, setSearchStoreName] = useState("");
   const [searchCampaignName, setSearchCampaignName] = useState("");
   const [searchUserName, setSearchUserName] = useState("");
   const [searchStartDate, setSearchStartDate] = useState("");
   const [searchEndDate, setSearchEndDate] = useState("");
   const [searchStatus, setSearchStatus] = useState("");
+  const router = useRouter();
 
-  const invoices = mockInvoices.filter(
-    invoice => {
-      const campaignMatch = searchCampaignName === "" || invoice.campaign.toLowerCase().includes(searchCampaignName.toLowerCase());
-      const statusMatch = searchStatus === "" || invoice.status === searchStatus;
-      // Note: ユーザー名はモックデータに含まれていないため、実際の実装時に追加が必要
-      return campaignMatch && statusMatch;
-    }
-  );
+  const distributions = mockDistributions.filter(dist => {
+    const storeMatch = searchStoreName === "" || dist.storeName.toLowerCase().includes(searchStoreName.toLowerCase());
+    const campaignMatch = searchCampaignName === "" || dist.campaignName.toLowerCase().includes(searchCampaignName.toLowerCase());
+    const userMatch = searchUserName === "" || dist.userName.toLowerCase().includes(searchUserName.toLowerCase());
+    const statusMatch = searchStatus === "" || searchStatus === "all" || dist.status === searchStatus;
+    return storeMatch && campaignMatch && userMatch && statusMatch;
+  });
 
   return (
     <AdminLayout>
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">請求管理</h1>
-            <p className="text-sm text-gray-600 mt-1">広告主への請求と決済管理</p>
+            <h1 className="text-2xl font-bold text-gray-900">配布実績管理</h1>
+            <p className="text-sm text-gray-600 mt-1">ギフトカード配布実績の一覧と管理</p>
           </div>
-          <Link
-            href="/admin/invoices/create"
-            className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center gap-2"
-          >
-            <Plus className="h-4 w-4" />
-            新規請求作成
-          </Link>
         </div>
 
         {/* 検索・フィルタ */}
         <div className="bg-white rounded-lg shadow p-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                店舗名
+              </label>
+              <input
+                type="text"
+                placeholder="店舗名で検索"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                value={searchStoreName}
+                onChange={(e) => setSearchStoreName(e.target.value)}
+              />
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 キャンペーン名
@@ -68,7 +120,7 @@ export default function AdminInvoicesPage() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                請求日（開始）
+                配布日時（開始日）
               </label>
               <input
                 type="date"
@@ -79,7 +131,7 @@ export default function AdminInvoicesPage() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                請求日（終了）
+                配布日時（終了日）
               </label>
               <input
                 type="date"
@@ -88,11 +140,9 @@ export default function AdminInvoicesPage() {
                 onChange={(e) => setSearchEndDate(e.target.value)}
               />
             </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                ステータス
+                審査ステータス
               </label>
               <select
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
@@ -100,8 +150,10 @@ export default function AdminInvoicesPage() {
                 onChange={(e) => setSearchStatus(e.target.value)}
               >
                 <option value="">すべて</option>
-                <option value="未払い">未払い</option>
-                <option value="支払済み">支払済み</option>
+                <option value="使用済み">使用済み</option>
+                <option value="配布済み">配布済み</option>
+                <option value="審査中">審査中</option>
+                <option value="却下">却下</option>
               </select>
             </div>
           </div>
@@ -113,22 +165,28 @@ export default function AdminInvoicesPage() {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  請求番号
+                  配布ID
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  広告主
+                  店舗名
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   キャンペーン
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  ユーザー名
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  シリアル番号
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   金額
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  発行日
+                  配布日時
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  支払期限
+                  使用日時
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   ステータス
@@ -136,46 +194,59 @@ export default function AdminInvoicesPage() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {invoices.map((invoice) => {
-                const isOverdue = invoice.status === "未払い" &&
-                  new Date(invoice.dueDate) < new Date();
-
-                return (
-                  <tr key={invoice.id}>
+              {distributions.length === 0 ? (
+                <tr>
+                  <td colSpan={9} className="px-6 py-12 text-center text-gray-500">
+                    配布実績データがありません
+                  </td>
+                </tr>
+              ) : (
+                distributions.map((dist) => (
+                  <tr
+                    key={dist.id}
+                    className="hover:bg-gray-50 cursor-pointer"
+                    onClick={() => router.push(`/admin/distributions/${dist.id}`)}
+                  >
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {invoice.id}
+                      {dist.id}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {invoice.advertiser}
+                      {dist.storeName}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {invoice.campaign}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      ¥{invoice.amount.toLocaleString()}
+                      {dist.campaignName}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {invoice.issuedDate}
+                      {dist.userName}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <span className={isOverdue ? "text-red-600 font-medium" : ""}>
-                        {invoice.dueDate}
-                      </span>
+                      {dist.giftCardSerial}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      ¥{dist.amount}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {dist.distributionDate}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {dist.usageDate || '-'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        invoice.status === '支払済み'
+                        dist.status === '使用済み'
+                          ? 'bg-gray-100 text-gray-800'
+                          : dist.status === '配布済み'
                           ? 'bg-green-100 text-green-800'
-                          : isOverdue
-                          ? 'bg-red-100 text-red-800'
-                          : 'bg-yellow-100 text-yellow-800'
+                          : dist.status === '審査中'
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : 'bg-red-100 text-red-800'
                       }`}>
-                        {isOverdue ? '期限超過' : invoice.status}
+                        {dist.status}
                       </span>
                     </td>
                   </tr>
-                );
-              })}
+                ))
+              )}
             </tbody>
           </table>
         </div>

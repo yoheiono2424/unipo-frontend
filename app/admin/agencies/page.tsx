@@ -2,19 +2,18 @@
 
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useState } from "react";
-import { Search, Plus, Eye, Edit, Trash2 } from "lucide-react";
+import { Search, Plus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { mockAgencies } from "@/lib/mock-data";
 
 export default function AdminAgenciesPage() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchAgencyName, setSearchAgencyName] = useState("");
   const router = useRouter();
 
   const agencies = mockAgencies.filter(
     agency =>
-      agency.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      agency.contactName.toLowerCase().includes(searchTerm.toLowerCase())
+      searchAgencyName === "" || agency.name.toLowerCase().includes(searchAgencyName.toLowerCase())
   );
 
   return (
@@ -36,15 +35,20 @@ export default function AdminAgenciesPage() {
 
         {/* 検索 */}
         <div className="bg-white rounded-lg shadow p-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-            <input
-              type="text"
-              placeholder="代理店名、担当者名で検索"
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              代理店名
+            </label>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="代理店名で検索"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                value={searchAgencyName}
+                onChange={(e) => setSearchAgencyName(e.target.value)}
+              />
+            </div>
           </div>
         </div>
 
@@ -80,15 +84,12 @@ export default function AdminAgenciesPage() {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   登録日
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  操作
-                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {agencies.length === 0 ? (
                 <tr>
-                  <td colSpan={10} className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan={9} className="px-6 py-12 text-center text-gray-500">
                     代理店データがありません
                   </td>
                 </tr>
@@ -131,22 +132,6 @@ export default function AdminAgenciesPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {agency.registeredDate}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
-                        <Link
-                          href={`/admin/agencies/${agency.id}`}
-                          className="text-indigo-600 hover:text-indigo-900"
-                        >
-                          <Eye className="h-4 w-4" />
-                        </Link>
-                        <button className="text-blue-600 hover:text-blue-900">
-                          <Edit className="h-4 w-4" />
-                        </button>
-                        <button className="text-red-600 hover:text-red-900">
-                          <Trash2 className="h-4 w-4" />
-                        </button>
-                      </div>
                     </td>
                   </tr>
                 ))

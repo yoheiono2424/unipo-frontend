@@ -7,14 +7,14 @@ import Link from "next/link";
 export default function AdminLoginPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: "admin@unipo.jp",
+    password: "admin123",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // バックエンド接続後に実装
-    router.push("/admin/dashboard");
+    router.push("/admin/members");
   };
 
   return (
@@ -82,6 +82,14 @@ export default function AdminLoginPage() {
             </button>
           </div>
         </form>
+
+        {/* デモ用のログイン情報表示 */}
+        <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+          <p className="text-sm text-gray-700 font-medium mb-2">デモ用ログイン情報：</p>
+          <p className="text-xs text-gray-600">メール: admin@unipo.jp</p>
+          <p className="text-xs text-gray-600">パスワード: admin123</p>
+          <p className="text-xs text-gray-500 mt-2">※フォームに自動入力済みです</p>
+        </div>
       </div>
     </div>
   );

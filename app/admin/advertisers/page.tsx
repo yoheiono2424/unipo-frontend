@@ -2,20 +2,23 @@
 
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useState } from "react";
-import { Search, Plus, Eye, CheckCircle, XCircle } from "lucide-react";
+import { Search, Plus } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { mockAdvertisers } from "@/lib/mock-data";
 
 export default function AdminAdvertisersPage() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchAdvertiserName, setSearchAdvertiserName] = useState("");
+  const [searchAddress, setSearchAddress] = useState("");
+  const [searchStatus, setSearchStatus] = useState("");
   const router = useRouter();
 
-  const advertisers = mockAdvertisers.filter(
-    advertiser =>
-      advertiser.companyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      advertiser.contactName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const advertisers = mockAdvertisers.filter(advertiser => {
+    const nameMatch = searchAdvertiserName === "" || advertiser.companyName.toLowerCase().includes(searchAdvertiserName.toLowerCase());
+    const addressMatch = searchAddress === "" || searchAddress === "all";
+    const statusMatch = searchStatus === "" || searchStatus === "all" || advertiser.status === searchStatus;
+    return nameMatch && addressMatch && statusMatch;
+  });
 
   return (
     <AdminLayout>
@@ -36,25 +39,54 @@ export default function AdminAdvertisersPage() {
 
         {/* 検索・フィルタ */}
         <div className="bg-white rounded-lg shadow p-4">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                広告主名
+              </label>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <input
                   type="text"
-                  placeholder="企業名、担当者名で検索"
+                  placeholder="広告主名で検索"
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  value={searchAdvertiserName}
+                  onChange={(e) => setSearchAdvertiserName(e.target.value)}
                 />
               </div>
             </div>
-            <select className="px-4 py-2 border border-gray-300 rounded-lg">
-              <option value="">すべてのステータス</option>
-              <option value="approved">承認済み</option>
-              <option value="pending">審査中</option>
-              <option value="rejected">却下</option>
-            </select>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                住所
+              </label>
+              <select
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                value={searchAddress}
+                onChange={(e) => setSearchAddress(e.target.value)}
+              >
+                <option value="">すべて</option>
+                <option value="東京">東京</option>
+                <option value="大阪">大阪</option>
+                <option value="名古屋">名古屋</option>
+                <option value="福岡">福岡</option>
+                <option value="その他">その他</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                審査ステータス
+              </label>
+              <select
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                value={searchStatus}
+                onChange={(e) => setSearchStatus(e.target.value)}
+              >
+                <option value="">すべて</option>
+                <option value="承認済み">承認済み</option>
+                <option value="審査中">審査中</option>
+                <option value="却下">却下</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -86,9 +118,6 @@ export default function AdminAdvertisersPage() {
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   登録日
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  操作
                 </th>
               </tr>
             </thead>
@@ -130,26 +159,6 @@ export default function AdminAdvertisersPage() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {advertiser.registeredDate}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <div className="flex gap-2" onClick={(e) => e.stopPropagation()}>
-                      <Link
-                        href={`/admin/advertisers/${advertiser.id}`}
-                        className="text-indigo-600 hover:text-indigo-900"
-                      >
-                        <Eye className="h-4 w-4" />
-                      </Link>
-                      {advertiser.status === '審査中' && (
-                        <>
-                          <button className="text-green-600 hover:text-green-900">
-                            <CheckCircle className="h-4 w-4" />
-                          </button>
-                          <button className="text-red-600 hover:text-red-900">
-                            <XCircle className="h-4 w-4" />
-                          </button>
-                        </>
-                      )}
-                    </div>
                   </td>
                 </tr>
               ))}

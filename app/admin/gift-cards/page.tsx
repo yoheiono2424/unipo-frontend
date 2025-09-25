@@ -2,25 +2,13 @@
 
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useState } from "react";
-import { Search, Upload, CreditCard, Package, AlertCircle } from "lucide-react";
+import { Upload, AlertCircle } from "lucide-react";
 import { mockGiftCards } from "@/lib/mock-data";
 
 export default function AdminGiftCardsPage() {
-  const [searchTerm, setSearchTerm] = useState("");
   const [showUploadModal, setShowUploadModal] = useState(false);
 
-  const giftCards = mockGiftCards.filter(
-    card =>
-      card.serialNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      card.campaign.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const stats = {
-    total: 10000,
-    unused: 7500,
-    distributed: 2000,
-    used: 500,
-  };
+  const giftCards = mockGiftCards;
 
   return (
     <AdminLayout>
@@ -39,74 +27,6 @@ export default function AdminGiftCardsPage() {
           </button>
         </div>
 
-        {/* 統計カード */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-white rounded-lg shadow p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">総カード数</p>
-                <p className="text-2xl font-bold">{stats.total.toLocaleString()}</p>
-              </div>
-              <Package className="h-8 w-8 text-gray-400" />
-            </div>
-          </div>
-          <div className="bg-white rounded-lg shadow p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">未使用</p>
-                <p className="text-2xl font-bold text-green-600">{stats.unused.toLocaleString()}</p>
-              </div>
-              <CreditCard className="h-8 w-8 text-green-500" />
-            </div>
-          </div>
-          <div className="bg-white rounded-lg shadow p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">配布済み</p>
-                <p className="text-2xl font-bold text-blue-600">{stats.distributed.toLocaleString()}</p>
-              </div>
-              <CreditCard className="h-8 w-8 text-blue-500" />
-            </div>
-          </div>
-          <div className="bg-white rounded-lg shadow p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600">使用済み</p>
-                <p className="text-2xl font-bold text-gray-600">{stats.used.toLocaleString()}</p>
-              </div>
-              <CreditCard className="h-8 w-8 text-gray-400" />
-            </div>
-          </div>
-        </div>
-
-        {/* 検索・フィルタ */}
-        <div className="bg-white rounded-lg shadow p-4">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="シリアル番号、キャンペーン名で検索"
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-            </div>
-            <select className="px-4 py-2 border border-gray-300 rounded-lg">
-              <option value="">すべてのステータス</option>
-              <option value="unused">未使用</option>
-              <option value="distributed">配布済み</option>
-              <option value="used">使用済み</option>
-            </select>
-            <select className="px-4 py-2 border border-gray-300 rounded-lg">
-              <option value="">すべてのキャンペーン</option>
-              <option value="campaign1">新春キャンペーン2025</option>
-              <option value="campaign2">バレンタインキャンペーン</option>
-            </select>
-          </div>
-        </div>
 
         {/* テーブル */}
         <div className="bg-white rounded-lg shadow overflow-hidden">

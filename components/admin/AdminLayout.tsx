@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  LayoutDashboard,
   Users,
   Store,
   Building,
@@ -17,10 +16,13 @@ import {
   Folder,
   Bell,
   Settings,
-  FileSpreadsheet,
   LogOut,
   Menu,
   X,
+  Building2,
+  UsersRound,
+  ShieldCheck,
+  BarChart3,
   ChevronDown,
   ChevronRight,
   type LucideIcon,
@@ -34,54 +36,18 @@ type MenuItem = {
 };
 
 const menuItems: MenuItem[] = [
-  { title: "ダッシュボード", href: "/admin/dashboard", icon: LayoutDashboard },
   { title: "会員管理", href: "/admin/members", icon: Users },
-  { title: "加盟店管理", href: "/admin/stores", icon: Store },
+  { title: "店舗管理", href: "/admin/stores", icon: Store },
   { title: "広告主管理", href: "/admin/advertisers", icon: Building },
   { title: "代理店管理", href: "/admin/agencies", icon: UserCog },
-  {
-    title: "キャンペーン管理",
-    icon: Megaphone,
-    children: [
-      { title: "キャンペーンプラン一覧", href: "/admin/campaign-plans" },
-      { title: "キャンペーンプラン作成", href: "/admin/campaign-plans/create" },
-      { title: "広告キャンペーン一覧", href: "/admin/campaigns" },
-      { title: "広告キャンペーン詳細", href: "/admin/campaigns/detail" },
-    ],
-  },
-  {
-    title: "ギフトカード管理",
-    icon: CreditCard,
-    children: [
-      { title: "ギフトカード一覧", href: "/admin/gift-cards" },
-      { title: "ギフトカード割り当て", href: "/admin/gift-cards/assign" },
-    ],
-  },
-  {
-    title: "配布管理",
-    icon: Gift,
-    children: [
-      { title: "配布実績作成", href: "/admin/distributions/create" },
-      { title: "配布履歴詳細", href: "/admin/distributions/detail" },
-    ],
-  },
-  {
-    title: "請求管理",
-    icon: FileText,
-    children: [
-      { title: "請求一覧", href: "/admin/invoices" },
-      { title: "請求作成", href: "/admin/invoices/create" },
-    ],
-  },
-  {
-    title: "ポイント交換商品",
-    icon: Package,
-    children: [
-      { title: "商品一覧", href: "/admin/point-items" },
-      { title: "商品作成", href: "/admin/point-items/create" },
-      { title: "商品編集", href: "/admin/point-items/edit" },
-    ],
-  },
+  { title: "企業管理", href: "/admin/companies", icon: Building2 },
+  { title: "グループ管理", href: "/admin/groups", icon: UsersRound },
+  { title: "運営アカウント管理", href: "/admin/admin-accounts", icon: ShieldCheck },
+  { title: "広告キャンペーン管理", href: "/admin/campaigns", icon: Megaphone },
+  { title: "ギフトカード管理", href: "/admin/gift-cards", icon: CreditCard },
+  { title: "配布実績管理", href: "/admin/distributions", icon: BarChart3 },
+  { title: "請求管理", href: "/admin/invoices", icon: FileText },
+  { title: "ポイント交換商品管理", href: "/admin/point-items", icon: Package },
   {
     title: "マスタ管理",
     icon: Folder,
@@ -89,18 +55,11 @@ const menuItems: MenuItem[] = [
       { title: "カテゴリ管理", href: "/admin/categories" },
       { title: "エリア管理", href: "/admin/areas" },
       { title: "業種管理", href: "/admin/industries" },
+      { title: "キャンペーンプラン管理", href: "/admin/campaign-plans" },
     ],
   },
-  {
-    title: "お知らせ管理",
-    icon: Bell,
-    children: [
-      { title: "お知らせ一覧", href: "/admin/notices" },
-      { title: "お知らせ作成", href: "/admin/notices/create" },
-    ],
-  },
+  { title: "お知らせ管理", href: "/admin/notices", icon: Bell },
   { title: "システム設定", href: "/admin/settings", icon: Settings },
-  { title: "ログ管理", href: "/admin/logs", icon: FileSpreadsheet },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -137,7 +96,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="flex h-full flex-col">
           {/* ロゴ */}
           <div className="flex h-16 items-center justify-between px-4 border-b">
-            <Link href="/admin/dashboard" className="text-xl font-bold text-indigo-600">
+            <Link href="/admin/members" className="text-xl font-bold text-indigo-600">
               ユニーポ管理
             </Link>
             <button
