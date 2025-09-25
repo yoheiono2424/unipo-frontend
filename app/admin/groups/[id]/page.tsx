@@ -4,7 +4,6 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { ArrowLeft, Edit, Users, Building2, MapPin, Calendar, Shield, Store, Hash, CheckCircle, XCircle } from "lucide-react";
 import Link from "next/link";
 import { use, useState } from "react";
-import { useRouter } from "next/navigation";
 
 type Group = {
   id: string;
@@ -55,7 +54,6 @@ const mockGroups: Group[] = [
 ];
 
 export default function GroupDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const router = useRouter();
   const resolvedParams = use(params);
   const group = mockGroups.find(g => g.id === resolvedParams.id) || mockGroups[0];
 

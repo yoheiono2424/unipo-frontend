@@ -4,7 +4,6 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { ArrowLeft, Edit, Receipt, Building2, Calendar, FileText, DollarSign, CheckCircle, Clock, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
-import { useRouter } from "next/navigation";
 
 const mockInvoices = [
   {
@@ -45,7 +44,6 @@ const mockInvoices = [
 ];
 
 export default function InvoiceDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const router = useRouter();
   const resolvedParams = use(params);
   const invoice = mockInvoices.find(inv => inv.id === resolvedParams.id) || mockInvoices[0];
 

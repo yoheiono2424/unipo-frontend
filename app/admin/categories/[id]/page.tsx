@@ -4,11 +4,9 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { ArrowLeft, Edit, Folder, FolderOpen, Hash, ArrowUpDown, Building } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
-import { useRouter } from "next/navigation";
 import { mockCategories } from "@/lib/mock-data";
 
 export default function CategoryDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const router = useRouter();
   const resolvedParams = use(params);
   const category = mockCategories.find(c => c.id === resolvedParams.id) || mockCategories[0];
 

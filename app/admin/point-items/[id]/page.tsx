@@ -4,7 +4,6 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { ArrowLeft, Edit, Package, Star, Tag, Layers, Clock, BarChart3, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
-import { useRouter } from "next/navigation";
 
 const mockPointItems = [
   {
@@ -40,7 +39,6 @@ const mockPointItems = [
 ];
 
 export default function PointItemDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const router = useRouter();
   const resolvedParams = use(params);
   const item = mockPointItems.find(i => i.id === resolvedParams.id) || mockPointItems[0];
 

@@ -4,7 +4,6 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { ArrowLeft, Edit, Package, DollarSign, Clock, Store, CheckCircle, Calendar, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
-import { useRouter } from "next/navigation";
 
 const mockCampaignPlans = [
   {
@@ -46,7 +45,6 @@ const mockCampaignPlans = [
 ];
 
 export default function CampaignPlanDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const router = useRouter();
   const resolvedParams = use(params);
   const plan = mockCampaignPlans.find(p => p.id === resolvedParams.id) || mockCampaignPlans[0];
 

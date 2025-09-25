@@ -4,11 +4,9 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { ArrowLeft, Edit, MapPin, Globe, Hash, Building } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
-import { useRouter } from "next/navigation";
 import { mockAreas } from "@/lib/mock-data";
 
 export default function AreaDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const router = useRouter();
   const resolvedParams = use(params);
   const area = mockAreas.find(a => a.id === resolvedParams.id) || mockAreas[0];
 

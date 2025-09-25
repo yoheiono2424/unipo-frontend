@@ -4,11 +4,9 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { ArrowLeft, Edit, Building, Hash, Briefcase, Target } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
-import { useRouter } from "next/navigation";
 import { mockIndustries } from "@/lib/mock-data";
 
 export default function IndustryDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const router = useRouter();
   const resolvedParams = use(params);
   const industry = mockIndustries.find(i => i.id === resolvedParams.id) || mockIndustries[0];
 

@@ -4,11 +4,9 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { ArrowLeft, Edit, Bell, Calendar, User, Eye, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
-import { useRouter } from "next/navigation";
 import { mockNotices } from "@/lib/mock-data";
 
 export default function NoticeDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const router = useRouter();
   const resolvedParams = use(params);
   const notice = mockNotices.find(n => n.id === resolvedParams.id) || mockNotices[0];
 

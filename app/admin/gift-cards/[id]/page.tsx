@@ -4,7 +4,6 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { ArrowLeft, Edit, CreditCard, DollarSign, Store, Calendar, User, Hash, Gift, Shield } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
-import { useRouter } from "next/navigation";
 
 const mockGiftCards = [
   {
@@ -46,7 +45,6 @@ const mockGiftCards = [
 ];
 
 export default function GiftCardDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const router = useRouter();
   const resolvedParams = use(params);
   const giftCard = mockGiftCards.find(gc => gc.id === resolvedParams.id) || mockGiftCards[0];
 
