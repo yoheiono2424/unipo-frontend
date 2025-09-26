@@ -4,7 +4,7 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { ArrowLeft, Search } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 
 // モックデータ
 const mockStores = [
@@ -23,7 +23,7 @@ const mockCampaigns = [
   { id: "CMP005", name: "GW限定キャンペーン" },
 ];
 
-export default function CreateDistributionRecordPage() {
+function CreateDistributionRecordContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -325,5 +325,13 @@ export default function CreateDistributionRecordPage() {
         </form>
       </div>
     </AdminLayout>
+  );
+}
+
+export default function CreateDistributionRecordPage() {
+  return (
+    <Suspense fallback={<AdminLayout><div className="flex items-center justify-center h-96">Loading...</div></AdminLayout>}>
+      <CreateDistributionRecordContent />
+    </Suspense>
   );
 }

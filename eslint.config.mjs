@@ -20,6 +20,15 @@ const eslintConfig = [
       "next-env.d.ts",
     ],
   },
+  {
+    rules: {
+      "jsx-a11y/alt-text": ["warn", {
+        elements: ["img"],
+        img: ["Image"]
+      }],
+      "@next/next/no-img-element": "off"
+    }
+  }
 ];
 
 export default eslintConfig;
