@@ -14,7 +14,7 @@ export default function AreaEditPage({ params }: { params: Promise<{ id: string 
 
   const [formData, setFormData] = useState({
     name: area.name,
-    parentId: area.parentId || "",
+    order: (area.order || 1).toString(),
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -29,38 +29,6 @@ export default function AreaEditPage({ params }: { params: Promise<{ id: string 
     router.push(`/admin/areas/${resolvedParams.id}`);
   };
 
-  // 親エリア候補（階層レベル2までの制限、自分自身と子エリアは除く）
-  const getParentCandidates = () => {
-    const childAreaIds = mockAreas
-      .filter(a => a.parentId === area.id)
-      .map(a => a.id);
-
-    return mockAreas.filter(a => {
-      // 自分自身は除く
-      if (a.id === area.id) return false;
-      // 自分の子エリアは除く
-      if (childAreaIds.includes(a.id)) return false;
-      // レベル1（親なし）またはレベル2（親はレベル1のみ）のエリアを返す
-      if (!a.parentId) return true; // レベル1
-      const parent = mockAreas.find(p => p.id === a.parentId);
-      return parent && !parent.parentId; // レベル2（親がレベル1）
-    });
-  };
-
-  const parentCandidates = getParentCandidates();
-
-  const getHierarchyType = (areaId: string | null) => {
-    if (!areaId) return '地方・地域';
-    const area = mockAreas.find(a => a.id === areaId);
-    if (!area) return '都道府県';
-    if (!area.parentId) return '都道府県';
-    return '市区町村';
-  };
-
-  const hasChildren = mockAreas.some(a => a.parentId === area.id);
-  const currentLevel = area.parentId
-    ? mockAreas.find(a => a.id === area.parentId)?.parentId ? 3 : 2
-    : 1;
 
   return (
     <AdminLayout>
@@ -85,7 +53,7 @@ export default function AreaEditPage({ params }: { params: Promise<{ id: string 
             </div>
 
             <div className="p-6 space-y-6">
-              <div className="grid grid-cols-1 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     エリア名 <span className="text-red-500">*</span>
@@ -94,59 +62,28 @@ export default function AreaEditPage({ params }: { params: Promise<{ id: string 
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    placeholder="例: 東京都、渋谷区"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                    placeholder="例: 東京都"
                     required
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    親エリア
+                    表示順 <span className="text-red-500">*</span>
                   </label>
-                  <select
-                    value={formData.parentId}
-                    onChange={(e) => setFormData({ ...formData, parentId: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    disabled={hasChildren && currentLevel === 1}
-                  >
-                    <option value="">地方・地域として設定</option>
-                    {parentCandidates.map((area) => (
-                      <option key={area.id} value={area.id}>
-                        {area.name} ({getHierarchyType(area.parentId)})
-                      </option>
-                    ))}
-                  </select>
+                  <input
+                    type="number"
+                    value={formData.order}
+                    onChange={(e) => setFormData({ ...formData, order: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                    min="1"
+                    required
+                  />
                   <p className="text-xs text-gray-500 mt-1">
-                    未選択の場合は最上位の地方・地域として設定されます。階層は最大3レベルまでです。
+                    数字が小さいほど上位に表示されます
                   </p>
-                  {hasChildren && currentLevel === 1 && (
-                    <p className="text-xs text-orange-600 mt-1">
-                      ⚠️ このエリアには子エリアがあるため、他のエリアの子に変更することはできません
-                    </p>
-                  )}
                 </div>
-              </div>
-
-              {/* 階層説明 */}
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <h3 className="text-sm font-medium text-blue-800 mb-2">エリア階層について</h3>
-                <ul className="text-xs text-blue-700 space-y-1">
-                  <li>• <strong>レベル1（地方・地域）</strong>: 関東、関西、九州など</li>
-                  <li>• <strong>レベル2（都道府県）</strong>: 東京都、大阪府、福岡県など</li>
-                  <li>• <strong>レベル3（市区町村）</strong>: 渋谷区、大阪市、福岡市など</li>
-                </ul>
-              </div>
-
-              {/* 注意事項 */}
-              <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                <h3 className="text-sm font-medium text-yellow-800 mb-2">編集時の注意事項</h3>
-                <ul className="text-xs text-yellow-700 space-y-1">
-                  <li>• このエリアに属する店舗がある場合、エリア変更は慎重に行ってください</li>
-                  <li>• 子エリアがある場合、そのエリアを他のエリアの子に変更することはできません</li>
-                  <li>• エリア名を変更すると、関連する店舗の表示にも影響します</li>
-                  <li>• 階層を変更すると、検索や絞り込み機能に影響する可能性があります</li>
-                </ul>
               </div>
 
               <div className="border-t pt-6">
@@ -171,43 +108,6 @@ export default function AreaEditPage({ params }: { params: Promise<{ id: string 
             </div>
           </div>
 
-          {/* プレビューエリア */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 mt-6">
-            <div className="p-6 border-b border-gray-100">
-              <h2 className="text-lg font-semibold text-gray-900">プレビュー</h2>
-            </div>
-            <div className="p-6">
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                    !formData.parentId
-                      ? 'bg-green-100 text-green-800'
-                      : getHierarchyType(formData.parentId) === '都道府県'
-                      ? 'bg-blue-100 text-blue-800'
-                      : 'bg-purple-100 text-purple-800'
-                  }`}>
-                    {getHierarchyType(formData.parentId)}
-                  </span>
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900">{formData.name}</h3>
-                <div className="text-sm text-gray-600">
-                  {formData.parentId && (
-                    <p>
-                      親エリア: {parentCandidates.find(a => a.id === formData.parentId)?.name || "—"}
-                    </p>
-                  )}
-                  <p>
-                    階層レベル: レベル {!formData.parentId ? 1 : getHierarchyType(formData.parentId) === '都道府県' ? 2 : 3}
-                  </p>
-                  {hasChildren && (
-                    <p className="text-orange-600">
-                      ⚠️ 子エリア: {mockAreas.filter(a => a.parentId === area.id).length}個
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
         </form>
       </div>
     </AdminLayout>

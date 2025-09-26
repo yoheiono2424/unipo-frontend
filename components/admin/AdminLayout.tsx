@@ -36,11 +36,11 @@ type MenuItem = {
 
 const menuItems: MenuItem[] = [
   { title: "会員管理", href: "/admin/members", icon: Users },
-  { title: "店舗管理", href: "/admin/stores", icon: Store },
   { title: "広告主管理", href: "/admin/advertisers", icon: Building },
   { title: "代理店管理", href: "/admin/agencies", icon: UserCog },
   { title: "企業管理", href: "/admin/companies", icon: Building2 },
   { title: "グループ管理", href: "/admin/groups", icon: UsersRound },
+  { title: "店舗管理", href: "/admin/stores", icon: Store },
   { title: "運営アカウント管理", href: "/admin/admin-accounts", icon: ShieldCheck },
   { title: "広告キャンペーン管理", href: "/admin/campaigns", icon: Megaphone },
   { title: "ギフトカード管理", href: "/admin/gift-cards", icon: CreditCard },

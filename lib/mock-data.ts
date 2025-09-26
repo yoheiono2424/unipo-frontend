@@ -21,6 +21,9 @@ export const mockMembers = [
     memberMemo: "VIP顧客。特別対応要。",
     registeredDate: "2025-01-01T10:30:00",
     lastUpdatedDate: "2025-01-15T14:20:00",
+    lastVisitDate: "2025-01-25 15:30:00",
+    withdrawalDate: null,
+    withdrawalReason: null,
     // 後方互換性のため
     name: "田中太郎",
     status: "active",
@@ -31,7 +34,7 @@ export const mockMembers = [
   {
     id: "MEM002",
     memberNo: "234567890123",
-    memberStatus: "本登録",
+    memberStatus: "自主退会",
     memberRank: "シルバー",
     lastName: "鈴木",
     firstName: "花子",
@@ -45,12 +48,15 @@ export const mockMembers = [
     city: "大阪市中央区",
     streetAddress: "北浜2-3-4",
     buildingName: "オフィスビル205",
-    memberMemo: "アンケート回答率が高い優良会員。",
+    memberMemo: "アンケート回答率が高い優良会員。自主退会申請あり。",
     registeredDate: "2025-01-05T09:15:00",
-    lastUpdatedDate: "2025-01-20T11:45:00",
+    lastUpdatedDate: "2025-01-26T10:30:00",
+    lastVisitDate: "2025-01-24 18:45:00",
+    withdrawalDate: "2025-01-26T10:30:00",
+    withdrawalReason: "自主退会",
     // 後方互換性のため
     name: "鈴木花子",
-    status: "active",
+    status: "inactive",
     points: 2300,
     birthdate: "1985-03-22",
     referralCode: "SUZ456",
@@ -75,6 +81,9 @@ export const mockMembers = [
     memberMemo: "連絡が取りにくい。要注意。",
     registeredDate: "2025-01-10T16:00:00",
     lastUpdatedDate: "2025-01-18T13:30:00",
+    lastVisitDate: "2025-01-10 12:00:00",
+    withdrawalDate: null,
+    withdrawalReason: null,
     // 後方互換性のため
     name: "佐藤健",
     status: "inactive",
@@ -132,6 +141,7 @@ export const mockStores = [
     // 後方互換性のため
     name: "カフェ モカ",
     company: "株式会社モカ",
+    groupName: "モカグループ",
     agency: "代理店A",
     area: "東京・渋谷",
     category: "カフェ",
@@ -187,6 +197,7 @@ export const mockStores = [
     // 後方互換性のため
     name: "レストラン サクラ",
     company: "サクラフーズ株式会社",
+    groupName: "サクラホールディングス",
     agency: "代理店B",
     area: "大阪・梅田",
     category: "レストラン",
@@ -242,6 +253,7 @@ export const mockStores = [
     // 後方互換性のため
     name: "ショップ アオイ",
     company: "アオイ商事",
+    groupName: "アオイグループ",
     agency: "-",
     area: "名古屋・栄",
     category: "小売店",
@@ -612,4 +624,47 @@ export const mockIndustries = [
   { id: "IND008", name: "サービス業", parentId: null, order: 3 },
   { id: "IND009", name: "美容・理容", parentId: "IND008", order: 1 },
   { id: "IND010", name: "クリーニング", parentId: "IND008", order: 2 },
+];
+
+export const mockStoreDistributions = [
+  {
+    id: "SDIST001",
+    storeId: "ST001",
+    storeName: "カフェ モカ",
+    allocatedCount: 2000,
+    distributedCount: 1500,
+    inventoryCount: 500, // 割り当て枚数 - 配布枚数
+  },
+  {
+    id: "SDIST002",
+    storeId: "ST002",
+    storeName: "レストラン サンプル",
+    allocatedCount: 1500,
+    distributedCount: 800,
+    inventoryCount: 700,
+  },
+  {
+    id: "SDIST003",
+    storeId: "ST003",
+    storeName: "コンビニ ABC",
+    allocatedCount: 3000,
+    distributedCount: 2300,
+    inventoryCount: 700,
+  },
+  {
+    id: "SDIST004",
+    storeId: "ST004",
+    storeName: "美容室 ビューティー",
+    allocatedCount: 1000,
+    distributedCount: 650,
+    inventoryCount: 350,
+  },
+  {
+    id: "SDIST005",
+    storeId: "ST005",
+    storeName: "スーパー 大型店",
+    allocatedCount: 5000,
+    distributedCount: 4200,
+    inventoryCount: 800,
+  }
 ];

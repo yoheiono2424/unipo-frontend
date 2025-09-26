@@ -1,7 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Edit, Building2, User, Phone, Mail, Calendar, MapPin, Store, CheckCircle, XCircle, Shield } from "lucide-react";
+import { ArrowLeft, Edit, Building2, User, Phone, Mail, Calendar, MapPin, Store, CheckCircle, XCircle, Shield, Search } from "lucide-react";
 import Link from "next/link";
 import { use, useState } from "react";
 
@@ -53,6 +53,54 @@ const mockCompanies: Company[] = [
   },
 ];
 
+// モック店舗データ
+const mockStores = [
+  {
+    storeId: "STR001",
+    storeName: "カフェ モカ 渋谷店",
+    agencyId: "AGN001",
+    agencyName: "株式会社マーケティングプロ",
+    category: "飲食店",
+    area: "渋谷",
+  },
+  {
+    storeId: "STR002",
+    storeName: "レストラン サクラ 新宿店",
+    agencyId: "AGN002",
+    agencyName: "広告代理店XYZ",
+    category: "飲食店",
+    area: "新宿",
+  },
+  {
+    storeId: "STR003",
+    storeName: "ブティック ローズ 表参道店",
+    agencyId: "AGN001",
+    agencyName: "株式会社マーケティングプロ",
+    category: "アパレル",
+    area: "表参道",
+  },
+  {
+    storeId: "STR004",
+    storeName: "パン屋 クロワッサン 吉祥寺店",
+    agencyId: "AGN003",
+    agencyName: "デジタル広告社",
+    category: "飲食店",
+    area: "吉祥寺",
+  },
+  {
+    storeId: "STR005",
+    storeName: "美容室 シャイン 銀座店",
+    agencyId: "AGN002",
+    agencyName: "広告代理店XYZ",
+    category: "美容",
+    area: "銀座",
+  },
+];
+
+// ドロップダウン用のマスターデータ
+const areas = ["全て", "渋谷", "新宿", "表参道", "吉祥寺", "銀座", "原宿", "池袋"];
+const categories = ["全て", "飲食店", "アパレル", "美容", "雑貨", "その他"];
+
 export default function CompanyDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
   const company = mockCompanies.find(c => c.id === resolvedParams.id) || mockCompanies[0];
@@ -60,6 +108,22 @@ export default function CompanyDetailPage({ params }: { params: Promise<{ id: st
   const [showApprovalModal, setShowApprovalModal] = useState(false);
   const [approvalAction, setApprovalAction] = useState<'approve' | 'reject' | null>(null);
   const [approvalReason, setApprovalReason] = useState("");
+
+  // 担当店舗の検索フィルター
+  const [storeNameFilter, setStoreNameFilter] = useState("");
+  const [agencyNameFilter, setAgencyNameFilter] = useState("");
+  const [areaFilter, setAreaFilter] = useState("全て");
+  const [categoryFilter, setCategoryFilter] = useState("全て");
+
+  // フィルタリングされた店舗リスト
+  const filteredStores = mockStores.filter(store => {
+    const matchesStoreName = !storeNameFilter || store.storeName.toLowerCase().includes(storeNameFilter.toLowerCase());
+    const matchesAgencyName = !agencyNameFilter || store.agencyName.toLowerCase().includes(agencyNameFilter.toLowerCase());
+    const matchesArea = areaFilter === "全て" || store.area === areaFilter;
+    const matchesCategory = categoryFilter === "全て" || store.category === categoryFilter;
+
+    return matchesStoreName && matchesAgencyName && matchesArea && matchesCategory;
+  });
 
   const handleApprovalAction = () => {
     // 審査承認/却下処理（実際にはAPIコール）
@@ -236,6 +300,146 @@ export default function CompanyDetailPage({ params }: { params: Promise<{ id: st
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 担当店舗セクション */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+          <div className="p-6 border-b border-gray-100">
+            <div className="flex items-center gap-2">
+              <Store className="h-5 w-5 text-blue-500" />
+              <h2 className="text-lg font-semibold text-gray-900">担当店舗</h2>
+              <span className="ml-2 text-sm text-gray-500">({filteredStores.length}店舗)</span>
+            </div>
+          </div>
+
+          {/* 検索フィルター */}
+          <div className="p-6 bg-gray-50 border-b border-gray-100">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  店舗名
+                </label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <input
+                    type="text"
+                    value={storeNameFilter}
+                    onChange={(e) => setStoreNameFilter(e.target.value)}
+                    placeholder="店舗名を検索"
+                    className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  代理店名
+                </label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <input
+                    type="text"
+                    value={agencyNameFilter}
+                    onChange={(e) => setAgencyNameFilter(e.target.value)}
+                    placeholder="代理店名を検索"
+                    className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  エリア
+                </label>
+                <select
+                  value={areaFilter}
+                  onChange={(e) => setAreaFilter(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                >
+                  {areas.map(area => (
+                    <option key={area} value={area}>{area}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  カテゴリ
+                </label>
+                <select
+                  value={categoryFilter}
+                  onChange={(e) => setCategoryFilter(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                >
+                  {categories.map(category => (
+                    <option key={category} value={category}>{category}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* 店舗一覧テーブル */}
+          <div className="p-6">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b border-gray-200">
+                    <th className="text-left py-3 px-4 font-medium text-gray-700">店舗ID</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-700">店舗名</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-700">代理店ID</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-700">代理店名</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-700">カテゴリ</th>
+                    <th className="text-left py-3 px-4 font-medium text-gray-700">エリア</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredStores.length > 0 ? (
+                    filteredStores.map((store, index) => (
+                      <tr key={store.storeId} className={`border-b border-gray-100 hover:bg-gray-50 transition-colors ${
+                        index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'
+                      }`}>
+                        <td className="py-3 px-4 text-sm text-gray-600">{store.storeId}</td>
+                        <td className="py-3 px-4">
+                          <Link
+                            href={`/admin/stores/${store.storeId}`}
+                            className="text-sm font-medium text-indigo-600 hover:text-indigo-800 hover:underline"
+                          >
+                            {store.storeName}
+                          </Link>
+                        </td>
+                        <td className="py-3 px-4 text-sm text-gray-600">{store.agencyId}</td>
+                        <td className="py-3 px-4">
+                          <Link
+                            href={`/admin/agencies/${store.agencyId}`}
+                            className="text-sm text-indigo-600 hover:text-indigo-800 hover:underline"
+                          >
+                            {store.agencyName}
+                          </Link>
+                        </td>
+                        <td className="py-3 px-4 text-sm">
+                          <span className="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-gray-100 text-gray-700">
+                            {store.category}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4 text-sm">
+                          <span className="inline-flex px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-700">
+                            {store.area}
+                          </span>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={6} className="py-8 text-center text-gray-500">
+                        該当する店舗が見つかりません
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

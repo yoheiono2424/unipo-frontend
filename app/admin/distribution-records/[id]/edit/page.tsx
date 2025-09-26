@@ -170,7 +170,7 @@ export default function DistributionRecordEditPage({ params }: { params: Promise
                   <select
                     value={formData.recipientName}
                     onChange={(e) => setFormData({ ...formData, recipientName: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   >
                     {mockMembers.map((member) => (
@@ -189,7 +189,7 @@ export default function DistributionRecordEditPage({ params }: { params: Promise
                     type="email"
                     value={formData.recipientEmail}
                     onChange={(e) => setFormData({ ...formData, recipientEmail: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   />
                 </div>
@@ -201,7 +201,7 @@ export default function DistributionRecordEditPage({ params }: { params: Promise
                   <select
                     value={formData.storeName}
                     onChange={(e) => setFormData({ ...formData, storeName: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   >
                     {mockStores.map((store) => (
@@ -219,7 +219,7 @@ export default function DistributionRecordEditPage({ params }: { params: Promise
                   <select
                     value={formData.distributionMethod}
                     onChange={(e) => setFormData({ ...formData, distributionMethod: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   >
                     <option value="メール送信">メール送信</option>
@@ -236,7 +236,7 @@ export default function DistributionRecordEditPage({ params }: { params: Promise
                     type="date"
                     value={formData.distributionDate}
                     onChange={(e) => setFormData({ ...formData, distributionDate: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   />
                 </div>
@@ -248,7 +248,7 @@ export default function DistributionRecordEditPage({ params }: { params: Promise
                   <select
                     value={formData.usageStatus}
                     onChange={(e) => setFormData({ ...formData, usageStatus: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                   >
                     <option value="未使用">未使用</option>
                     <option value="使用済み">使用済み</option>
@@ -263,7 +263,7 @@ export default function DistributionRecordEditPage({ params }: { params: Promise
                     type="date"
                     value={formData.usageDate}
                     onChange={(e) => setFormData({ ...formData, usageDate: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                   />
                 </div>
 
@@ -274,7 +274,7 @@ export default function DistributionRecordEditPage({ params }: { params: Promise
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                   >
                     <option value="配布済み">配布済み</option>
                     <option value="使用済み">使用済み</option>

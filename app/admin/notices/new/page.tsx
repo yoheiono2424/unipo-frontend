@@ -12,7 +12,6 @@ export default function NoticeNewPage() {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
-    targetType: "全体",
     publishDate: "",
     status: "下書き",
     priority: "中",
@@ -66,31 +65,13 @@ export default function NoticeNewPage() {
                     type="text"
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     placeholder="例: システムメンテナンスのお知らせ"
                     required
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      配信対象 <span className="text-red-500">*</span>
-                    </label>
-                    <select
-                      value={formData.targetType}
-                      onChange={(e) => setFormData({ ...formData, targetType: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                      required
-                    >
-                      <option value="全体">全体</option>
-                      <option value="会員のみ">会員のみ</option>
-                      <option value="店舗のみ">店舗のみ</option>
-                      <option value="広告主のみ">広告主のみ</option>
-                      <option value="代理店のみ">代理店のみ</option>
-                    </select>
-                  </div>
-
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       優先度 <span className="text-red-500">*</span>
@@ -98,7 +79,7 @@ export default function NoticeNewPage() {
                     <select
                       value={formData.priority}
                       onChange={(e) => setFormData({ ...formData, priority: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       required
                     >
                       <option value="高">高</option>
@@ -114,7 +95,7 @@ export default function NoticeNewPage() {
                     <select
                       value={formData.status}
                       onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       required
                     >
                       <option value="下書き">下書き</option>
@@ -132,7 +113,7 @@ export default function NoticeNewPage() {
                     type="date"
                     value={formData.publishDate}
                     onChange={(e) => setFormData({ ...formData, publishDate: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   />
                   <p className="text-xs text-gray-500 mt-1">
@@ -147,7 +128,7 @@ export default function NoticeNewPage() {
                   <textarea
                     value={formData.content}
                     onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     placeholder="お知らせの内容を入力してください"
                     rows={8}
                     required
@@ -209,7 +190,6 @@ export default function NoticeNewPage() {
                     </span>
                   </div>
                   <div className="text-sm text-gray-600 space-y-1">
-                    <p>配信対象: {formData.targetType}</p>
                     <p>公開日: {formData.publishDate || "未設定"}</p>
                   </div>
                   <div className="bg-gray-50 rounded-lg p-4">

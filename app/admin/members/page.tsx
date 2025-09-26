@@ -10,17 +10,31 @@ export default function AdminMembersPage() {
   const [searchName, setSearchName] = useState("");
   const [searchGender, setSearchGender] = useState("");
   const [searchBirthdate, setSearchBirthdate] = useState("");
+  const [searchMemberRank, setSearchMemberRank] = useState("");
+  const [searchPhone, setSearchPhone] = useState("");
+  const [searchStatus, setSearchStatus] = useState("");
+  const [searchRegDateFrom, setSearchRegDateFrom] = useState("");
+  const [searchRegDateTo, setSearchRegDateTo] = useState("");
   const router = useRouter();
 
   // モックデータをフィルタリング
   const members = mockMembers.filter(member => {
     const nameMatch = searchName === "" || member.name.toLowerCase().includes(searchName.toLowerCase());
-    // 性別フィルタ（モックデータに性別がないため仮実装）
-    const genderMatch = searchGender === "" || searchGender === "all";
-    // 生年月日フィルタ（モックデータに生年月日がないため仮実装）
-    const birthdateMatch = searchBirthdate === "";
+    const genderMatch = searchGender === "" || searchGender === "all" || member.gender === searchGender;
+    const birthdateMatch = searchBirthdate === "" || member.birthDate === searchBirthdate;
+    const rankMatch = searchMemberRank === "" || member.memberRank === searchMemberRank;
+    const phoneMatch = searchPhone === "" || member.phone.includes(searchPhone);
+    const statusMatch = searchStatus === "" || member.memberStatus === searchStatus;
 
-    return nameMatch && genderMatch && birthdateMatch;
+    // 登録日の範囲フィルタ
+    let regDateMatch = true;
+    if (searchRegDateFrom || searchRegDateTo) {
+      const regDate = member.registeredDate.split('T')[0];
+      if (searchRegDateFrom && regDate < searchRegDateFrom) regDateMatch = false;
+      if (searchRegDateTo && regDate > searchRegDateTo) regDateMatch = false;
+    }
+
+    return nameMatch && genderMatch && birthdateMatch && rankMatch && phoneMatch && statusMatch && regDateMatch;
   });
 
   return (
@@ -35,7 +49,8 @@ export default function AdminMembersPage() {
 
         {/* 検索・フィルタ */}
         <div className="bg-white rounded-lg shadow p-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            {/* 第1行 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 氏名
@@ -45,7 +60,7 @@ export default function AdminMembersPage() {
                 <input
                   type="text"
                   placeholder="氏名で検索"
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                   value={searchName}
                   onChange={(e) => setSearchName(e.target.value)}
                 />
@@ -56,14 +71,14 @@ export default function AdminMembersPage() {
                 性別
               </label>
               <select
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                 value={searchGender}
                 onChange={(e) => setSearchGender(e.target.value)}
               >
                 <option value="">すべて</option>
-                <option value="male">男性</option>
-                <option value="female">女性</option>
-                <option value="other">その他</option>
+                <option value="男性">男性</option>
+                <option value="女性">女性</option>
+                <option value="その他">その他</option>
               </select>
             </div>
             <div>
@@ -72,9 +87,75 @@ export default function AdminMembersPage() {
               </label>
               <input
                 type="date"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                 value={searchBirthdate}
                 onChange={(e) => setSearchBirthdate(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                会員ランク
+              </label>
+              <select
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                value={searchMemberRank}
+                onChange={(e) => setSearchMemberRank(e.target.value)}
+              >
+                <option value="">すべて</option>
+                <option value="ゴールド">ゴールド</option>
+                <option value="シルバー">シルバー</option>
+                <option value="ブロンズ">ブロンズ</option>
+              </select>
+            </div>
+            {/* 第2行 */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                電話番号
+              </label>
+              <input
+                type="tel"
+                placeholder="電話番号で検索"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                value={searchPhone}
+                onChange={(e) => setSearchPhone(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                ステータス
+              </label>
+              <select
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                value={searchStatus}
+                onChange={(e) => setSearchStatus(e.target.value)}
+              >
+                <option value="">すべて</option>
+                <option value="本登録">本登録</option>
+                <option value="仮登録">仮登録</option>
+                <option value="休止">休止</option>
+                <option value="退会">退会</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                登録日From
+              </label>
+              <input
+                type="date"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                value={searchRegDateFrom}
+                onChange={(e) => setSearchRegDateFrom(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                登録日To
+              </label>
+              <input
+                type="date"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                value={searchRegDateTo}
+                onChange={(e) => setSearchRegDateTo(e.target.value)}
               />
             </div>
           </div>
@@ -89,7 +170,13 @@ export default function AdminMembersPage() {
                   会員ID
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  会員No.
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   氏名
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  会員ランク
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   電話番号
@@ -99,6 +186,9 @@ export default function AdminMembersPage() {
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   登録日
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  最終来店日時
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   ステータス
@@ -111,7 +201,7 @@ export default function AdminMembersPage() {
             <tbody className="bg-white divide-y divide-gray-200">
               {members.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan={10} className="px-6 py-12 text-center text-gray-500">
                     会員データがありません
                   </td>
                 </tr>
@@ -126,7 +216,21 @@ export default function AdminMembersPage() {
                       {member.id}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {member.memberNo}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {member.name}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        member.memberRank === 'ゴールド'
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : member.memberRank === 'シルバー'
+                          ? 'bg-gray-100 text-gray-800'
+                          : 'bg-orange-100 text-orange-800'
+                      }`}>
+                        {member.memberRank}
+                      </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {member.phone}
@@ -135,15 +239,22 @@ export default function AdminMembersPage() {
                       {member.email}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {member.registeredDate}
+                      {member.registeredDate.split('T')[0]}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {member.lastVisitDate || '-'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        member.status === 'active'
+                        member.memberStatus === '本登録'
                           ? 'bg-green-100 text-green-800'
-                          : 'bg-gray-100 text-gray-800'
+                          : member.memberStatus === '仮登録'
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : member.memberStatus === '休止'
+                          ? 'bg-gray-100 text-gray-800'
+                          : 'bg-red-100 text-red-800'
                       }`}>
-                        {member.status === 'active' ? '有効' : '無効'}
+                        {member.memberStatus}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

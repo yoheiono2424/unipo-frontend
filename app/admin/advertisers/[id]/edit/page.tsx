@@ -95,7 +95,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                       type="text"
                       value={formData.advertiserNo}
                       onChange={(e) => setFormData({ ...formData, advertiserNo: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="ADV-2025-001"
                       maxLength={20}
                       required
@@ -111,7 +111,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                     <select
                       value={formData.status}
                       onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     >
                       <option value="審査中">審査中</option>
                       <option value="承認済み">承認済み</option>
@@ -131,7 +131,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                         const value = e.target.value.replace(/\D/g, '');
                         setFormData({ ...formData, serviceStartDate: value });
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="20250101"
                       maxLength={8}
                     />
@@ -150,7 +150,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                         const value = e.target.value.replace(/\D/g, '');
                         setFormData({ ...formData, serviceEndDate: value });
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="20251231"
                       maxLength={8}
                     />
@@ -176,7 +176,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                       type="text"
                       value={formData.companyName}
                       onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="株式会社ABC"
                       maxLength={100}
                       required
@@ -192,7 +192,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                       type="text"
                       value={formData.companyNameKana}
                       onChange={(e) => setFormData({ ...formData, companyNameKana: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="カブシキガイシャエービーシー"
                       maxLength={100}
                       required
@@ -208,7 +208,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                     <select
                       value={formData.industry}
                       onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       required
                     >
                       <option value="">選択してください</option>
@@ -232,7 +232,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                       type="url"
                       value={formData.companyUrl}
                       onChange={(e) => setFormData({ ...formData, companyUrl: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="https://www.example.com"
                       maxLength={2048}
                     />
@@ -250,7 +250,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                         const value = e.target.value.replace(/\D/g, '');
                         setFormData({ ...formData, postalCode: value });
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="1234567"
                       maxLength={7}
                     />
@@ -265,7 +265,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                     <select
                       value={formData.prefecture}
                       onChange={(e) => setFormData({ ...formData, prefecture: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       required
                     >
                       <option value="">選択してください</option>
@@ -328,7 +328,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                       type="text"
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="千代田区"
                       maxLength={50}
                       required
@@ -344,7 +344,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                       type="text"
                       value={formData.streetAddress}
                       onChange={(e) => setFormData({ ...formData, streetAddress: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="大手町1-1-1"
                       maxLength={50}
                       required
@@ -360,7 +360,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                       type="text"
                       value={formData.buildingName}
                       onChange={(e) => setFormData({ ...formData, buildingName: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="大手町ビル10F"
                       maxLength={100}
                     />
@@ -378,7 +378,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                         const value = e.target.value.replace(/\D/g, '');
                         setFormData({ ...formData, phone: value });
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="0311112222"
                       maxLength={11}
                     />
@@ -397,7 +397,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                         const value = e.target.value.replace(/\D/g, '');
                         setFormData({ ...formData, fax: value });
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="0311112223"
                       maxLength={11}
                     />
@@ -413,7 +413,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                       type="email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="info@example.com"
                       maxLength={254}
                       required
@@ -440,7 +440,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                       type="text"
                       value={formData.contactName}
                       onChange={(e) => setFormData({ ...formData, contactName: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="山田一郎"
                       maxLength={50}
                       required
@@ -459,7 +459,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                         const value = e.target.value.replace(/\D/g, '');
                         setFormData({ ...formData, contactPhone: value });
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="0311112222"
                       maxLength={11}
                     />
@@ -485,7 +485,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                       type="text"
                       value={formData.billingDepartment}
                       onChange={(e) => setFormData({ ...formData, billingDepartment: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="経理部"
                       maxLength={50}
                       required
@@ -501,7 +501,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                       type="text"
                       value={formData.billingContactName}
                       onChange={(e) => setFormData({ ...formData, billingContactName: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="田中花子"
                       maxLength={50}
                       required
@@ -517,7 +517,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                       type="email"
                       value={formData.billingEmail}
                       onChange={(e) => setFormData({ ...formData, billingEmail: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="billing@example.com"
                       maxLength={254}
                       required
@@ -536,7 +536,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                         const value = e.target.value.replace(/\D/g, '');
                         setFormData({ ...formData, billingPostalCode: value });
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="1234567"
                       maxLength={7}
                     />
@@ -551,7 +551,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                     <select
                       value={formData.billingPrefecture}
                       onChange={(e) => setFormData({ ...formData, billingPrefecture: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       required
                     >
                       <option value="">選択してください</option>
@@ -614,7 +614,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                       type="text"
                       value={formData.billingCity}
                       onChange={(e) => setFormData({ ...formData, billingCity: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="千代田区"
                       maxLength={50}
                       required
@@ -630,7 +630,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                       type="text"
                       value={formData.billingStreetAddress}
                       onChange={(e) => setFormData({ ...formData, billingStreetAddress: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="大手町1-1-1"
                       maxLength={50}
                       required
@@ -646,7 +646,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                       type="text"
                       value={formData.billingBuildingName}
                       onChange={(e) => setFormData({ ...formData, billingBuildingName: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="大手町ビル10F"
                       maxLength={100}
                     />
@@ -664,7 +664,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                         const value = e.target.value.replace(/\D/g, '');
                         setFormData({ ...formData, billingPhone: value });
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="0311112224"
                       maxLength={11}
                     />
@@ -683,7 +683,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                         const value = e.target.value.replace(/\D/g, '');
                         setFormData({ ...formData, billingFax: value });
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="0311112225"
                       maxLength={11}
                     />
@@ -708,7 +708,7 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
                     <select
                       value={formData.paymentTerms}
                       onChange={(e) => setFormData({ ...formData, paymentTerms: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       required
                     >
                       <option value="前払い">前払い</option>

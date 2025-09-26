@@ -12,7 +12,7 @@ export default function AreaNewPage() {
 
   const [formData, setFormData] = useState({
     name: "",
-    parentId: "",
+    order: "1",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -21,7 +21,7 @@ export default function AreaNewPage() {
     const newAreaData = {
       ...formData,
       id: `AREA${String(Math.floor(Math.random() * 1000)).padStart(3, '0')}`,
-      parentId: formData.parentId || null,
+      order: parseInt(formData.order),
     };
     console.log("新規エリアデータ:", newAreaData);
     // 一覧ページに戻る
@@ -32,25 +32,6 @@ export default function AreaNewPage() {
     router.push("/admin/areas");
   };
 
-  // 親エリア候補（階層レベル2までの制限）
-  const getParentCandidates = () => {
-    return mockAreas.filter(area => {
-      // レベル1（親なし）またはレベル2（親はレベル1のみ）のエリアを返す
-      if (!area.parentId) return true; // レベル1
-      const parent = mockAreas.find(a => a.id === area.parentId);
-      return parent && !parent.parentId; // レベル2（親がレベル1）
-    });
-  };
-
-  const parentCandidates = getParentCandidates();
-
-  const getHierarchyType = (areaId: string | null) => {
-    if (!areaId) return '地方・地域';
-    const area = mockAreas.find(a => a.id === areaId);
-    if (!area) return '都道府県';
-    if (!area.parentId) return '都道府県';
-    return '市区町村';
-  };
 
   return (
     <AdminLayout>
@@ -72,7 +53,7 @@ export default function AreaNewPage() {
             </div>
 
             <div className="p-6 space-y-6">
-              <div className="grid grid-cols-1 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     エリア名 <span className="text-red-500">*</span>
@@ -81,42 +62,28 @@ export default function AreaNewPage() {
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    placeholder="例: 東京都、渋谷区"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                    placeholder="例: 東京都"
                     required
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    親エリア
+                    表示順 <span className="text-red-500">*</span>
                   </label>
-                  <select
-                    value={formData.parentId}
-                    onChange={(e) => setFormData({ ...formData, parentId: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  >
-                    <option value="">地方・地域として作成</option>
-                    {parentCandidates.map((area) => (
-                      <option key={area.id} value={area.id}>
-                        {area.name} ({getHierarchyType(area.parentId)})
-                      </option>
-                    ))}
-                  </select>
+                  <input
+                    type="number"
+                    value={formData.order}
+                    onChange={(e) => setFormData({ ...formData, order: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                    min="1"
+                    required
+                  />
                   <p className="text-xs text-gray-500 mt-1">
-                    未選択の場合は最上位の地方・地域として作成されます。階層は最大3レベルまでです。
+                    数字が小さいほど上位に表示されます
                   </p>
                 </div>
-              </div>
-
-              {/* 階層説明 */}
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <h3 className="text-sm font-medium text-blue-800 mb-2">エリア階層について</h3>
-                <ul className="text-xs text-blue-700 space-y-1">
-                  <li>• <strong>レベル1（地方・地域）</strong>: 関東、関西、九州など</li>
-                  <li>• <strong>レベル2（都道府県）</strong>: 東京都、大阪府、福岡県など</li>
-                  <li>• <strong>レベル3（市区町村）</strong>: 渋谷区、大阪市、福岡市など</li>
-                </ul>
               </div>
 
               <div className="border-t pt-6">
@@ -141,44 +108,6 @@ export default function AreaNewPage() {
             </div>
           </div>
 
-          {/* プレビューエリア */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 mt-6">
-            <div className="p-6 border-b border-gray-100">
-              <h2 className="text-lg font-semibold text-gray-900">プレビュー</h2>
-            </div>
-            <div className="p-6">
-              {formData.name ? (
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                      !formData.parentId
-                        ? 'bg-green-100 text-green-800'
-                        : getHierarchyType(formData.parentId) === '都道府県'
-                        ? 'bg-blue-100 text-blue-800'
-                        : 'bg-purple-100 text-purple-800'
-                    }`}>
-                      {getHierarchyType(formData.parentId)}
-                    </span>
-                  </div>
-                  <h3 className="text-lg font-semibold text-gray-900">{formData.name}</h3>
-                  <div className="text-sm text-gray-600">
-                    {formData.parentId && (
-                      <p>
-                        親エリア: {parentCandidates.find(a => a.id === formData.parentId)?.name || "—"}
-                      </p>
-                    )}
-                    <p>
-                      階層レベル: レベル {!formData.parentId ? 1 : getHierarchyType(formData.parentId) === '都道府県' ? 2 : 3}
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <p className="text-gray-500 text-center py-8">
-                  エリア名を入力するとプレビューが表示されます
-                </p>
-              )}
-            </div>
-          </div>
         </form>
       </div>
     </AdminLayout>

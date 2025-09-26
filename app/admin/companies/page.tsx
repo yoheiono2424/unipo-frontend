@@ -94,7 +94,7 @@ export default function AdminCompaniesPage() {
               <input
                 type="text"
                 placeholder="企業名で検索"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                 value={searchCompanyName}
                 onChange={(e) => setSearchCompanyName(e.target.value)}
               />
@@ -104,7 +104,7 @@ export default function AdminCompaniesPage() {
                 住所
               </label>
               <select
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                 value={searchAddress}
                 onChange={(e) => setSearchAddress(e.target.value)}
               >
@@ -121,7 +121,7 @@ export default function AdminCompaniesPage() {
                 審査ステータス
               </label>
               <select
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                 value={searchStatus}
                 onChange={(e) => setSearchStatus(e.target.value)}
               >

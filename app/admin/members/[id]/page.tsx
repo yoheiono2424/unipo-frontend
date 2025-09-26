@@ -1,7 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Edit, User, Phone, Mail, Calendar, CreditCard, PlusCircle, MapPin, FileText, Crown, UserCheck } from "lucide-react";
+import { ArrowLeft, Edit, User, Phone, Mail, Calendar, CreditCard, PlusCircle, MapPin, FileText, Crown, UserCheck, UserX } from "lucide-react";
 import Link from "next/link";
 import { mockMembers } from "@/lib/mock-data";
 import { use, useState } from "react";
@@ -15,6 +15,20 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
   const [showPointModal, setShowPointModal] = useState(false);
   const [pointAmount, setPointAmount] = useState("");
   const [pointReason, setPointReason] = useState("");
+
+  // 年齢を計算する関数
+  const calculateAge = (birthDate: string) => {
+    const today = new Date();
+    const birth = new Date(birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+      age--;
+    }
+
+    return age;
+  };
 
   const handlePointGrant = () => {
     // ポイント付与処理（実際にはAPIコール）
@@ -86,7 +100,11 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
                         ? 'bg-red-50 text-red-700 ring-1 ring-red-600/20'
                         : 'bg-blue-50 text-blue-700 ring-1 ring-blue-600/20'
                     }`}>
-                      <UserCheck className="h-3 w-3 mr-1" />
+                      {member.memberStatus === '自主退会' || member.memberStatus === '強制退会' ? (
+                        <UserX className="h-3 w-3 mr-1" />
+                      ) : (
+                        <UserCheck className="h-3 w-3 mr-1" />
+                      )}
                       {member.memberStatus}
                     </span>
                     <span className={`inline-flex items-center px-3 py-1 text-xs font-medium rounded-full ${
@@ -136,15 +154,26 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
                 </div>
               </div>
 
-              {/* 生年月日 */}
+              {/* 生年月日・年齢 */}
               <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
                 <div className="flex items-start gap-3">
                   <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
                     <Calendar className="h-5 w-5 text-gray-600" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">生年月日</p>
-                    <p className="mt-1 text-sm font-medium text-gray-900">{member.birthDate || member.birthdate || "—"}</p>
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">生年月日・年齢</p>
+                    <p className="mt-1 text-sm font-medium text-gray-900">
+                      {member.birthDate || member.birthdate ? (
+                        <>
+                          {member.birthDate || member.birthdate}
+                          <span className="ml-2 text-indigo-600 font-semibold">
+                            （{calculateAge(member.birthDate || member.birthdate)}歳）
+                          </span>
+                        </>
+                      ) : (
+                        "—"
+                      )}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -286,6 +315,26 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
                   </div>
                 </div>
               </div>
+
+              {/* 退会日 */}
+              {member.withdrawalDate && (
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-red-100 rounded-lg group-hover:bg-white transition-colors">
+                      <UserX className="h-5 w-5 text-red-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">退会日</p>
+                      <p className="mt-1 text-sm font-medium text-gray-900">
+                        {new Date(member.withdrawalDate).toLocaleString('ja-JP')}
+                      </p>
+                      <p className="text-xs text-red-600 mt-1">
+                        {member.withdrawalReason}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* 会員メモ（運営のみ閲覧） */}

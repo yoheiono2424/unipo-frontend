@@ -10,7 +10,6 @@ export default function AdminCampaignsPage() {
   const router = useRouter();
   const [searchCampaignName, setSearchCampaignName] = useState("");
   const [searchAdvertiserName, setSearchAdvertiserName] = useState("");
-  const [searchAgencyName, setSearchAgencyName] = useState("");
   const [searchStartDate, setSearchStartDate] = useState("");
   const [searchEndDate, setSearchEndDate] = useState("");
   const [searchStatus, setSearchStatus] = useState("");
@@ -19,10 +18,9 @@ export default function AdminCampaignsPage() {
   const campaigns = mockCampaigns.filter(campaign => {
     const nameMatch = searchCampaignName === "" || campaign.name.toLowerCase().includes(searchCampaignName.toLowerCase());
     const advertiserMatch = searchAdvertiserName === "" || campaign.advertiser.toLowerCase().includes(searchAdvertiserName.toLowerCase());
-    const agencyMatch = searchAgencyName === ""; // モックデータに代理店がないため
     const statusMatch = searchStatus === "" || searchStatus === "all" || campaign.status === searchStatus;
 
-    return nameMatch && advertiserMatch && agencyMatch && statusMatch;
+    return nameMatch && advertiserMatch && statusMatch;
   });
 
   const getStatusBadge = (status: string) => {
@@ -73,7 +71,7 @@ export default function AdminCampaignsPage() {
                 <input
                   type="text"
                   placeholder="キャンペーン名で検索"
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                   value={searchCampaignName}
                   onChange={(e) => setSearchCampaignName(e.target.value)}
                 />
@@ -86,21 +84,9 @@ export default function AdminCampaignsPage() {
               <input
                 type="text"
                 placeholder="広告主名で検索"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                 value={searchAdvertiserName}
                 onChange={(e) => setSearchAdvertiserName(e.target.value)}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                代理店名
-              </label>
-              <input
-                type="text"
-                placeholder="代理店名で検索"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                value={searchAgencyName}
-                onChange={(e) => setSearchAgencyName(e.target.value)}
               />
             </div>
             <div>
@@ -109,7 +95,7 @@ export default function AdminCampaignsPage() {
               </label>
               <input
                 type="date"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                 value={searchStartDate}
                 onChange={(e) => setSearchStartDate(e.target.value)}
               />
@@ -120,7 +106,7 @@ export default function AdminCampaignsPage() {
               </label>
               <input
                 type="date"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                 value={searchEndDate}
                 onChange={(e) => setSearchEndDate(e.target.value)}
               />
@@ -130,7 +116,7 @@ export default function AdminCampaignsPage() {
                 審査ステータス
               </label>
               <select
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                 value={searchStatus}
                 onChange={(e) => setSearchStatus(e.target.value)}
               >

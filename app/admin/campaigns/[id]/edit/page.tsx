@@ -107,7 +107,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     type="text"
                     value={formData.campaignNo}
                     onChange={(e) => setFormData({ ...formData, campaignNo: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   />
                 </div>
@@ -118,7 +118,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   >
                     <option value="pending">予定</option>
@@ -134,7 +134,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     type="text"
                     value={formData.campaignName}
                     onChange={(e) => setFormData({ ...formData, campaignName: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   />
                 </div>
@@ -160,7 +160,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     type="text"
                     value={formData.campaignPlanId}
                     onChange={(e) => setFormData({ ...formData, campaignPlanId: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                   />
                 </div>
                 <div>
@@ -170,7 +170,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                   <select
                     value={formData.campaignPlanName}
                     onChange={(e) => setFormData({ ...formData, campaignPlanName: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   >
                     <option value="スタンダードプラン">スタンダードプラン</option>
@@ -186,7 +186,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     type="text"
                     value={formData.advertiserId}
                     onChange={(e) => setFormData({ ...formData, advertiserId: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                   />
                 </div>
                 <div>
@@ -196,7 +196,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                   <select
                     value={formData.advertiserName}
                     onChange={(e) => setFormData({ ...formData, advertiserName: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   >
                     <option value="株式会社ABC">株式会社ABC</option>
@@ -226,7 +226,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     type="date"
                     value={formData.startDate}
                     onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   />
                 </div>
@@ -238,7 +238,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     type="date"
                     value={formData.endDate}
                     onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   />
                 </div>
@@ -250,7 +250,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     type="number"
                     value={formData.giftCardAmount}
                     onChange={(e) => setFormData({ ...formData, giftCardAmount: parseInt(e.target.value) })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     min="100"
                     step="100"
                     required
@@ -264,7 +264,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     type="number"
                     value={formData.totalCards}
                     onChange={(e) => setFormData({ ...formData, totalCards: parseInt(e.target.value) })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     min="1"
                     required
                   />
@@ -277,7 +277,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     type="number"
                     value={formData.budgetAmount}
                     onChange={(e) => setFormData({ ...formData, budgetAmount: parseInt(e.target.value) })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     min="0"
                     required
                   />
@@ -289,7 +289,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                   <select
                     value={formData.distributionMethod}
                     onChange={(e) => setFormData({ ...formData, distributionMethod: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   >
                     <option value="店頭配布">店頭配布</option>
@@ -307,7 +307,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                   value={formData.campaignDescription}
                   onChange={(e) => setFormData({ ...formData, campaignDescription: e.target.value })}
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                   placeholder="キャンペーンの詳細説明を入力してください"
                 />
               </div>
@@ -361,7 +361,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     type="text"
                     value={formData.campaignImage1}
                     onChange={(e) => setFormData({ ...formData, campaignImage1: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     placeholder="画像URLを入力"
                   />
                 </div>
@@ -373,7 +373,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     type="text"
                     value={formData.campaignImage2}
                     onChange={(e) => setFormData({ ...formData, campaignImage2: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     placeholder="画像URLを入力"
                   />
                 </div>
@@ -385,7 +385,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     type="text"
                     value={formData.campaignImage3}
                     onChange={(e) => setFormData({ ...formData, campaignImage3: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     placeholder="画像URLを入力"
                   />
                 </div>
@@ -397,7 +397,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     type="text"
                     value={formData.campaignImage4}
                     onChange={(e) => setFormData({ ...formData, campaignImage4: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     placeholder="画像URLを入力"
                   />
                 </div>
@@ -409,7 +409,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     type="text"
                     value={formData.campaignImage5}
                     onChange={(e) => setFormData({ ...formData, campaignImage5: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     placeholder="画像URLを入力"
                   />
                 </div>

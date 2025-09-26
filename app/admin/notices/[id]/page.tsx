@@ -1,7 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Edit, Bell, Calendar, User, Eye, AlertCircle } from "lucide-react";
+import { ArrowLeft, Edit, Bell, Calendar, User, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
 import { mockNotices } from "@/lib/mock-data";
@@ -83,10 +83,6 @@ export default function NoticeDetailPage({ params }: { params: Promise<{ id: str
                     <span className={`inline-flex items-center px-3 py-1 text-xs font-medium rounded-full ${getPriorityBadge(notice.priority)}`}>
                       優先度: {notice.priority}
                     </span>
-                    <div className="flex items-center gap-1">
-                      <Eye className="h-4 w-4 text-blue-500" />
-                      <span className="text-sm font-medium text-gray-700">配信対象: {notice.targetType}</span>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -156,30 +152,6 @@ export default function NoticeDetailPage({ params }: { params: Promise<{ id: str
               </div>
             </div>
 
-            {/* 配信情報 */}
-            <div className="mt-6 pt-6 border-t border-gray-100">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">配信情報</h3>
-              <div className="bg-blue-50 rounded-lg p-4">
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-blue-900">配信対象</span>
-                    <span className="text-sm text-blue-700">{notice.targetType}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-blue-900">公開状況</span>
-                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusBadge(notice.status)}`}>
-                      {notice.status}
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-blue-900">優先度</span>
-                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${getPriorityBadge(notice.priority)}`}>
-                      {notice.priority}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>

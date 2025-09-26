@@ -84,7 +84,7 @@ export default function MemberEditPage({ params }: { params: Promise<{ id: strin
                     <select
                       value={formData.memberStatus}
                       onChange={(e) => setFormData({ ...formData, memberStatus: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       required
                     >
                       <option value="仮申請">仮申請</option>
@@ -103,7 +103,7 @@ export default function MemberEditPage({ params }: { params: Promise<{ id: strin
                     <select
                       value={formData.memberRank}
                       onChange={(e) => setFormData({ ...formData, memberRank: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     >
                       <option value="ブロンズ">ブロンズ</option>
                       <option value="シルバー">シルバー</option>
@@ -121,7 +121,7 @@ export default function MemberEditPage({ params }: { params: Promise<{ id: strin
                       type="text"
                       value={formData.lastName}
                       onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="田中"
                       maxLength={50}
                       required
@@ -137,7 +137,7 @@ export default function MemberEditPage({ params }: { params: Promise<{ id: strin
                       type="text"
                       value={formData.firstName}
                       onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="太郎"
                       maxLength={50}
                       required
@@ -153,7 +153,7 @@ export default function MemberEditPage({ params }: { params: Promise<{ id: strin
                       type="date"
                       value={formData.birthDate}
                       onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     />
                   </div>
 
@@ -165,7 +165,7 @@ export default function MemberEditPage({ params }: { params: Promise<{ id: strin
                     <select
                       value={formData.gender}
                       onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     >
                       <option value="">選択してください</option>
                       <option value="男性">男性</option>
@@ -195,7 +195,7 @@ export default function MemberEditPage({ params }: { params: Promise<{ id: strin
                       type="email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="example@example.com"
                       maxLength={254}
                       required
@@ -215,7 +215,7 @@ export default function MemberEditPage({ params }: { params: Promise<{ id: strin
                         const value = e.target.value.replace(/\D/g, '');
                         setFormData({ ...formData, phone: value });
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="09012345678"
                       maxLength={11}
                       required
@@ -246,7 +246,7 @@ export default function MemberEditPage({ params }: { params: Promise<{ id: strin
                         const value = e.target.value.replace(/\D/g, '');
                         setFormData({ ...formData, postalCode: value });
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="1234567"
                       maxLength={7}
                     />
@@ -261,7 +261,7 @@ export default function MemberEditPage({ params }: { params: Promise<{ id: strin
                     <select
                       value={formData.prefecture}
                       onChange={(e) => setFormData({ ...formData, prefecture: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     >
                       <option value="">選択してください</option>
                       {prefectures.map((pref) => (
@@ -279,7 +279,7 @@ export default function MemberEditPage({ params }: { params: Promise<{ id: strin
                       type="text"
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="渋谷区"
                       maxLength={50}
                     />
@@ -294,7 +294,7 @@ export default function MemberEditPage({ params }: { params: Promise<{ id: strin
                       type="text"
                       value={formData.streetAddress}
                       onChange={(e) => setFormData({ ...formData, streetAddress: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="神宮前1-2-3"
                       maxLength={50}
                     />
@@ -309,7 +309,7 @@ export default function MemberEditPage({ params }: { params: Promise<{ id: strin
                       type="text"
                       value={formData.buildingName}
                       onChange={(e) => setFormData({ ...formData, buildingName: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="サンプルマンション101"
                       maxLength={100}
                     />
@@ -332,7 +332,7 @@ export default function MemberEditPage({ params }: { params: Promise<{ id: strin
                   <textarea
                     value={formData.memberMemo}
                     onChange={(e) => setFormData({ ...formData, memberMemo: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     placeholder="運営用のメモをこちらに記載してください..."
                     rows={4}
                   />

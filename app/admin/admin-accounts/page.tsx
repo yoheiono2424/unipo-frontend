@@ -88,7 +88,7 @@ export default function AdminAccountsPage() {
               <input
                 type="text"
                 placeholder="氏名で検索"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                 value={searchName}
                 onChange={(e) => setSearchName(e.target.value)}
               />
@@ -98,7 +98,7 @@ export default function AdminAccountsPage() {
                 アカウントステータス
               </label>
               <select
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                 value={searchStatus}
                 onChange={(e) => setSearchStatus(e.target.value)}
               >

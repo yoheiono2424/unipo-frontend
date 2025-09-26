@@ -10,14 +10,12 @@ import { mockNotices } from "@/lib/mock-data";
 export default function AdminNoticesPage() {
   const [searchTitle, setSearchTitle] = useState("");
   const [searchStatus, setSearchStatus] = useState("");
-  const [searchTarget, setSearchTarget] = useState("");
   const router = useRouter();
 
   const filteredNotices = mockNotices.filter(notice => {
     const titleMatch = searchTitle === "" || notice.title.toLowerCase().includes(searchTitle.toLowerCase());
     const statusMatch = searchStatus === "" || notice.status === searchStatus;
-    const targetMatch = searchTarget === "" || notice.targetType === searchTarget;
-    return titleMatch && statusMatch && targetMatch;
+    return titleMatch && statusMatch;
   });
 
   const getStatusBadge = (status: string) => {
@@ -52,20 +50,20 @@ export default function AdminNoticesPage() {
 
         {/* 検索・フィルタ */}
         <div className="bg-white rounded-lg shadow p-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <input
                 type="text"
                 placeholder="タイトルで検索"
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                 value={searchTitle}
                 onChange={(e) => setSearchTitle(e.target.value)}
               />
             </div>
             <div>
               <select
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                 value={searchStatus}
                 onChange={(e) => setSearchStatus(e.target.value)}
               >
@@ -73,19 +71,6 @@ export default function AdminNoticesPage() {
                 <option value="公開中">公開中</option>
                 <option value="予約">予約</option>
                 <option value="下書き">下書き</option>
-              </select>
-            </div>
-            <div>
-              <select
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                value={searchTarget}
-                onChange={(e) => setSearchTarget(e.target.value)}
-              >
-                <option value="">すべての配信対象</option>
-                <option value="全体">全体</option>
-                <option value="会員のみ">会員のみ</option>
-                <option value="店舗のみ">店舗のみ</option>
-                <option value="広告主のみ">広告主のみ</option>
               </select>
             </div>
           </div>
@@ -106,9 +91,6 @@ export default function AdminNoticesPage() {
                   内容
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  配信対象
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   公開日
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -119,7 +101,7 @@ export default function AdminNoticesPage() {
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredNotices.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
                     お知らせデータがありません
                   </td>
                 </tr>
@@ -138,9 +120,6 @@ export default function AdminNoticesPage() {
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
                       {notice.content}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {notice.targetType}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {notice.publishDate}

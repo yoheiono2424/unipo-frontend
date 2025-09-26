@@ -102,7 +102,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                     type="text"
                     value={formData.storeNo}
                     onChange={(e) => setFormData({ ...formData, storeNo: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   />
                 </div>
@@ -113,7 +113,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   >
                     <option value="営業中">営業中</option>
@@ -129,7 +129,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                     type="date"
                     value={formData.serviceStartDate ? formData.serviceStartDate.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : ''}
                     onChange={(e) => setFormData({ ...formData, serviceStartDate: e.target.value.replace(/-/g, '') })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                   />
                 </div>
                 <div>
@@ -140,7 +140,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                     type="date"
                     value={formData.serviceEndDate ? formData.serviceEndDate.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : ''}
                     onChange={(e) => setFormData({ ...formData, serviceEndDate: e.target.value.replace(/-/g, '') })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                   />
                 </div>
                 <div>
@@ -151,7 +151,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                     type="text"
                     value={formData.industry}
                     onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   />
                 </div>
@@ -177,7 +177,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                     type="text"
                     value={formData.storeName}
                     onChange={(e) => setFormData({ ...formData, storeName: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   />
                 </div>
@@ -189,7 +189,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                     type="text"
                     value={formData.storeNameKana}
                     onChange={(e) => setFormData({ ...formData, storeNameKana: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   />
                 </div>
@@ -201,7 +201,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                     value={formData.storeDescription}
                     onChange={(e) => setFormData({ ...formData, storeDescription: e.target.value })}
                     rows={4}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     placeholder="加盟店の詳細説明を入力してください"
                   />
                 </div>
@@ -222,7 +222,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                       type="text"
                       value={formData.postalCode}
                       onChange={(e) => setFormData({ ...formData, postalCode: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="1234567"
                       required
                     />
@@ -235,7 +235,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                       type="text"
                       value={formData.prefecture}
                       onChange={(e) => setFormData({ ...formData, prefecture: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       required
                     />
                   </div>
@@ -247,7 +247,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                       type="text"
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       required
                     />
                   </div>
@@ -259,7 +259,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                       type="text"
                       value={formData.streetAddress}
                       onChange={(e) => setFormData({ ...formData, streetAddress: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       required
                     />
                   </div>
@@ -271,7 +271,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                       type="text"
                       value={formData.buildingName}
                       onChange={(e) => setFormData({ ...formData, buildingName: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     />
                   </div>
                 </div>
@@ -292,7 +292,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       required
                     />
                   </div>
@@ -304,7 +304,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                       type="tel"
                       value={formData.fax}
                       onChange={(e) => setFormData({ ...formData, fax: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     />
                   </div>
                   <div>
@@ -315,7 +315,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                       type="email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       required
                     />
                   </div>
@@ -327,7 +327,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                       type="password"
                       value={formData.password}
                       onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     />
                   </div>
                   <div className="md:col-span-2">
@@ -338,7 +338,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                       type="url"
                       value={formData.storeUrl}
                       onChange={(e) => setFormData({ ...formData, storeUrl: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="https://"
                     />
                   </div>
@@ -365,7 +365,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                     type="text"
                     value={formData.storePhoto1}
                     onChange={(e) => setFormData({ ...formData, storePhoto1: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     placeholder="画像URLを入力"
                   />
                 </div>
@@ -377,7 +377,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                     type="text"
                     value={formData.storePhoto2}
                     onChange={(e) => setFormData({ ...formData, storePhoto2: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     placeholder="画像URLを入力"
                   />
                 </div>
@@ -389,7 +389,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                     type="text"
                     value={formData.storePhoto3}
                     onChange={(e) => setFormData({ ...formData, storePhoto3: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     placeholder="画像URLを入力"
                   />
                 </div>
@@ -415,7 +415,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                     type="text"
                     value={formData.contactName}
                     onChange={(e) => setFormData({ ...formData, contactName: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                   />
                 </div>
                 <div>
@@ -426,7 +426,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                     type="tel"
                     value={formData.contactPhone}
                     onChange={(e) => setFormData({ ...formData, contactPhone: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                   />
                 </div>
               </div>
@@ -451,7 +451,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                     type="text"
                     value={formData.billingCompanyName}
                     onChange={(e) => setFormData({ ...formData, billingCompanyName: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                   />
                 </div>
                 <div>
@@ -462,7 +462,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                     type="text"
                     value={formData.billingDepartment}
                     onChange={(e) => setFormData({ ...formData, billingDepartment: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                   />
                 </div>
                 <div>
@@ -473,7 +473,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                     type="text"
                     value={formData.billingContactName}
                     onChange={(e) => setFormData({ ...formData, billingContactName: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                   />
                 </div>
                 <div>
@@ -483,7 +483,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                   <select
                     value={formData.paymentTerms}
                     onChange={(e) => setFormData({ ...formData, paymentTerms: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                   >
                     <option value="翌月末払い">翌月末払い</option>
                     <option value="翌々月末払い">翌々月末払い</option>
@@ -502,7 +502,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                   type="email"
                   value={formData.billingEmail}
                   onChange={(e) => setFormData({ ...formData, billingEmail: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                 />
               </div>
 
@@ -521,7 +521,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                       type="text"
                       value={formData.billingPostalCode}
                       onChange={(e) => setFormData({ ...formData, billingPostalCode: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="1234567"
                     />
                   </div>
@@ -533,7 +533,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                       type="text"
                       value={formData.billingPrefecture}
                       onChange={(e) => setFormData({ ...formData, billingPrefecture: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     />
                   </div>
                   <div>
@@ -544,7 +544,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                       type="text"
                       value={formData.billingCity}
                       onChange={(e) => setFormData({ ...formData, billingCity: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     />
                   </div>
                   <div>
@@ -555,7 +555,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                       type="text"
                       value={formData.billingStreetAddress}
                       onChange={(e) => setFormData({ ...formData, billingStreetAddress: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     />
                   </div>
                   <div className="md:col-span-2">
@@ -566,7 +566,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                       type="text"
                       value={formData.billingBuildingName}
                       onChange={(e) => setFormData({ ...formData, billingBuildingName: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     />
                   </div>
                 </div>
@@ -587,7 +587,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                       type="tel"
                       value={formData.billingPhone}
                       onChange={(e) => setFormData({ ...formData, billingPhone: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     />
                   </div>
                   <div>
@@ -598,7 +598,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                       type="tel"
                       value={formData.billingFax}
                       onChange={(e) => setFormData({ ...formData, billingFax: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     />
                   </div>
                 </div>
@@ -624,7 +624,7 @@ export default function StoreEditPage({ params }: { params: Promise<{ id: string
                     value={formData[`memo${num}` as keyof typeof formData] as string}
                     onChange={(e) => setFormData({ ...formData, [`memo${num}`]: e.target.value })}
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     placeholder={`機密メモ${num}を入力してください`}
                   />
                 </div>

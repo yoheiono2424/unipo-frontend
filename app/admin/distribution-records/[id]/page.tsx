@@ -339,7 +339,7 @@ export default function DistributionRecordDetailPage({ params }: { params: Promi
                   <input
                     type="text"
                     placeholder="店舗名で検索"
-                    className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                    className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm text-gray-900"
                     value={searchStoreName}
                     onChange={(e) => setSearchStoreName(e.target.value)}
                   />
@@ -353,7 +353,7 @@ export default function DistributionRecordDetailPage({ params }: { params: Promi
                 <input
                   type="text"
                   placeholder="ユーザーIDで検索"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm text-gray-900"
                   value={searchUserId}
                   onChange={(e) => setSearchUserId(e.target.value)}
                 />
@@ -365,7 +365,7 @@ export default function DistributionRecordDetailPage({ params }: { params: Promi
                 </label>
                 <input
                   type="date"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm text-gray-900"
                   value={searchStartDate}
                   onChange={(e) => setSearchStartDate(e.target.value)}
                 />
@@ -377,7 +377,7 @@ export default function DistributionRecordDetailPage({ params }: { params: Promi
                 </label>
                 <input
                   type="date"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm text-gray-900"
                   value={searchEndDate}
                   onChange={(e) => setSearchEndDate(e.target.value)}
                 />

@@ -68,7 +68,7 @@ export default function CategoryEditPage({ params }: { params: Promise<{ id: str
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     placeholder="例: 飲食店"
                     required
                   />
@@ -82,7 +82,7 @@ export default function CategoryEditPage({ params }: { params: Promise<{ id: str
                     type="number"
                     value={formData.order}
                     onChange={(e) => setFormData({ ...formData, order: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     min="1"
                     required
                   />

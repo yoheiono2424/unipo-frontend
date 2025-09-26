@@ -3,6 +3,7 @@
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { mockStoreDistributions } from "@/lib/mock-data";
 
 type CampaignDistribution = {
   id: string;
@@ -15,6 +16,15 @@ type CampaignDistribution = {
   agencyName: string;
   startDate: string;
   endDate: string;
+};
+
+type StoreDistribution = {
+  id: string;
+  storeId: string;
+  storeName: string;
+  allocatedCount: number;
+  distributedCount: number;
+  inventoryCount: number;
 };
 
 const mockCampaignDistributions: CampaignDistribution[] = [
@@ -57,14 +67,16 @@ const mockCampaignDistributions: CampaignDistribution[] = [
 ];
 
 export default function AdminDistributionsPage() {
+  const [activeTab, setActiveTab] = useState<'campaign' | 'store'>('campaign');
   const [searchCampaignName, setSearchCampaignName] = useState("");
   const [searchAdvertiserName, setSearchAdvertiserName] = useState("");
   const [searchAgencyName, setSearchAgencyName] = useState("");
   const [searchStartDate, setSearchStartDate] = useState("");
   const [searchEndDate, setSearchEndDate] = useState("");
+  const [searchStoreName, setSearchStoreName] = useState("");
   const router = useRouter();
 
-  const distributions = mockCampaignDistributions.filter(dist => {
+  const campaignDistributions = mockCampaignDistributions.filter(dist => {
     const campaignMatch = searchCampaignName === "" || dist.campaignName.toLowerCase().includes(searchCampaignName.toLowerCase());
     const advertiserMatch = searchAdvertiserName === "" || dist.advertiserName.toLowerCase().includes(searchAdvertiserName.toLowerCase());
     const agencyMatch = searchAgencyName === "" || dist.agencyName.toLowerCase().includes(searchAgencyName.toLowerCase());
@@ -83,6 +95,11 @@ export default function AdminDistributionsPage() {
     return campaignMatch && advertiserMatch && agencyMatch && dateMatch;
   });
 
+  const storeDistributions = mockStoreDistributions.filter(dist => {
+    const storeMatch = searchStoreName === "" || dist.storeName.toLowerCase().includes(searchStoreName.toLowerCase());
+    return storeMatch;
+  });
+
   return (
     <AdminLayout>
       <div className="space-y-6">
@@ -93,150 +110,244 @@ export default function AdminDistributionsPage() {
           </div>
         </div>
 
+        {/* タブ切り替え */}
+        <div className="bg-white rounded-lg shadow p-4">
+          <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
+            <button
+              className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                activeTab === 'campaign'
+                  ? 'bg-white text-indigo-600 shadow-sm'
+                  : 'text-gray-500 hover:text-gray-700'
+              }`}
+              onClick={() => setActiveTab('campaign')}
+            >
+              キャンペーン
+            </button>
+            <button
+              className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                activeTab === 'store'
+                  ? 'bg-white text-indigo-600 shadow-sm'
+                  : 'text-gray-500 hover:text-gray-700'
+              }`}
+              onClick={() => setActiveTab('store')}
+            >
+              店舗
+            </button>
+          </div>
+        </div>
+
         {/* 検索・フィルタ */}
         <div className="bg-white rounded-lg shadow p-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                キャンペーン名
-              </label>
-              <input
-                type="text"
-                placeholder="キャンペーン名で検索"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                value={searchCampaignName}
-                onChange={(e) => setSearchCampaignName(e.target.value)}
-              />
+          {activeTab === 'campaign' ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  キャンペーン名
+                </label>
+                <input
+                  type="text"
+                  placeholder="キャンペーン名で検索"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                  value={searchCampaignName}
+                  onChange={(e) => setSearchCampaignName(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  広告主名
+                </label>
+                <input
+                  type="text"
+                  placeholder="広告主名で検索"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                  value={searchAdvertiserName}
+                  onChange={(e) => setSearchAdvertiserName(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  代理店名
+                </label>
+                <input
+                  type="text"
+                  placeholder="代理店名で検索"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                  value={searchAgencyName}
+                  onChange={(e) => setSearchAgencyName(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  キャンペーン期間（開始日）
+                </label>
+                <input
+                  type="date"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                  value={searchStartDate}
+                  onChange={(e) => setSearchStartDate(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  キャンペーン期間（終了日）
+                </label>
+                <input
+                  type="date"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                  value={searchEndDate}
+                  onChange={(e) => setSearchEndDate(e.target.value)}
+                />
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                広告主名
-              </label>
-              <input
-                type="text"
-                placeholder="広告主名で検索"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                value={searchAdvertiserName}
-                onChange={(e) => setSearchAdvertiserName(e.target.value)}
-              />
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  店舗名
+                </label>
+                <input
+                  type="text"
+                  placeholder="店舗名で検索"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                  value={searchStoreName}
+                  onChange={(e) => setSearchStoreName(e.target.value)}
+                />
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                代理店名
-              </label>
-              <input
-                type="text"
-                placeholder="代理店名で検索"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                value={searchAgencyName}
-                onChange={(e) => setSearchAgencyName(e.target.value)}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                キャンペーン期間（開始日）
-              </label>
-              <input
-                type="date"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                value={searchStartDate}
-                onChange={(e) => setSearchStartDate(e.target.value)}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                キャンペーン期間（終了日）
-              </label>
-              <input
-                type="date"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                value={searchEndDate}
-                onChange={(e) => setSearchEndDate(e.target.value)}
-              />
-            </div>
-          </div>
+          )}
         </div>
 
         {/* テーブル */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  配布枚数
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  キャンペーンID
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  キャンペーン名
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  広告主ID
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  広告主名
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  代理店ID
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  代理店名
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  開始日
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  終了日
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {distributions.length === 0 ? (
+          {activeTab === 'campaign' ? (
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
                 <tr>
-                  <td colSpan={9} className="px-6 py-12 text-center text-gray-500">
-                    配布実績データがありません
-                  </td>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    配布枚数
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    キャンペーンID
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    キャンペーン名
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    広告主ID
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    広告主名
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    代理店ID
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    代理店名
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    開始日
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    終了日
+                  </th>
                 </tr>
-              ) : (
-                distributions.map((dist) => (
-                  <tr
-                    key={dist.id}
-                    className="hover:bg-gray-50 cursor-pointer"
-                    onClick={() => router.push(`/admin/distribution-records/${dist.id}`)}
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {dist.distributedCount.toLocaleString()}枚
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {dist.campaignId}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {dist.campaignName}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {dist.advertiserId}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {dist.advertiserName}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {dist.agencyId}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {dist.agencyName}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {dist.startDate}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {dist.endDate}
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {campaignDistributions.length === 0 ? (
+                  <tr>
+                    <td colSpan={9} className="px-6 py-12 text-center text-gray-500">
+                      配布実績データがありません
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+                ) : (
+                  campaignDistributions.map((dist) => (
+                    <tr
+                      key={dist.id}
+                      className="hover:bg-gray-50 cursor-pointer"
+                      onClick={() => router.push(`/admin/distribution-records/${dist.id}`)}
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {dist.distributedCount.toLocaleString()}枚
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {dist.campaignId}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {dist.campaignName}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {dist.advertiserId}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {dist.advertiserName}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {dist.agencyId}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {dist.agencyName}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {dist.startDate}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {dist.endDate}
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          ) : (
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    店舗ID
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    店舗名
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    ギフトカード在庫数
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    配布枚数
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {storeDistributions.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="px-6 py-12 text-center text-gray-500">
+                      配布実績データがありません
+                    </td>
+                  </tr>
+                ) : (
+                  storeDistributions.map((dist) => (
+                    <tr
+                      key={dist.id}
+                      className="hover:bg-gray-50 cursor-pointer"
+                      onClick={() => router.push(`/admin/stores/${dist.storeId}`)}
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                        {dist.storeId}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {dist.storeName}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {dist.inventoryCount.toLocaleString()}枚
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {dist.distributedCount.toLocaleString()}枚
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </AdminLayout>

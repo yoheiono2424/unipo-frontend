@@ -49,7 +49,7 @@ export default function AdminInvoicesPage() {
               <input
                 type="text"
                 placeholder="キャンペーン名で検索"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                 value={searchCampaignName}
                 onChange={(e) => setSearchCampaignName(e.target.value)}
               />
@@ -61,7 +61,7 @@ export default function AdminInvoicesPage() {
               <input
                 type="text"
                 placeholder="ユーザー名で検索"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                 value={searchUserName}
                 onChange={(e) => setSearchUserName(e.target.value)}
               />
@@ -72,7 +72,7 @@ export default function AdminInvoicesPage() {
               </label>
               <input
                 type="date"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                 value={searchStartDate}
                 onChange={(e) => setSearchStartDate(e.target.value)}
               />
@@ -83,7 +83,7 @@ export default function AdminInvoicesPage() {
               </label>
               <input
                 type="date"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                 value={searchEndDate}
                 onChange={(e) => setSearchEndDate(e.target.value)}
               />
@@ -95,7 +95,7 @@ export default function AdminInvoicesPage() {
                 ステータス
               </label>
               <select
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                 value={searchStatus}
                 onChange={(e) => setSearchStatus(e.target.value)}
               >

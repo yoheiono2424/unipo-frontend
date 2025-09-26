@@ -122,7 +122,7 @@ export default function InvoiceEditPage({ params }: { params: Promise<{ id: stri
                   <select
                     value={formData.advertiser}
                     onChange={(e) => setFormData({ ...formData, advertiser: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   >
                     {mockAdvertisers.map((advertiser) => (
@@ -140,7 +140,7 @@ export default function InvoiceEditPage({ params }: { params: Promise<{ id: stri
                   <select
                     value={formData.campaign}
                     onChange={(e) => setFormData({ ...formData, campaign: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   >
                     {mockCampaigns.map((campaign) => (
@@ -159,7 +159,7 @@ export default function InvoiceEditPage({ params }: { params: Promise<{ id: stri
                     type="text"
                     value={formData.billingPeriod}
                     onChange={(e) => setFormData({ ...formData, billingPeriod: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     placeholder="例: 2025年1月"
                     required
                   />
@@ -173,7 +173,7 @@ export default function InvoiceEditPage({ params }: { params: Promise<{ id: stri
                     type="date"
                     value={formData.issueDate}
                     onChange={(e) => setFormData({ ...formData, issueDate: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   />
                 </div>
@@ -186,7 +186,7 @@ export default function InvoiceEditPage({ params }: { params: Promise<{ id: stri
                     type="date"
                     value={formData.dueDate}
                     onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   />
                 </div>
@@ -199,7 +199,7 @@ export default function InvoiceEditPage({ params }: { params: Promise<{ id: stri
                     type="number"
                     value={formData.distributedCount}
                     onChange={(e) => setFormData({ ...formData, distributedCount: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     min="0"
                     required
                   />
@@ -213,7 +213,7 @@ export default function InvoiceEditPage({ params }: { params: Promise<{ id: stri
                     type="number"
                     value={formData.unitPrice}
                     onChange={(e) => setFormData({ ...formData, unitPrice: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     min="0"
                     required
                   />
@@ -226,7 +226,7 @@ export default function InvoiceEditPage({ params }: { params: Promise<{ id: stri
                   <select
                     value={formData.paymentMethod}
                     onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                   >
                     <option value="銀行振込">銀行振込</option>
                     <option value="クレジットカード">クレジットカード</option>
@@ -241,7 +241,7 @@ export default function InvoiceEditPage({ params }: { params: Promise<{ id: stri
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                   >
                     <option value="未払い">未払い</option>
                     <option value="支払済み">支払済み</option>
@@ -257,7 +257,7 @@ export default function InvoiceEditPage({ params }: { params: Promise<{ id: stri
                   <textarea
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     placeholder="請求に関する備考を入力してください"
                     rows={3}
                   />
