@@ -439,29 +439,6 @@ export default function AdvertiserDetailPage({ params }: { params: Promise<{ id:
                   </div>
                 </div>
 
-                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
-                  <div className="flex items-start gap-3">
-                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
-                      <Building2 className="h-5 w-5 text-gray-600" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">実施中キャンペーン数</p>
-                      <p className="mt-1 text-sm font-medium text-gray-900">{advertiser.campaigns}件</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors md:col-span-2">
-                  <div className="flex items-start gap-3">
-                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
-                      <CreditCard className="h-5 w-5 text-gray-600" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">総予算</p>
-                      <p className="mt-1 text-sm font-medium text-gray-900">¥{advertiser.totalBudget?.toLocaleString()}</p>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>

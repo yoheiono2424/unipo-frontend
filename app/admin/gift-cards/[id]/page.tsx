@@ -1,7 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Edit, CreditCard, DollarSign, Store, Calendar, User, Hash, Gift, Shield } from "lucide-react";
+import { ArrowLeft, Edit, CreditCard, DollarSign, Calendar, Hash, Shield } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
 
@@ -11,8 +11,6 @@ const mockGiftCards = [
     serialNumber: "AMZN-2025-0001",
     amount: 500,
     status: "未使用",
-    campaign: "新春キャンペーン2025",
-    assignedStore: "カフェ モカ",
     issuedDate: null,
     createdDate: "2025-01-01",
     expiryDate: "2025-12-31",
@@ -22,8 +20,6 @@ const mockGiftCards = [
     serialNumber: "AMZN-2025-0002",
     amount: 1000,
     status: "配布済み",
-    campaign: "新春キャンペーン2025",
-    assignedStore: "レストラン サクラ",
     issuedDate: "2025-01-15",
     issuedTo: "田中太郎",
     createdDate: "2025-01-01",
@@ -34,8 +30,6 @@ const mockGiftCards = [
     serialNumber: "AMZN-2025-0003",
     amount: 2000,
     status: "使用済み",
-    campaign: "クリスマスキャンペーン2024",
-    assignedStore: "ブティック ローズ",
     issuedDate: "2024-12-20",
     issuedTo: "佐藤花子",
     usedDate: "2024-12-25",
@@ -137,44 +131,6 @@ export default function GiftCardDetailPage({ params }: { params: Promise<{ id: s
                   </div>
                 </div>
               </div>
-
-              <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
-                <div className="flex items-start gap-3">
-                  <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
-                    <Gift className="h-5 w-5 text-gray-600" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">キャンペーン</p>
-                    <p className="mt-1 text-sm font-medium text-gray-900">{giftCard.campaign}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
-                <div className="flex items-start gap-3">
-                  <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
-                    <Store className="h-5 w-5 text-gray-600" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">割当店舗</p>
-                    <p className="mt-1 text-sm font-medium text-gray-900">{giftCard.assignedStore}</p>
-                  </div>
-                </div>
-              </div>
-
-              {giftCard.issuedTo && (
-                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
-                  <div className="flex items-start gap-3">
-                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
-                      <User className="h-5 w-5 text-gray-600" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">配布先</p>
-                      <p className="mt-1 text-sm font-medium text-gray-900">{giftCard.issuedTo}</p>
-                    </div>
-                  </div>
-                </div>
-              )}
 
               {giftCard.issuedDate && (
                 <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">

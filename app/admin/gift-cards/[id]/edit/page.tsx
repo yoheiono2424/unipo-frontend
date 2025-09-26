@@ -12,8 +12,6 @@ const mockGiftCards = [
     serialNumber: "AMZN-2025-0001",
     amount: 500,
     status: "未使用",
-    campaign: "新春キャンペーン2025",
-    assignedStore: "カフェ モカ",
     issuedDate: null,
     createdDate: "2025-01-01",
     expiryDate: "2025-12-31",
@@ -23,26 +21,10 @@ const mockGiftCards = [
     serialNumber: "AMZN-2025-0002",
     amount: 1000,
     status: "配布済み",
-    campaign: "新春キャンペーン2025",
-    assignedStore: "レストラン サクラ",
     issuedDate: "2025-01-15",
-    issuedTo: "田中太郎",
     createdDate: "2025-01-01",
     expiryDate: "2025-12-31",
   },
-];
-
-const mockCampaigns = [
-  "新春キャンペーン2025",
-  "バレンタインキャンペーン",
-  "クリスマスキャンペーン2024",
-];
-
-const mockStores = [
-  "カフェ モカ",
-  "レストラン サクラ",
-  "ブティック ローズ",
-  "パン屋 クロワッサン",
 ];
 
 export default function GiftCardEditPage({ params }: { params: Promise<{ id: string }> }) {
@@ -53,8 +35,6 @@ export default function GiftCardEditPage({ params }: { params: Promise<{ id: str
   const [formData, setFormData] = useState({
     serialNumber: giftCard.serialNumber,
     amount: giftCard.amount.toString(),
-    campaign: giftCard.campaign,
-    assignedStore: giftCard.assignedStore,
     status: giftCard.status,
     expiryDate: giftCard.expiryDate,
   });
@@ -124,42 +104,6 @@ export default function GiftCardEditPage({ params }: { params: Promise<{ id: str
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    キャンペーン <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    value={formData.campaign}
-                    onChange={(e) => setFormData({ ...formData, campaign: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    required
-                  >
-                    {mockCampaigns.map((campaign) => (
-                      <option key={campaign} value={campaign}>
-                        {campaign}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    割当店舗 <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    value={formData.assignedStore}
-                    onChange={(e) => setFormData({ ...formData, assignedStore: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    required
-                  >
-                    {mockStores.map((store) => (
-                      <option key={store} value={store}>
-                        {store}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     ステータス
                   </label>
                   <select
@@ -193,7 +137,6 @@ export default function GiftCardEditPage({ params }: { params: Promise<{ id: str
                   <p className="text-sm text-gray-500">
                     作成日: {giftCard.createdDate}
                     {giftCard.issuedDate && ` · 配布日: ${giftCard.issuedDate}`}
-                    {giftCard.issuedTo && ` · 配布先: ${giftCard.issuedTo}`}
                   </p>
                   <div className="flex gap-3">
                     <button

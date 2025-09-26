@@ -20,6 +20,8 @@ const mockPointItems = [
     updatedDate: "2025-01-15",
     imageUrl: null,
     terms: "• 本ギフト券は現金との交換はできません\n• 有効期限内にご利用ください\n• 一度交換したポイントは返却できません",
+    requiresStockManagement: "要",
+    provider: "Amazon Japan",
   },
   {
     id: "PI002",
@@ -35,6 +37,8 @@ const mockPointItems = [
     updatedDate: "2025-01-10",
     imageUrl: null,
     terms: "• スターバックス店舗でご利用いただけます\n• オンラインストアでは使用できません\n• 残高の払い戻しはできません",
+    requiresStockManagement: "要",
+    provider: "スターバックスジャパン",
   },
 ];
 
@@ -188,6 +192,36 @@ export default function PointItemDetailPage({ params }: { params: Promise<{ id: 
                   <div className="flex-1">
                     <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">最終更新日</p>
                     <p className="mt-1 text-sm font-medium text-gray-900">{item.updatedDate}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                    <Package className="h-5 w-5 text-gray-600" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">在庫管理要否</p>
+                    <p className="mt-1 text-sm font-medium text-gray-900">
+                      <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        item.requiresStockManagement === '要' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
+                      }`}>
+                        {item.requiresStockManagement}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                    <AlertCircle className="h-5 w-5 text-gray-600" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">提供元</p>
+                    <p className="mt-1 text-sm font-medium text-gray-900">{item.provider}</p>
                   </div>
                 </div>
               </div>

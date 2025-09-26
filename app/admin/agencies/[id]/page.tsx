@@ -181,14 +181,8 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
         {/* 管理店舗一覧 */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100">
           <div className="p-6 border-b border-gray-100">
-            <div className="flex justify-between items-center mb-4">
+            <div className="mb-4">
               <h2 className="text-lg font-semibold text-gray-900">管理店舗一覧</h2>
-              <Link
-                href="/admin/stores"
-                className="text-sm text-indigo-600 hover:text-indigo-700"
-              >
-                すべて見る →
-              </Link>
             </div>
 
             {/* 店舗名検索フィルター */}

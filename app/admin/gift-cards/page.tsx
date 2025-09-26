@@ -40,19 +40,10 @@ export default function AdminGiftCardsPage() {
                   金額
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  キャンペーン
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  割当店舗
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   ステータス
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  配布日
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  配布先
+                  有効期限
                 </th>
               </tr>
             </thead>
@@ -69,12 +60,6 @@ export default function AdminGiftCardsPage() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     ¥{card.amount}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {card.campaign}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {card.assignedStore}
-                  </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                       card.status === '未使用'
@@ -87,10 +72,7 @@ export default function AdminGiftCardsPage() {
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {card.issuedDate || '-'}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {card.issuedTo || '-'}
+                    {card.validUntil || '無期限'}
                   </td>
                 </tr>
               ))}

@@ -1,7 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Save, X, Gift, Hash, Package, Image, MapPin } from "lucide-react";
+import { ArrowLeft, Save, X, Gift, Hash, Package, Image, MapPin, CreditCard } from "lucide-react";
 import Link from "next/link";
 import { use, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -66,17 +66,26 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
   return (
     <AdminLayout>
       <div className="max-w-4xl mx-auto">
-        <div className="flex items-center gap-4 mb-6">
-          <Link
-            href={`/admin/campaigns/${resolvedParams.id}`}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Link>
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">キャンペーン情報編集</h1>
-            <p className="text-sm text-gray-600 mt-1">キャンペーンID: {campaign.id} | キャンペーンNO: {campaign.campaignNo}</p>
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-4">
+            <Link
+              href={`/admin/campaigns/${resolvedParams.id}`}
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Link>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">キャンペーン情報編集</h1>
+              <p className="text-sm text-gray-600 mt-1">キャンペーンID: {campaign.id} | キャンペーンNO: {campaign.campaignNo}</p>
+            </div>
           </div>
+          <Link
+            href={`/admin/campaigns/${resolvedParams.id}/assign-gift-cards`}
+            className="bg-purple-600 text-white px-5 py-2.5 rounded-lg hover:bg-purple-700 flex items-center gap-2 transition-colors font-medium"
+          >
+            <CreditCard className="h-4 w-4" />
+            ギフトカード割り当て
+          </Link>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">

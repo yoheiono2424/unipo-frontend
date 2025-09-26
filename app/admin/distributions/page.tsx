@@ -4,69 +4,83 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-type Distribution = {
+type CampaignDistribution = {
   id: string;
-  storeName: string;
+  distributedCount: number;
+  campaignId: string;
   campaignName: string;
-  userName: string;
-  giftCardSerial: string;
-  amount: number;
-  distributionDate: string;
-  usageDate: string | null;
-  status: string;
+  advertiserId: string;
+  advertiserName: string;
+  agencyId: string;
+  agencyName: string;
+  startDate: string;
+  endDate: string;
 };
 
-const mockDistributions: Distribution[] = [
+const mockCampaignDistributions: CampaignDistribution[] = [
   {
     id: "DST001",
-    storeName: "ユニーポマート新宿店",
+    distributedCount: 1500,
+    campaignId: "CMP001",
     campaignName: "春の新生活応援キャンペーン",
-    userName: "山田太郎",
-    giftCardSerial: "AMZN-2024-0001",
-    amount: 1000,
-    distributionDate: "2024-03-10 14:30",
-    usageDate: "2024-03-12 10:15",
-    status: "使用済み",
+    advertiserId: "ADV001",
+    advertiserName: "株式会社サンプル",
+    agencyId: "AGE001",
+    agencyName: "エージェンシーA",
+    startDate: "2025-01-01",
+    endDate: "2025-03-31",
   },
   {
     id: "DST002",
-    storeName: "ユニーポストア渋谷店",
+    distributedCount: 800,
+    campaignId: "CMP002",
     campaignName: "期間限定ポイント2倍",
-    userName: "佐藤花子",
-    giftCardSerial: "AMZN-2024-0002",
-    amount: 500,
-    distributionDate: "2024-03-11 16:45",
-    usageDate: null,
-    status: "配布済み",
+    advertiserId: "ADV002",
+    advertiserName: "サンプル商事株式会社",
+    agencyId: "AGE002",
+    agencyName: "エージェンシーB",
+    startDate: "2025-02-01",
+    endDate: "2025-02-28",
   },
   {
     id: "DST003",
-    storeName: "ユニーポマート池袋店",
-    campaignName: "春の新生活応援キャンペーン",
-    userName: "鈴木一郎",
-    giftCardSerial: "AMZN-2024-0003",
-    amount: 2000,
-    distributionDate: "2024-03-12 11:20",
-    usageDate: null,
-    status: "審査中",
+    distributedCount: 2300,
+    campaignId: "CMP003",
+    campaignName: "バレンタインキャンペーン",
+    advertiserId: "ADV001",
+    advertiserName: "株式会社サンプル",
+    agencyId: "AGE001",
+    agencyName: "エージェンシーA",
+    startDate: "2025-02-01",
+    endDate: "2025-02-14",
   },
 ];
 
 export default function AdminDistributionsPage() {
-  const [searchStoreName, setSearchStoreName] = useState("");
   const [searchCampaignName, setSearchCampaignName] = useState("");
-  const [searchUserName, setSearchUserName] = useState("");
+  const [searchAdvertiserName, setSearchAdvertiserName] = useState("");
+  const [searchAgencyName, setSearchAgencyName] = useState("");
   const [searchStartDate, setSearchStartDate] = useState("");
   const [searchEndDate, setSearchEndDate] = useState("");
-  const [searchStatus, setSearchStatus] = useState("");
   const router = useRouter();
 
-  const distributions = mockDistributions.filter(dist => {
-    const storeMatch = searchStoreName === "" || dist.storeName.toLowerCase().includes(searchStoreName.toLowerCase());
+  const distributions = mockCampaignDistributions.filter(dist => {
     const campaignMatch = searchCampaignName === "" || dist.campaignName.toLowerCase().includes(searchCampaignName.toLowerCase());
-    const userMatch = searchUserName === "" || dist.userName.toLowerCase().includes(searchUserName.toLowerCase());
-    const statusMatch = searchStatus === "" || searchStatus === "all" || dist.status === searchStatus;
-    return storeMatch && campaignMatch && userMatch && statusMatch;
+    const advertiserMatch = searchAdvertiserName === "" || dist.advertiserName.toLowerCase().includes(searchAdvertiserName.toLowerCase());
+    const agencyMatch = searchAgencyName === "" || dist.agencyName.toLowerCase().includes(searchAgencyName.toLowerCase());
+
+    let dateMatch = true;
+    if (searchStartDate && searchEndDate) {
+      const startDate = new Date(searchStartDate);
+      const endDate = new Date(searchEndDate);
+      const distStartDate = new Date(dist.startDate);
+      const distEndDate = new Date(dist.endDate);
+      dateMatch = (distStartDate >= startDate && distStartDate <= endDate) ||
+                  (distEndDate >= startDate && distEndDate <= endDate) ||
+                  (distStartDate <= startDate && distEndDate >= endDate);
+    }
+
+    return campaignMatch && advertiserMatch && agencyMatch && dateMatch;
   });
 
   return (
@@ -84,18 +98,6 @@ export default function AdminDistributionsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                店舗名
-              </label>
-              <input
-                type="text"
-                placeholder="店舗名で検索"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                value={searchStoreName}
-                onChange={(e) => setSearchStoreName(e.target.value)}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
                 キャンペーン名
               </label>
               <input
@@ -108,19 +110,31 @@ export default function AdminDistributionsPage() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                ユーザー名
+                広告主名
               </label>
               <input
                 type="text"
-                placeholder="ユーザー名で検索"
+                placeholder="広告主名で検索"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                value={searchUserName}
-                onChange={(e) => setSearchUserName(e.target.value)}
+                value={searchAdvertiserName}
+                onChange={(e) => setSearchAdvertiserName(e.target.value)}
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                配布日時（開始日）
+                代理店名
+              </label>
+              <input
+                type="text"
+                placeholder="代理店名で検索"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                value={searchAgencyName}
+                onChange={(e) => setSearchAgencyName(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                キャンペーン期間（開始日）
               </label>
               <input
                 type="date"
@@ -131,7 +145,7 @@ export default function AdminDistributionsPage() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                配布日時（終了日）
+                キャンペーン期間（終了日）
               </label>
               <input
                 type="date"
@@ -139,22 +153,6 @@ export default function AdminDistributionsPage() {
                 value={searchEndDate}
                 onChange={(e) => setSearchEndDate(e.target.value)}
               />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                審査ステータス
-              </label>
-              <select
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                value={searchStatus}
-                onChange={(e) => setSearchStatus(e.target.value)}
-              >
-                <option value="">すべて</option>
-                <option value="使用済み">使用済み</option>
-                <option value="配布済み">配布済み</option>
-                <option value="審査中">審査中</option>
-                <option value="却下">却下</option>
-              </select>
             </div>
           </div>
         </div>
@@ -165,31 +163,31 @@ export default function AdminDistributionsPage() {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  配布ID
+                  配布枚数
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  店舗名
+                  キャンペーンID
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  キャンペーン
+                  キャンペーン名
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  ユーザー名
+                  広告主ID
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  シリアル番号
+                  広告主名
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  金額
+                  代理店ID
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  配布日時
+                  代理店名
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  使用日時
+                  開始日
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  ステータス
+                  終了日
                 </th>
               </tr>
             </thead>
@@ -208,41 +206,31 @@ export default function AdminDistributionsPage() {
                     onClick={() => router.push(`/admin/distribution-records/${dist.id}`)}
                   >
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {dist.id}
+                      {dist.distributedCount.toLocaleString()}枚
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {dist.storeName}
+                      {dist.campaignId}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {dist.campaignName}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {dist.userName}
+                      {dist.advertiserId}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {dist.giftCardSerial}
+                      {dist.advertiserName}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      ¥{dist.amount}
+                      {dist.agencyId}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {dist.distributionDate}
+                      {dist.agencyName}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {dist.usageDate || '-'}
+                      {dist.startDate}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        dist.status === '使用済み'
-                          ? 'bg-gray-100 text-gray-800'
-                          : dist.status === '配布済み'
-                          ? 'bg-green-100 text-green-800'
-                          : dist.status === '審査中'
-                          ? 'bg-yellow-100 text-yellow-800'
-                          : 'bg-red-100 text-red-800'
-                      }`}>
-                        {dist.status}
-                      </span>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {dist.endDate}
                     </td>
                   </tr>
                 ))

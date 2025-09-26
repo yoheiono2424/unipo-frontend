@@ -17,6 +17,8 @@ const mockPointItems = [
     validityPeriod: "発行から6ヶ月",
     status: "有効",
     terms: "• 本ギフト券は現金との交換はできません\n• 有効期限内にご利用ください\n• 一度交換したポイントは返却できません",
+    requiresStockManagement: "要",
+    provider: "Amazon Japan",
   },
   {
     id: "PI002",
@@ -28,6 +30,8 @@ const mockPointItems = [
     validityPeriod: "発行から12ヶ月",
     status: "有効",
     terms: "• スターバックス店舗でご利用いただけます\n• オンラインストアでは使用できません\n• 残高の払い戻しはできません",
+    requiresStockManagement: "要",
+    provider: "スターバックスジャパン",
   },
 ];
 
@@ -54,6 +58,8 @@ export default function PointItemEditPage({ params }: { params: Promise<{ id: st
     validityPeriod: item.validityPeriod,
     status: item.status,
     terms: item.terms || "",
+    requiresStockManagement: item.requiresStockManagement || "要",
+    provider: item.provider || "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -197,6 +203,35 @@ export default function PointItemEditPage({ params }: { params: Promise<{ id: st
                     <option value="無効">無効</option>
                     <option value="在庫切れ">在庫切れ</option>
                   </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    在庫管理要否 <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={formData.requiresStockManagement}
+                    onChange={(e) => setFormData({ ...formData, requiresStockManagement: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    required
+                  >
+                    <option value="要">要</option>
+                    <option value="不要">不要</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    提供元 <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.provider}
+                    onChange={(e) => setFormData({ ...formData, provider: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    placeholder="例: Amazon Japan"
+                    required
+                  />
                 </div>
               </div>
 

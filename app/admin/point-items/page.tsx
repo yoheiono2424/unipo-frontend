@@ -16,6 +16,8 @@ const mockPointItems = [
     description: "Amazonで利用可能な500円分のギフト券",
     validityPeriod: "発行から6ヶ月",
     status: "有効",
+    requiresStockManagement: "要",
+    provider: "Amazon Japan",
   },
   {
     id: "PI002",
@@ -26,6 +28,8 @@ const mockPointItems = [
     description: "スターバックスで利用可能な1000円分のカード",
     validityPeriod: "発行から12ヶ月",
     status: "有効",
+    requiresStockManagement: "要",
+    provider: "スターバックスジャパン",
   },
   {
     id: "PI003",
@@ -36,6 +40,8 @@ const mockPointItems = [
     description: "楽天市場で利用可能な1000ポイント",
     validityPeriod: "発行から3ヶ月",
     status: "有効",
+    requiresStockManagement: "不要",
+    provider: "楽天グループ",
   },
   {
     id: "PI004",
@@ -46,6 +52,8 @@ const mockPointItems = [
     description: "ユニクロ店舗・オンラインで利用可能な2000円分のクーポン",
     validityPeriod: "発行から6ヶ月",
     status: "有効",
+    requiresStockManagement: "要",
+    provider: "ファーストリテイリング",
   },
   {
     id: "PI005",
@@ -56,6 +64,8 @@ const mockPointItems = [
     description: "App Store、iTunes Storeで利用可能な3000円分のカード",
     validityPeriod: "無期限",
     status: "在庫切れ",
+    requiresStockManagement: "要",
+    provider: "Apple Japan",
   },
 ];
 
@@ -164,6 +174,12 @@ export default function AdminPointItemsPage() {
                   在庫
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  在庫管理要否
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  提供元
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   有効期限
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -174,7 +190,7 @@ export default function AdminPointItemsPage() {
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredItems.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan={9} className="px-6 py-12 text-center text-gray-500">
                     商品データがありません
                   </td>
                 </tr>
@@ -199,6 +215,16 @@ export default function AdminPointItemsPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {item.stock.toLocaleString()}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        item.requiresStockManagement === '要' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
+                      }`}>
+                        {item.requiresStockManagement}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      {item.provider}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {item.validityPeriod}
