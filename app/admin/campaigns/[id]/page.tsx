@@ -333,7 +333,7 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
         <div className="bg-white rounded-xl shadow-sm border border-gray-100">
           <div className="p-6 border-b border-gray-100">
             <div className="flex items-center gap-2">
-              <Image className="h-5 w-5 text-orange-500" />
+              <Image className="h-5 w-5 text-orange-500" alt="" />
               <h2 className="text-lg font-semibold text-gray-900">キャンペーン画像</h2>
             </div>
           </div>
@@ -352,7 +352,7 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
                         />
                       ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
-                          <Image className="h-8 w-8 mb-2" />
+                          <Image className="h-8 w-8 mb-2" alt="" />
                           <span className="text-xs">画像{num}</span>
                         </div>
                       )}

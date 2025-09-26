@@ -18,14 +18,6 @@ type CampaignDistribution = {
   endDate: string;
 };
 
-type StoreDistribution = {
-  id: string;
-  storeId: string;
-  storeName: string;
-  allocatedCount: number;
-  distributedCount: number;
-  inventoryCount: number;
-};
 
 const mockCampaignDistributions: CampaignDistribution[] = [
   {

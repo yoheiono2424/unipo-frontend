@@ -14,7 +14,7 @@ export default function AreaEditPage({ params }: { params: Promise<{ id: string 
 
   const [formData, setFormData] = useState({
     name: area.name,
-    order: (area.order || 1).toString(),
+    order: "1",
   });
 
   const handleSubmit = (e: React.FormEvent) => {

@@ -5,7 +5,6 @@ import { ArrowLeft, Save, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { mockAreas } from "@/lib/mock-data";
 
 export default function AreaNewPage() {
   const router = useRouter();
