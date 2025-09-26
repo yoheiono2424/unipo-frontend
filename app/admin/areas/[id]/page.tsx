@@ -87,7 +87,7 @@ export default function AreaDetailPage({ params }: { params: Promise<{ id: strin
                   </div>
                   <div className="flex-1">
                     <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">表示順</p>
-                    <p className="mt-1 text-sm font-medium text-gray-900">{area.order || 1}</p>
+                    <p className="mt-1 text-sm font-medium text-gray-900">1</p>
                   </div>
                 </div>
               </div>

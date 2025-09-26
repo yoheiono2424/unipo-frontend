@@ -89,7 +89,7 @@ export default function AdminAreasPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {area.order || 1}
+                        1
                       </td>
                     </tr>
                   ))
