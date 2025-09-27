@@ -3,7 +3,7 @@
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { mockStoreDistributions } from "@/lib/mock-data";
+import { mockStoreDistributions, mockAreas, mockIndustries } from "@/lib/mock-data";
 
 type CampaignDistribution = {
   id: string;
@@ -66,6 +66,8 @@ export default function AdminDistributionsPage() {
   const [searchStartDate, setSearchStartDate] = useState("");
   const [searchEndDate, setSearchEndDate] = useState("");
   const [searchStoreName, setSearchStoreName] = useState("");
+  const [searchArea, setSearchArea] = useState("");
+  const [searchIndustry, setSearchIndustry] = useState("");
   const router = useRouter();
 
   const campaignDistributions = mockCampaignDistributions.filter(dist => {
@@ -89,8 +91,16 @@ export default function AdminDistributionsPage() {
 
   const storeDistributions = mockStoreDistributions.filter(dist => {
     const storeMatch = searchStoreName === "" || dist.storeName.toLowerCase().includes(searchStoreName.toLowerCase());
-    return storeMatch;
+    const areaMatch = searchArea === "" || dist.area === searchArea;
+    const industryMatch = searchIndustry === "" || dist.industry === searchIndustry;
+    return storeMatch && areaMatch && industryMatch;
   });
+
+  // エリアの選択肢を取得（子要素のみ）
+  const areaOptions = mockAreas.filter(area => area.parentId !== null);
+
+  // 業種の選択肢を取得（子要素のみ）
+  const industryOptions = mockIndustries.filter(industry => industry.parentId !== null);
 
   return (
     <AdminLayout>
@@ -205,6 +215,40 @@ export default function AdminDistributionsPage() {
                   onChange={(e) => setSearchStoreName(e.target.value)}
                 />
               </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  エリア
+                </label>
+                <select
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                  value={searchArea}
+                  onChange={(e) => setSearchArea(e.target.value)}
+                >
+                  <option value="">すべてのエリア</option>
+                  {areaOptions.map((area) => (
+                    <option key={area.id} value={area.name}>
+                      {area.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  業種
+                </label>
+                <select
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                  value={searchIndustry}
+                  onChange={(e) => setSearchIndustry(e.target.value)}
+                >
+                  <option value="">すべての業種</option>
+                  {industryOptions.map((industry) => (
+                    <option key={industry.id} value={industry.name}>
+                      {industry.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           )}
         </div>
@@ -301,6 +345,12 @@ export default function AdminDistributionsPage() {
                     店舗名
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    エリア
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    業種
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     ギフトカード在庫数
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -311,7 +361,7 @@ export default function AdminDistributionsPage() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {storeDistributions.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="px-6 py-12 text-center text-gray-500">
+                    <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
                       配布実績データがありません
                     </td>
                   </tr>
@@ -320,13 +370,19 @@ export default function AdminDistributionsPage() {
                     <tr
                       key={dist.id}
                       className="hover:bg-gray-50 cursor-pointer"
-                      onClick={() => router.push(`/admin/stores/${dist.storeId}`)}
+                      onClick={() => router.push(`/admin/distribution-records/stores/${dist.storeId}`)}
                     >
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                         {dist.storeId}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {dist.storeName}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {dist.area}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {dist.industry}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {dist.inventoryCount.toLocaleString()}枚

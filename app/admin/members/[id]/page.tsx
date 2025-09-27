@@ -1,7 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Edit, User, Phone, Mail, Calendar, CreditCard, PlusCircle, MapPin, FileText, Crown, UserCheck, UserX } from "lucide-react";
+import { ArrowLeft, Edit, User, Phone, Mail, Calendar, CreditCard, PlusCircle, MapPin, FileText, Crown, UserCheck, UserX, History, Gift } from "lucide-react";
 import Link from "next/link";
 import { mockMembers } from "@/lib/mock-data";
 import { use, useState } from "react";
@@ -55,6 +55,20 @@ export default function MemberDetailPage({ params }: { params: Promise<{ id: str
             </div>
           </div>
           <div className="flex gap-3">
+            <Link
+              href={`/admin/members/${member.id}/point-history`}
+              className="bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-blue-700 flex items-center gap-2 transition-colors"
+            >
+              <History className="h-4 w-4" />
+              ポイント獲得履歴
+            </Link>
+            <Link
+              href={`/admin/members/${member.id}/gift-history`}
+              className="bg-purple-600 text-white px-5 py-2.5 rounded-lg hover:bg-purple-700 flex items-center gap-2 transition-colors"
+            >
+              <Gift className="h-4 w-4" />
+              ギフトカード受取履歴
+            </Link>
             <button
               onClick={() => setShowPointModal(true)}
               className="bg-green-600 text-white px-5 py-2.5 rounded-lg hover:bg-green-700 flex items-center gap-2 transition-colors"
