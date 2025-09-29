@@ -8,7 +8,6 @@ import {
   Calendar,
   User,
   MapPin,
-  FileText,
   CheckCircle,
   Star,
   Download

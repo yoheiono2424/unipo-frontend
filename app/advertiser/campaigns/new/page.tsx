@@ -6,14 +6,12 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import {
   ArrowLeft,
-  Calendar,
   Target,
   CreditCard,
   FileText,
   Upload,
   Plus,
-  Trash2,
-  AlertCircle
+  Trash2
 } from 'lucide-react'
 
 export default function AdvertiserCampaignNewPage() {
@@ -30,8 +28,8 @@ export default function AdvertiserCampaignNewPage() {
     cardAmount: '1000',
     targetGender: 'all',
     targetAge: 'all',
-    targetArea: [],
-    targetIndustry: [],
+    targetArea: [] as string[],
+    targetIndustry: [] as string[],
     cardDesign: null as File | null,
     surveyQuestions: [
       { id: 1, question: '', type: 'radio', options: [''] }

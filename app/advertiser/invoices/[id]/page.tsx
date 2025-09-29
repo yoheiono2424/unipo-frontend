@@ -5,13 +5,9 @@ import Link from 'next/link'
 import { useParams } from 'next/navigation'
 import {
   ArrowLeft,
-  Calendar,
-  CreditCard,
-  FileText,
   Download,
   Printer,
   Clock,
-  CheckCircle,
   AlertCircle,
   Building
 } from 'lucide-react'

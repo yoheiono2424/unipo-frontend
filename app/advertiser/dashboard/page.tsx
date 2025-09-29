@@ -6,7 +6,6 @@ import {
   Users,
   FileText,
   CreditCard,
-  ChartBar,
   ArrowUp,
   ArrowDown,
   Calendar,

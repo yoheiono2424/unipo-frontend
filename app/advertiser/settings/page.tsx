@@ -1,7 +1,7 @@
 "use client";
 
 import AdvertiserLayout from "@/components/advertiser/AdvertiserLayout";
-import { Settings, Bell, Mail, Globe, Shield, Database, Clock, Save } from "lucide-react";
+import { Bell, Globe, Shield, Database, Save } from "lucide-react";
 import { useState } from "react";
 
 export default function AdvertiserSettingsPage() {

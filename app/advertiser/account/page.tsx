@@ -1,7 +1,7 @@
 "use client";
 
 import AdvertiserLayout from "@/components/advertiser/AdvertiserLayout";
-import { User, Mail, Phone, Building, MapPin, Lock, Camera, Save, Shield } from "lucide-react";
+import { Mail, Phone, Building, MapPin, Lock, Camera, Shield } from "lucide-react";
 import { useState } from "react";
 
 export default function AdvertiserAccountPage() {

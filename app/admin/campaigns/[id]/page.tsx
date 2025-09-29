@@ -1,7 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Edit, Calendar, Building2, TrendingUp, Gift, Clock, Shield, PlayCircle, PauseCircle, Image, MapPin, CreditCard, Hash, Package, FileText } from "lucide-react";
+import { ArrowLeft, Edit, Calendar, Building2, TrendingUp, Gift, Clock, Shield, PlayCircle, PauseCircle, FileImage, MapPin, CreditCard, Hash, Package, FileText } from "lucide-react";
 import Link from "next/link";
 import { use, useState } from "react";
 import { mockCampaigns } from "@/lib/mock-data";
@@ -286,7 +286,7 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
         <div className="bg-white rounded-xl shadow-sm border border-gray-100">
           <div className="p-6 border-b border-gray-100">
             <div className="flex items-center gap-2">
-              <Image className="h-5 w-5 text-orange-500" />
+              <FileImage className="h-5 w-5 text-orange-500" />
               <h2 className="text-lg font-semibold text-gray-900">キャンペーン画像</h2>
             </div>
           </div>
@@ -305,7 +305,7 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
                         />
                       ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
-                          <Image className="h-8 w-8 mb-2" />
+                          <FileImage className="h-8 w-8 mb-2" />
                           <span className="text-xs">画像{num}</span>
                         </div>
                       )}

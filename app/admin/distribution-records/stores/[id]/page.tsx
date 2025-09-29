@@ -8,8 +8,6 @@ import {
   ArrowLeft,
   Store,
   MapPin,
-  Briefcase,
-  Calendar,
   Package,
   TrendingUp,
   Gift,
