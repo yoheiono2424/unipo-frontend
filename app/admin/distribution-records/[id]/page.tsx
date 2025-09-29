@@ -40,7 +40,7 @@ const mockDistributionRecords = [
 // モック配布履歴データ
 const mockDistributionHistory = [
   {
-    id: "DH001",
+    id: "1",
     distributionDate: "2025-01-15 10:30:00",
     userId: "USER001",
     storeId: "STR001",
@@ -51,7 +51,7 @@ const mockDistributionHistory = [
     advertiserName: "株式会社ABC商事",
   },
   {
-    id: "DH002",
+    id: "2",
     distributionDate: "2025-01-15 11:45:00",
     userId: "USER002",
     storeId: "STR001",
@@ -62,7 +62,7 @@ const mockDistributionHistory = [
     advertiserName: "株式会社ABC商事",
   },
   {
-    id: "DH003",
+    id: "3",
     distributionDate: "2025-01-16 14:20:00",
     userId: "USER003",
     storeId: "STR002",
@@ -73,7 +73,7 @@ const mockDistributionHistory = [
     advertiserName: "株式会社ABC商事",
   },
   {
-    id: "DH004",
+    id: "4",
     distributionDate: "2025-01-16 15:30:00",
     userId: "USER004",
     storeId: "STR003",
@@ -84,7 +84,7 @@ const mockDistributionHistory = [
     advertiserName: "株式会社DEFコーポレーション",
   },
   {
-    id: "DH005",
+    id: "5",
     distributionDate: "2025-01-17 09:15:00",
     userId: "USER005",
     storeId: "STR002",
@@ -423,7 +423,7 @@ export default function DistributionRecordDetailPage({ params }: { params: Promi
                     <tr
                       key={history.id}
                       className="hover:bg-gray-50 cursor-pointer"
-                      onClick={() => router.push(`/admin/distribution-history/${history.id}`)}
+                      onClick={() => router.push(`/admin/distribution-history/${history.id}?from=campaign&campaignId=${record.id}`)}
                     >
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         {history.distributionDate}

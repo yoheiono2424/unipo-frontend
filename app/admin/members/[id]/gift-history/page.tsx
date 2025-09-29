@@ -114,9 +114,6 @@ export default function GiftHistoryPage({ params }: { params: Promise<{ id: stri
 
   // 合計金額の計算
   const totalAmount = filteredHistory.reduce((sum, item) => sum + item.giftCardAmount, 0);
-  const validAmount = filteredHistory
-    .filter(item => item.status === "有効")
-    .reduce((sum, item) => sum + item.giftCardAmount, 0);
 
   return (
     <AdminLayout>
@@ -146,7 +143,7 @@ export default function GiftHistoryPage({ params }: { params: Promise<{ id: stri
         </div>
 
         {/* 統計カード */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg p-6 text-white">
             <div className="flex items-center justify-between">
               <div>
@@ -154,16 +151,6 @@ export default function GiftHistoryPage({ params }: { params: Promise<{ id: stri
                 <p className="text-3xl font-bold mt-2">¥{totalAmount.toLocaleString()}</p>
               </div>
               <Gift className="h-10 w-10 text-purple-200" />
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-lg p-6 text-white">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-green-100 text-sm font-medium">有効なギフトカード</p>
-                <p className="text-3xl font-bold mt-2">¥{validAmount.toLocaleString()}</p>
-              </div>
-              <Gift className="h-10 w-10 text-green-200" />
             </div>
           </div>
 
@@ -290,9 +277,6 @@ export default function GiftHistoryPage({ params }: { params: Promise<{ id: stri
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     金額
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    ステータス
-                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
@@ -314,17 +298,6 @@ export default function GiftHistoryPage({ params }: { params: Promise<{ id: stri
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className="text-lg font-semibold text-purple-600">
                         ¥{history.giftCardAmount.toLocaleString()}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${
-                        history.status === '有効'
-                          ? 'bg-green-100 text-green-700'
-                          : history.status === '使用済'
-                          ? 'bg-gray-100 text-gray-700'
-                          : 'bg-red-100 text-red-700'
-                      }`}>
-                        {history.status}
                       </span>
                     </td>
                   </tr>

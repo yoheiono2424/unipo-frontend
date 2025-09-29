@@ -1,7 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Calendar, Gift, MapPin, Tag, CreditCard, User, Hash } from "lucide-react";
+import { ArrowLeft, Calendar, Gift, MapPin, User } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
 
@@ -96,56 +96,6 @@ export default function GiftHistoryDetailPage({ params }: { params: Promise<{ id
                 </div>
               </div>
 
-              {/* ギフトカードコード */}
-              <div className="flex items-start gap-3">
-                <div className="p-2 bg-gray-100 rounded-lg">
-                  <Hash className="h-5 w-5 text-gray-600" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">ギフトカードコード</p>
-                  <p className="mt-1 text-sm font-medium text-gray-900 font-mono">{detail.giftCardCode}</p>
-                </div>
-              </div>
-
-              {/* シリアル番号 */}
-              <div className="flex items-start gap-3">
-                <div className="p-2 bg-gray-100 rounded-lg">
-                  <CreditCard className="h-5 w-5 text-gray-600" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">シリアル番号</p>
-                  <p className="mt-1 text-sm font-medium text-gray-900 font-mono">{detail.serialNumber}</p>
-                </div>
-              </div>
-
-              {/* 有効期限 */}
-              <div className="flex items-start gap-3">
-                <div className="p-2 bg-gray-100 rounded-lg">
-                  <Calendar className="h-5 w-5 text-gray-600" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">有効期限</p>
-                  <p className="mt-1 text-sm font-medium text-gray-900">
-                    {new Date(detail.expiryDate).toLocaleDateString('ja-JP')}
-                  </p>
-                </div>
-              </div>
-
-              {/* 使用日時 */}
-              {detail.usedDate && (
-                <div className="flex items-start gap-3">
-                  <div className="p-2 bg-gray-100 rounded-lg">
-                    <Calendar className="h-5 w-5 text-gray-600" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">使用日時</p>
-                    <p className="mt-1 text-sm font-medium text-gray-900">
-                      {new Date(detail.usedDate).toLocaleString('ja-JP')}
-                    </p>
-                  </div>
-                </div>
-              )}
-
               {/* 会員情報 */}
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-gray-100 rounded-lg">
@@ -155,28 +105,6 @@ export default function GiftHistoryDetailPage({ params }: { params: Promise<{ id
                   <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">会員</p>
                   <p className="mt-1 text-sm font-medium text-gray-900">{detail.memberName}</p>
                   <p className="text-xs text-gray-500">ID: {detail.memberId}</p>
-                </div>
-              </div>
-
-              {/* 受取方法 */}
-              <div className="flex items-start gap-3">
-                <div className="p-2 bg-gray-100 rounded-lg">
-                  <Tag className="h-5 w-5 text-gray-600" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">受取方法</p>
-                  <p className="mt-1 text-sm font-medium text-gray-900">{detail.issueMethod}</p>
-                </div>
-              </div>
-
-              {/* デバイス情報 */}
-              <div className="flex items-start gap-3">
-                <div className="p-2 bg-gray-100 rounded-lg">
-                  <Tag className="h-5 w-5 text-gray-600" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">デバイス情報</p>
-                  <p className="mt-1 text-sm font-medium text-gray-900">{detail.deviceInfo}</p>
                 </div>
               </div>
             </div>

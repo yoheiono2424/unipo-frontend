@@ -12,7 +12,8 @@ import {
   Calendar,
   Package,
   TrendingUp,
-  Gift
+  Gift,
+  Search
 } from "lucide-react";
 
 export default function StoreDistributionDetailPage() {
@@ -20,8 +21,29 @@ export default function StoreDistributionDetailPage() {
   const router = useRouter();
   const storeId = params.id as string;
 
+  // 検索条件の状態管理
+  const [searchUserId, setSearchUserId] = useState("");
+  const [searchStartDate, setSearchStartDate] = useState("");
+  const [searchEndDate, setSearchEndDate] = useState("");
+
   // モックデータから該当店舗を検索
   const storeData = mockStoreDistributions.find(store => store.storeId === storeId);
+
+  // モックデータ：配布履歴
+  const distributionHistory = [
+    { id: "1", date: "2025-01-29 14:30", userId: "U001234", campaignId: "CMP001", campaignName: "新春キャンペーン2025" },
+    { id: "2", date: "2025-01-29 13:45", userId: "U001235", campaignId: "CMP001", campaignName: "新春キャンペーン2025" },
+    { id: "3", date: "2025-01-29 12:20", userId: "U001236", campaignId: "CMP002", campaignName: "冬の感謝祭" },
+    { id: "4", date: "2025-01-28 16:15", userId: "U001237", campaignId: "CMP001", campaignName: "新春キャンペーン2025" },
+    { id: "5", date: "2025-01-28 15:00", userId: "U001238", campaignId: "CMP003", campaignName: "バレンタインフェア" },
+  ];
+
+  // フィルタリング処理
+  const filteredHistory = distributionHistory.filter(item => {
+    const userIdMatch = searchUserId === "" || item.userId.toLowerCase().includes(searchUserId.toLowerCase());
+    const dateMatch = true; // 日付フィルタリングのロジックは実装時に追加
+    return userIdMatch && dateMatch;
+  });
 
   if (!storeData) {
     return (
@@ -175,20 +197,106 @@ export default function StoreDistributionDetailPage() {
           </div>
         </div>
 
-        {/* アクションボタン */}
-        <div className="flex justify-end space-x-4">
-          <button
-            onClick={() => router.push(`/admin/stores/${storeId}`)}
-            className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
-          >
-            店舗詳細を見る
-          </button>
-          <button
-            onClick={() => router.push('/admin/distributions')}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
-          >
-            配布実績一覧に戻る
-          </button>
+        {/* 配布履歴 */}
+        <div className="bg-white rounded-lg shadow">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <h2 className="text-lg font-semibold text-gray-900">配布履歴</h2>
+          </div>
+
+          {/* 検索フィルター */}
+          <div className="p-6 border-b border-gray-200">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  ユーザーID
+                </label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                  <input
+                    type="text"
+                    placeholder="ユーザーIDで検索"
+                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                    value={searchUserId}
+                    onChange={(e) => setSearchUserId(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  配布日時（開始）
+                </label>
+                <input
+                  type="datetime-local"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                  value={searchStartDate}
+                  onChange={(e) => setSearchStartDate(e.target.value)}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  配布日時（終了）
+                </label>
+                <input
+                  type="datetime-local"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                  value={searchEndDate}
+                  onChange={(e) => setSearchEndDate(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* テーブル */}
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    配布日時
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    ユーザーID
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    キャンペーンID
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    キャンペーン名
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {filteredHistory.length === 0 ? (
+                  <tr>
+                    <td colSpan={4} className="px-6 py-12 text-center text-gray-500">
+                      配布履歴がありません
+                    </td>
+                  </tr>
+                ) : (
+                  filteredHistory.map((item, index) => (
+                    <tr
+                      key={index}
+                      className="hover:bg-gray-50 cursor-pointer"
+                      onClick={() => router.push(`/admin/distribution-history/${item.id}?from=store&storeId=${storeId}`)}
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {item.date}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {item.userId}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {item.campaignId}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {item.campaignName}
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </AdminLayout>

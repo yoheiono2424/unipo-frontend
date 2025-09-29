@@ -3,7 +3,8 @@
 import AdminLayout from "@/components/admin/AdminLayout";
 import { ArrowLeft, XCircle } from "lucide-react";
 import Link from "next/link";
-import { use, useState } from "react";
+import { use, useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
 // モックデータ
 const mockDistributionHistory = {
@@ -48,9 +49,23 @@ export default function DistributionHistoryDetailPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = use(params);
+  const searchParams = useSearchParams();
   const history = mockDistributionHistory[id as keyof typeof mockDistributionHistory] || mockDistributionHistory["1"];
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [cancelReason, setCancelReason] = useState("");
+  const [returnPath, setReturnPath] = useState("/admin/distribution-records/1");
+
+  useEffect(() => {
+    // クエリパラメータかURLから戻り先を判定
+    const from = searchParams.get('from');
+    if (from === 'store') {
+      const storeId = searchParams.get('storeId') || '1';
+      setReturnPath(`/admin/distribution-records/stores/${storeId}`);
+    } else if (from === 'campaign') {
+      const campaignId = searchParams.get('campaignId') || '1';
+      setReturnPath(`/admin/distribution-records/${campaignId}`);
+    }
+  }, [searchParams]);
 
   const handleCancelClick = () => {
     setShowCancelModal(true);
@@ -82,7 +97,7 @@ export default function DistributionHistoryDetailPage({
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
-              href="/admin/distribution-records/1"
+              href={returnPath}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <ArrowLeft className="h-5 w-5" />

@@ -12,6 +12,7 @@ export default function GroupNewPage() {
   const [formData, setFormData] = useState({
     name: "",
     companyName: "",
+    email: "",
     address: "",
     description: "",
     status: "審査中",
@@ -82,6 +83,20 @@ export default function GroupNewPage() {
                     <option value="XYZ株式会社">XYZ株式会社</option>
                     <option value="グローバルフーズ株式会社">グローバルフーズ株式会社</option>
                   </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    メールアドレス <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                    placeholder="例: group@example.com"
+                    required
+                  />
                 </div>
 
                 <div className="md:col-span-2">

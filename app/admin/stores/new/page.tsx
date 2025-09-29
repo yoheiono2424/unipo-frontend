@@ -10,6 +10,7 @@ export default function StoreNewPage() {
   const router = useRouter();
 
   const [formData, setFormData] = useState({
+    storeType: "real", // real: 実在店舗, virtual: 架空店舗
     storeNo: "",
     status: "準備中",
     serviceStartDate: "",
@@ -26,7 +27,6 @@ export default function StoreNewPage() {
     phone: "",
     fax: "",
     email: "",
-    password: "",
     storeUrl: "",
     storePhoto1: "",
     storePhoto2: "",
@@ -90,6 +90,37 @@ export default function StoreNewPage() {
               </div>
             </div>
             <div className="p-6 space-y-6">
+              {/* 店舗種別 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  店舗種別 <span className="text-red-500">*</span>
+                </label>
+                <div className="flex items-center gap-4">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="storeType"
+                      value="real"
+                      checked={formData.storeType === "real"}
+                      onChange={(e) => setFormData({ ...formData, storeType: e.target.value })}
+                      className="mr-2"
+                    />
+                    <span className="text-sm text-gray-900">実在店舗</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="storeType"
+                      value="virtual"
+                      checked={formData.storeType === "virtual"}
+                      onChange={(e) => setFormData({ ...formData, storeType: e.target.value })}
+                      className="mr-2"
+                    />
+                    <span className="text-sm text-gray-900">架空店舗</span>
+                  </label>
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -324,18 +355,6 @@ export default function StoreNewPage() {
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       placeholder="store@example.com"
                       required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      パスワード
-                    </label>
-                    <input
-                      type="password"
-                      value={formData.password}
-                      onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                      placeholder="初期パスワード"
                     />
                   </div>
                   <div className="md:col-span-2">

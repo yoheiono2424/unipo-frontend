@@ -1,7 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Edit, Calendar, DollarSign, Target, Building2, TrendingUp, Gift, Clock, Shield, PlayCircle, PauseCircle, Image, MapPin, CreditCard, Hash, Package, FileText } from "lucide-react";
+import { ArrowLeft, Edit, Calendar, Building2, TrendingUp, Gift, Clock, Shield, PlayCircle, PauseCircle, Image, MapPin, CreditCard, Hash, Package, FileText } from "lucide-react";
 import Link from "next/link";
 import { use, useState } from "react";
 import { mockCampaigns } from "@/lib/mock-data";
@@ -242,17 +242,6 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
                 </div>
               </div>
 
-              <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
-                <div className="flex items-start gap-3">
-                  <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
-                    <Target className="h-5 w-5 text-gray-600" />
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">配布方法</p>
-                    <p className="mt-1 text-sm font-medium text-gray-900">{campaign.distributionMethod}</p>
-                  </div>
-                </div>
-              </div>
             </div>
 
             {/* キャンペーン説明 */}
@@ -269,42 +258,6 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
                 </div>
               </div>
             )}
-          </div>
-        </div>
-
-        {/* 予算情報セクション */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-          <div className="p-6 border-b border-gray-100">
-            <div className="flex items-center gap-2">
-              <DollarSign className="h-5 w-5 text-yellow-500" />
-              <h2 className="text-lg font-semibold text-gray-900">予算情報</h2>
-            </div>
-          </div>
-          <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-indigo-50 rounded-lg p-4">
-                <div className="flex items-start gap-3">
-                  <DollarSign className="h-5 w-5 text-indigo-600" />
-                  <div className="flex-1">
-                    <p className="text-xs font-medium text-indigo-600 uppercase tracking-wider">総予算</p>
-                    <p className="mt-2 text-xl font-bold text-indigo-900">¥{campaign.budgetAmount?.toLocaleString()}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-green-50 rounded-lg p-4">
-                <div className="flex items-start gap-3">
-                  <DollarSign className="h-5 w-5 text-green-600" />
-                  <div className="flex-1">
-                    <p className="text-xs font-medium text-green-600 uppercase tracking-wider">使用済み予算</p>
-                    <p className="mt-2 text-xl font-bold text-green-900">¥{campaign.usedBudget?.toLocaleString()}</p>
-                    <p className="mt-1 text-xs text-green-600">
-                      ({Math.round((campaign.usedBudget / campaign.budgetAmount) * 100)}%使用)
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
