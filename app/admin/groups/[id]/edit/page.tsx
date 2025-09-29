@@ -11,6 +11,7 @@ type Group = {
   name: string;
   companyName: string;
   address: string;
+  email: string;
   memberCount: number;
   storeCount: number;
   status: string;
@@ -24,6 +25,7 @@ const mockGroups: Group[] = [
     name: "東京グループA",
     companyName: "株式会社ABC商事",
     address: "東京都渋谷区道玄坂1-2-3",
+    email: "tokyo-group@abc-shoji.co.jp",
     memberCount: 125,
     storeCount: 8,
     status: "承認済み",
@@ -35,6 +37,7 @@ const mockGroups: Group[] = [
     name: "関西エリアグループ",
     companyName: "XYZ株式会社",
     address: "大阪府大阪市北区梅田2-3-4",
+    email: "kansai@xyz-corp.co.jp",
     memberCount: 78,
     storeCount: 5,
     status: "審査中",
@@ -46,6 +49,7 @@ const mockGroups: Group[] = [
     name: "中部地区グループ",
     companyName: "グローバルフーズ株式会社",
     address: "名古屋市中区栄3-4-5",
+    email: "chubu-group@global-foods.jp",
     memberCount: 45,
     storeCount: 3,
     status: "承認済み",
@@ -63,6 +67,7 @@ export default function GroupEditPage({ params }: { params: Promise<{ id: string
     name: group.name,
     companyName: group.companyName,
     address: group.address,
+    email: group.email,
     description: group.description || "",
     status: group.status,
   });
@@ -141,6 +146,20 @@ export default function GroupEditPage({ params }: { params: Promise<{ id: string
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                    required
+                  />
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    メールアドレス <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                    placeholder="example@company.co.jp"
                     required
                   />
                 </div>

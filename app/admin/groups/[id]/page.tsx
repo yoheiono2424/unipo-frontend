@@ -1,7 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Edit, Users, Building2, MapPin, Calendar, Shield, Store, Hash, CheckCircle, XCircle } from "lucide-react";
+import { ArrowLeft, Edit, Users, Building2, MapPin, Calendar, Shield, Store, Hash, CheckCircle, XCircle, Mail } from "lucide-react";
 import Link from "next/link";
 import { use, useState } from "react";
 
@@ -10,6 +10,7 @@ type Group = {
   name: string;
   companyName: string;
   address: string;
+  email: string;
   memberCount: number;
   storeCount: number;
   status: string;
@@ -23,6 +24,7 @@ const mockGroups: Group[] = [
     name: "東京グループA",
     companyName: "株式会社ABC商事",
     address: "東京都渋谷区道玄坂1-2-3",
+    email: "tokyo-group@abc-shoji.co.jp",
     memberCount: 125,
     storeCount: 8,
     status: "承認済み",
@@ -34,6 +36,7 @@ const mockGroups: Group[] = [
     name: "関西エリアグループ",
     companyName: "XYZ株式会社",
     address: "大阪府大阪市北区梅田2-3-4",
+    email: "kansai@xyz-corp.co.jp",
     memberCount: 78,
     storeCount: 5,
     status: "審査中",
@@ -45,6 +48,7 @@ const mockGroups: Group[] = [
     name: "中部地区グループ",
     companyName: "グローバルフーズ株式会社",
     address: "名古屋市中区栄3-4-5",
+    email: "chubu-group@global-foods.jp",
     memberCount: 45,
     storeCount: 3,
     status: "承認済み",
@@ -185,6 +189,18 @@ export default function GroupDetailPage({ params }: { params: Promise<{ id: stri
                   <div className="flex-1">
                     <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">住所</p>
                     <p className="mt-1 text-sm font-medium text-gray-900">{group.address}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                    <Mail className="h-5 w-5 text-gray-600" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">メールアドレス</p>
+                    <p className="mt-1 text-sm font-medium text-gray-900">{group.email}</p>
                   </div>
                 </div>
               </div>

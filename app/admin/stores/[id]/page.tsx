@@ -24,8 +24,8 @@ export default function StoreDetailPage({ params }: { params: Promise<{ id: stri
               <ArrowLeft className="h-5 w-5" />
             </Link>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">加盟店詳細</h1>
-              <p className="text-sm text-gray-600 mt-1">加盟店ID: {store.id} | 加盟店NO: {store.storeNo}</p>
+              <h1 className="text-2xl font-bold text-gray-900">店舗詳細</h1>
+              <p className="text-sm text-gray-600 mt-1">店舗ID: {store.id} | 店舗NO: {store.storeNo}</p>
             </div>
           </div>
           <div className="flex gap-3">
@@ -83,7 +83,7 @@ export default function StoreDetailPage({ params }: { params: Promise<{ id: stri
                       <Hash className="h-5 w-5 text-gray-600" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">加盟店NO</p>
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">店舗NO</p>
                       <p className="mt-1 text-sm font-medium text-gray-900">{store.storeNo}</p>
                     </div>
                   </div>
@@ -97,6 +97,18 @@ export default function StoreDetailPage({ params }: { params: Promise<{ id: stri
                     <div className="flex-1">
                       <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">業種</p>
                       <p className="mt-1 text-sm font-medium text-gray-900">{store.industry}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                      <Store className="h-5 w-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">店舗種別</p>
+                      <p className="mt-1 text-sm font-medium text-gray-900">{store.storeType || '実在店舗'}</p>
                     </div>
                   </div>
                 </div>
@@ -132,10 +144,10 @@ export default function StoreDetailPage({ params }: { params: Promise<{ id: stri
             </div>
           </div>
 
-          {/* 加盟店情報セクション */}
+          {/* 店舗情報セクション */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-100">
             <div className="p-6 border-b border-gray-100">
-              <h2 className="text-lg font-semibold text-gray-900">加盟店情報</h2>
+              <h2 className="text-lg font-semibold text-gray-900">店舗情報</h2>
             </div>
             <div className="p-6">
               <div className="grid grid-cols-1 gap-6">
@@ -145,7 +157,7 @@ export default function StoreDetailPage({ params }: { params: Promise<{ id: stri
                       <Store className="h-5 w-5 text-gray-600" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">加盟店名</p>
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">店舗名</p>
                       <p className="mt-1 text-sm font-medium text-gray-900">{store.storeName}</p>
                     </div>
                   </div>
@@ -157,7 +169,7 @@ export default function StoreDetailPage({ params }: { params: Promise<{ id: stri
                       <Store className="h-5 w-5 text-gray-600" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">加盟店名（カナ）</p>
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">店舗名（カナ）</p>
                       <p className="mt-1 text-sm font-medium text-gray-900">{store.storeNameKana}</p>
                     </div>
                   </div>
@@ -169,7 +181,7 @@ export default function StoreDetailPage({ params }: { params: Promise<{ id: stri
                       <FileText className="h-5 w-5 text-gray-600" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">加盟店説明文</p>
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">店舗説明文</p>
                       <p className="mt-1 text-sm text-gray-900 leading-relaxed">{store.storeDescription}</p>
                     </div>
                   </div>
@@ -181,7 +193,7 @@ export default function StoreDetailPage({ params }: { params: Promise<{ id: stri
                       <MapPin className="h-5 w-5 text-gray-600" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">加盟店住所</p>
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">店舗住所</p>
                       <p className="mt-1 text-sm font-medium text-gray-900">
                         〒{store.postalCode?.replace(/(\d{3})(\d{4})/, '$1-$2')} {store.prefecture}{store.city}{store.streetAddress} {store.buildingName}
                       </p>
@@ -237,7 +249,7 @@ export default function StoreDetailPage({ params }: { params: Promise<{ id: stri
                       <Globe className="h-5 w-5 text-gray-600" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">加盟店URL</p>
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">店舗URL</p>
                       <a href={store.storeUrl} target="_blank" rel="noopener noreferrer" className="mt-1 text-sm font-medium text-blue-600 hover:text-blue-800 break-all">
                         {store.storeUrl}
                       </a>
@@ -248,12 +260,12 @@ export default function StoreDetailPage({ params }: { params: Promise<{ id: stri
             </div>
           </div>
 
-          {/* 加盟店写真セクション */}
+          {/* 店舗写真セクション */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-100">
             <div className="p-6 border-b border-gray-100">
               <div className="flex items-center gap-2">
                 <Camera className="h-5 w-5 text-blue-500" />
-                <h2 className="text-lg font-semibold text-gray-900">加盟店写真</h2>
+                <h2 className="text-lg font-semibold text-gray-900">店舗写真</h2>
               </div>
             </div>
             <div className="p-6">

@@ -124,7 +124,7 @@ export default function StoreNewPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    加盟店NO <span className="text-red-500">*</span>
+                    店舗NO <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -189,19 +189,19 @@ export default function StoreNewPage() {
             </div>
           </div>
 
-          {/* 加盟店情報セクション */}
+          {/* 店舗情報セクション */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-100">
             <div className="p-6 border-b border-gray-100">
               <div className="flex items-center gap-2">
                 <Store className="h-5 w-5 text-green-500" />
-                <h2 className="text-lg font-semibold text-gray-900">加盟店情報</h2>
+                <h2 className="text-lg font-semibold text-gray-900">店舗情報</h2>
               </div>
             </div>
             <div className="p-6 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    加盟店名 <span className="text-red-500">*</span>
+                    店舗名 <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -213,7 +213,7 @@ export default function StoreNewPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    加盟店名（カナ） <span className="text-red-500">*</span>
+                    店舗名（カナ） <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -226,14 +226,14 @@ export default function StoreNewPage() {
                 </div>
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    加盟店説明文
+                    店舗説明文
                   </label>
                   <textarea
                     value={formData.storeDescription}
                     onChange={(e) => setFormData({ ...formData, storeDescription: e.target.value })}
                     rows={4}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                    placeholder="加盟店の詳細説明を入力してください"
+                    placeholder="店舗の詳細説明を入力してください"
                   />
                 </div>
               </div>
@@ -359,7 +359,7 @@ export default function StoreNewPage() {
                   </div>
                   <div className="md:col-span-2">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      加盟店URL
+                      店舗URL
                     </label>
                     <input
                       type="url"
@@ -374,12 +374,12 @@ export default function StoreNewPage() {
             </div>
           </div>
 
-          {/* 加盟店写真セクション */}
+          {/* 店舗写真セクション */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-100">
             <div className="p-6 border-b border-gray-100">
               <div className="flex items-center gap-2">
                 <Camera className="h-5 w-5 text-purple-500" />
-                <h2 className="text-lg font-semibold text-gray-900">加盟店写真</h2>
+                <h2 className="text-lg font-semibold text-gray-900">店舗写真</h2>
               </div>
             </div>
             <div className="p-6 space-y-6">
