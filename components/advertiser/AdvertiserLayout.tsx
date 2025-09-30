@@ -10,7 +10,6 @@ import {
   FileQuestion,
   Receipt,
   Bell,
-  User,
   LogOut,
   Menu,
   X
@@ -57,7 +56,7 @@ export default function AdvertiserLayout({ children }: AdvertiserLayoutProps) {
     {
       title: 'アカウント設定',
       href: '/advertiser/account',
-      icon: User
+      icon: LayoutDashboard
     }
   ]
 
@@ -75,8 +74,8 @@ export default function AdvertiserLayout({ children }: AdvertiserLayoutProps) {
       >
         <div className="flex flex-col h-full">
           {/* ロゴエリア */}
-          <div className="flex items-center justify-between p-4 border-b">
-            <Link href="/advertiser/dashboard" className="flex items-center space-x-2">
+          <div className="flex items-center justify-between p-4 border-b border-gray-200">
+            <Link href="/advertiser/campaigns" className="flex items-center space-x-2">
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">U</span>
               </div>
@@ -114,28 +113,18 @@ export default function AdvertiserLayout({ children }: AdvertiserLayoutProps) {
           </nav>
 
           {/* フッター */}
-          <div className="p-4 border-t">
+          <div className="p-4 border-t border-gray-200">
             <div className={`${isSidebarOpen ? 'block' : 'hidden'}`}>
-              <div className="text-sm text-gray-600 mb-3">広告主アカウント</div>
-              <div className="space-y-2">
-                <Link
-                  href="/advertiser/profile"
-                  className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50"
-                >
-                  <User size={18} />
-                  <span className="text-sm">プロフィール</span>
-                </Link>
-                <button
-                  onClick={() => {
-                    // ログアウト処理
-                    window.location.href = '/advertiser/login'
-                  }}
-                  className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 w-full text-left text-red-600"
-                >
-                  <LogOut size={18} />
-                  <span className="text-sm">ログアウト</span>
-                </button>
-              </div>
+              <button
+                onClick={() => {
+                  // ログアウト処理
+                  window.location.href = '/advertiser/login'
+                }}
+                className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 w-full text-left text-red-600"
+              >
+                <LogOut size={18} />
+                <span className="text-sm">ログアウト</span>
+              </button>
             </div>
           </div>
         </div>
@@ -144,28 +133,10 @@ export default function AdvertiserLayout({ children }: AdvertiserLayoutProps) {
       {/* メインコンテンツ */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* ヘッダー */}
-        <header className="bg-white shadow-sm border-b">
+        <header className="bg-white shadow-sm border-b border-gray-200">
           <div className="flex items-center justify-between px-6 py-4">
             <div className="flex items-center space-x-4">
               <h1 className="text-2xl font-bold text-gray-800">広告主管理画面</h1>
-            </div>
-            <div className="flex items-center space-x-4">
-              {/* 通知アイコン */}
-              <button className="relative p-2 rounded-lg hover:bg-gray-100">
-                <Bell size={20} />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-              </button>
-
-              {/* ユーザー情報 */}
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                  <User size={16} className="text-blue-600" />
-                </div>
-                <div className="text-sm">
-                  <div className="font-semibold text-gray-700">株式会社サンプル</div>
-                  <div className="text-gray-500 text-xs">advertiser@example.com</div>
-                </div>
-              </div>
             </div>
           </div>
         </header>

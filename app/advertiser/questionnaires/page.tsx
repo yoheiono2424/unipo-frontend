@@ -245,14 +245,15 @@ export default function AdvertiserQuestionnairesPage() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     品質
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    操作
-                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {displayedResponses.map((response) => (
-                  <tr key={response.id} className="hover:bg-gray-50">
+                  <tr
+                    key={response.id}
+                    className="hover:bg-gray-50 cursor-pointer"
+                    onClick={() => window.location.href = `/advertiser/questionnaires/${response.id}`}
+                  >
                     <td className="px-6 py-4">
                       <div className="text-sm text-gray-900">{response.responseDate}</div>
                       <div className="text-xs text-gray-500">{response.responseTime}</div>
@@ -292,14 +293,6 @@ export default function AdvertiserQuestionnairesPage() {
                       }`}>
                         {response.responseQuality}
                       </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <Link
-                        href={`/advertiser/questionnaires/${response.id}`}
-                        className="text-blue-600 hover:text-blue-700 text-sm"
-                      >
-                        詳細
-                      </Link>
                     </td>
                   </tr>
                 ))}

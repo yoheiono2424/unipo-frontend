@@ -14,7 +14,7 @@ export default function AdvertiserLoginPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // バックエンド接続後に実装
-    router.push("/advertiser/dashboard");
+    router.push("/advertiser/campaigns");
   };
 
   return (

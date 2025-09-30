@@ -262,14 +262,15 @@ export default function AdvertiserInvoicesPage() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     ステータス
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    操作
-                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {displayedInvoices.map((invoice) => (
-                  <tr key={invoice.id} className="hover:bg-gray-50">
+                  <tr
+                    key={invoice.id}
+                    className="hover:bg-gray-50 cursor-pointer"
+                    onClick={() => window.location.href = `/advertiser/invoices/${invoice.id}`}
+                  >
                     <td className="px-6 py-4">
                       <div className="text-sm font-medium text-gray-900">{invoice.invoiceNo}</div>
                     </td>
@@ -301,19 +302,6 @@ export default function AdvertiserInvoicesPage() {
                           支払日: {invoice.paidDate}
                         </div>
                       )}
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <Link
-                          href={`/advertiser/invoices/${invoice.id}`}
-                          className="text-blue-600 hover:text-blue-700 text-sm"
-                        >
-                          詳細
-                        </Link>
-                        <button className="text-green-600 hover:text-green-700 text-sm">
-                          <Download size={16} />
-                        </button>
-                      </div>
                     </td>
                   </tr>
                 ))}
