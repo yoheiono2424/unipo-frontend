@@ -227,7 +227,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
               <div className="flex items-center gap-2">
                 <MapPin className="h-5 w-5 text-orange-500" />
                 <h2 className="text-lg font-semibold text-gray-900">対象店舗</h2>
-                <span className="ml-2 text-sm text-gray-500">({selectedStores.length}店舗選択)</span>
+                <span className="ml-2 text-sm text-gray-500">({(campaign.targetStores || []).length}店舗選択)</span>
               </div>
             </div>
             <div className="p-6">
@@ -240,7 +240,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                   >
                     <input
                       type="checkbox"
-                      checked={selectedStores.includes(store.id)}
+                      checked={(campaign.targetStores || []).includes(store.id)}
                       disabled
                       className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 opacity-50"
                     />
