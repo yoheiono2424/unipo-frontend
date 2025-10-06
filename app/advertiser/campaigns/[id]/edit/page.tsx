@@ -32,16 +32,13 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
     campaignImage5: campaign.campaignImage5,
   });
 
-  // 将来的に使用予定のため保持
-  // const [selectedStores, setSelectedStores] = useState<string[]>(campaign.targetStores || []);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const saveData = {
       ...formData,
       startDate: formData.startDate.replace(/-/g, ''),
       endDate: formData.endDate.replace(/-/g, ''),
-      targetStores: selectedStores,
+      targetStores: campaign.targetStores || [],
     };
     console.log("保存データ:", saveData);
     router.push(`/advertiser/campaigns/${resolvedParams.id}`);
@@ -50,15 +47,6 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
   const handleCancel = () => {
     router.push(`/advertiser/campaigns/${resolvedParams.id}`);
   };
-
-  // 将来的に使用予定のため保持
-  // const handleStoreToggle = (storeId: string) => {
-  //   setSelectedStores(prev =>
-  //     prev.includes(storeId)
-  //       ? prev.filter(id => id !== storeId)
-  //       : [...prev, storeId]
-  //   );
-  // };
 
   return (
     <AdvertiserLayout>
