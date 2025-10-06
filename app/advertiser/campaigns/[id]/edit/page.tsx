@@ -32,7 +32,8 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
     campaignImage5: campaign.campaignImage5,
   });
 
-  const [selectedStores, setSelectedStores] = useState<string[]>(campaign.targetStores || []);
+  // 将来的に使用予定のため保持
+  // const [selectedStores, setSelectedStores] = useState<string[]>(campaign.targetStores || []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,13 +51,14 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
     router.push(`/advertiser/campaigns/${resolvedParams.id}`);
   };
 
-  const handleStoreToggle = (storeId: string) => {
-    setSelectedStores(prev =>
-      prev.includes(storeId)
-        ? prev.filter(id => id !== storeId)
-        : [...prev, storeId]
-    );
-  };
+  // 将来的に使用予定のため保持
+  // const handleStoreToggle = (storeId: string) => {
+  //   setSelectedStores(prev =>
+  //     prev.includes(storeId)
+  //       ? prev.filter(id => id !== storeId)
+  //       : [...prev, storeId]
+  //   );
+  // };
 
   return (
     <AdvertiserLayout>
