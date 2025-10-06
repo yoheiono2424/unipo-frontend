@@ -6,63 +6,65 @@ import { useParams } from 'next/navigation'
 import {
   ArrowLeft,
   Calendar,
-  User,
-  MapPin,
-  CheckCircle,
-  Star,
-  Download
+  FileText,
+  BarChart,
+  Users,
+  TrendingUp,
+  List
 } from 'lucide-react'
 
 export default function AdvertiserQuestionnaireDetailPage() {
   const params = useParams()
 
-  // アンケート回答詳細データ（モック）
-  const response = {
+  // アンケート詳細データ（モック）
+  const questionnaire = {
     id: params.id,
-    responseDate: '2025/01/29',
-    responseTime: '10:30:45',
-    userId: 'USR-12345',
-    userName: '田中 太郎',
-    userAge: '25-34歳',
-    userGender: '男性',
-    userEmail: 'tanaka@example.com',
+    questionnaireId: 'QST-2025-001',
+    title: '春の新生活応援キャンペーン アンケート',
     campaignName: '春の新生活応援キャンペーン',
-    campaignId: 'CP-2025-001',
-    storeName: 'イオンモール幕張新都心',
-    storeId: 'STR-001234',
-    distributionDate: '2025/01/28',
-    completionRate: 100,
-    responseQuality: '高',
+    campaignId: 'CMP001',
+    status: '実施中',
+    statusColor: 'bg-green-100 text-green-800',
+    createdAt: '2025/01/15',
+    startDate: '2025/01/20',
+    endDate: '2025/03/31',
+    totalQuestions: 5,
+    totalResponses: 2456,
+    responseRate: '45.2%',
+    targetResponses: 5000,
+    averageCompletionRate: '92.5%',
+    highQualityRate: '78.3%',
+    description: 'このアンケートは、春の新生活応援キャンペーンに参加されたお客様を対象に、商品・サービスの満足度や改善点についてお伺いするものです。',
     questions: [
       {
         id: 1,
         question: '今回のギフトカードをどのように知りましたか？',
         type: 'radio',
-        answer: '店頭のポスター'
+        options: ['店頭のポスター', 'SNS', '友人・知人の紹介', 'その他']
       },
       {
         id: 2,
         question: '商品・サービスの満足度を教えてください',
         type: 'radio',
-        answer: 'とても満足'
+        options: ['とても満足', '満足', 'どちらでもない', '不満', 'とても不満']
       },
       {
         id: 3,
         question: '今後も利用したいと思いますか？',
         type: 'radio',
-        answer: 'はい'
+        options: ['はい', 'いいえ', 'わからない']
       },
       {
         id: 4,
         question: '改善してほしい点があれば教えてください',
         type: 'text',
-        answer: '特にありません。とても良いキャンペーンだと思います。今後も継続してほしいです。'
+        options: []
       },
       {
         id: 5,
         question: '友人にお勧めしたいと思いますか？（10点満点）',
         type: 'rating',
-        answer: '9'
+        options: []
       }
     ]
   }
@@ -79,64 +81,105 @@ export default function AdvertiserQuestionnaireDetailPage() {
             >
               <ArrowLeft size={20} />
             </Link>
-            <h1 className="text-2xl font-bold text-gray-900">アンケート回答詳細</h1>
+            <div className="flex-1">
+              <h1 className="text-2xl font-bold text-gray-900">アンケート詳細</h1>
+              <p className="text-gray-600 mt-1">アンケートID: {questionnaire.questionnaireId}</p>
+            </div>
+            <div className="flex gap-3">
+              <Link
+                href="/advertiser/questionnaires/responses"
+                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              >
+                <List size={20} className="mr-2" />
+                回答一覧へ
+              </Link>
+            </div>
           </div>
-          <p className="text-gray-600 ml-12">回答ID: RESP-{response.id}</p>
+        </div>
+
+        {/* 統計カード */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div className="bg-white rounded-lg shadow-sm p-4">
+            <div className="flex items-center justify-between mb-2">
+              <Users className="text-blue-600" size={20} />
+              <span className="text-xs text-green-600 font-medium">進行中</span>
+            </div>
+            <div className="text-2xl font-bold text-gray-900">{questionnaire.totalResponses.toLocaleString()}</div>
+            <div className="text-sm text-gray-600">総回答数</div>
+            <div className="text-xs text-gray-500 mt-1">目標: {questionnaire.targetResponses.toLocaleString()}</div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-sm p-4">
+            <div className="flex items-center justify-between mb-2">
+              <TrendingUp className="text-green-600" size={20} />
+              <span className="text-xs text-green-600 font-medium">+3.1%</span>
+            </div>
+            <div className="text-2xl font-bold text-gray-900">{questionnaire.responseRate}</div>
+            <div className="text-sm text-gray-600">回答率</div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-sm p-4">
+            <div className="flex items-center justify-between mb-2">
+              <BarChart className="text-purple-600" size={20} />
+              <span className="text-xs text-green-600 font-medium">+2.5%</span>
+            </div>
+            <div className="text-2xl font-bold text-gray-900">{questionnaire.averageCompletionRate}</div>
+            <div className="text-sm text-gray-600">平均完了率</div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-sm p-4">
+            <div className="flex items-center justify-between mb-2">
+              <FileText className="text-orange-600" size={20} />
+              <span className="text-xs text-green-600 font-medium">+5.2%</span>
+            </div>
+            <div className="text-2xl font-bold text-gray-900">{questionnaire.highQualityRate}</div>
+            <div className="text-sm text-gray-600">高品質回答率</div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* 左側: 回答内容 */}
+          {/* 左側: アンケート内容 */}
           <div className="lg:col-span-2 space-y-6">
-            {/* 回答情報 */}
+            {/* 基本情報 */}
             <div className="bg-white rounded-lg shadow-sm p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-gray-900">回答情報</h2>
-                <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${
-                  response.responseQuality === '高'
-                    ? 'bg-green-100 text-green-800'
-                    : response.responseQuality === '中'
-                    ? 'bg-yellow-100 text-yellow-800'
-                    : 'bg-red-100 text-red-800'
-                }`}>
-                  品質: {response.responseQuality}
+                <h2 className="text-lg font-semibold text-gray-900">基本情報</h2>
+                <span className={`inline-flex px-3 py-1 text-sm font-semibold rounded-full ${questionnaire.statusColor}`}>
+                  {questionnaire.status}
                 </span>
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-4">
                 <div>
-                  <div className="text-sm text-gray-600 mb-1">回答日時</div>
-                  <div className="flex items-center text-gray-900">
-                    <Calendar size={16} className="mr-2 text-gray-400" />
-                    {response.responseDate} {response.responseTime}
-                  </div>
+                  <div className="text-sm text-gray-600 mb-1">アンケート名</div>
+                  <div className="text-gray-900 font-medium">{questionnaire.title}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-gray-600 mb-1">完了率</div>
-                  <div className="flex items-center">
-                    <div className="text-gray-900 font-medium mr-2">{response.completionRate}%</div>
-                    <div className="flex-1 bg-gray-200 rounded-full h-2 max-w-[100px]">
-                      <div
-                        className="bg-green-600 h-2 rounded-full"
-                        style={{ width: `${response.completionRate}%` }}
-                      ></div>
+                  <div className="text-sm text-gray-600 mb-1">説明</div>
+                  <div className="text-gray-900">{questionnaire.description}</div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <div className="text-sm text-gray-600 mb-1">作成日</div>
+                    <div className="flex items-center text-gray-900">
+                      <Calendar size={16} className="mr-2 text-gray-400" />
+                      {questionnaire.createdAt}
                     </div>
                   </div>
-                </div>
-                <div>
-                  <div className="text-sm text-gray-600 mb-1">配布日</div>
-                  <div className="text-gray-900">{response.distributionDate}</div>
-                </div>
-                <div>
-                  <div className="text-sm text-gray-600 mb-1">回答までの日数</div>
-                  <div className="text-gray-900">1日</div>
+                  <div>
+                    <div className="text-sm text-gray-600 mb-1">実施期間</div>
+                    <div className="text-gray-900">
+                      {questionnaire.startDate} ～ {questionnaire.endDate}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* アンケート回答 */}
+            {/* アンケート設問 */}
             <div className="bg-white rounded-lg shadow-sm p-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">アンケート回答</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">アンケート設問</h2>
               <div className="space-y-6">
-                {response.questions.map((q, index) => (
+                {questionnaire.questions.map((q, index) => (
                   <div key={q.id} className="border-b last:border-b-0 pb-6 last:pb-0">
                     <div className="flex items-start">
                       <div className="flex-shrink-0 w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mr-3">
@@ -144,25 +187,20 @@ export default function AdvertiserQuestionnaireDetailPage() {
                       </div>
                       <div className="flex-1">
                         <div className="font-medium text-gray-900 mb-2">{q.question}</div>
-                        {q.type === 'rating' ? (
-                          <div className="flex items-center">
-                            <div className="flex mr-3">
-                              {[...Array(10)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  size={20}
-                                  className={i < parseInt(q.answer) ? 'text-yellow-400 fill-current' : 'text-gray-300'}
-                                />
-                              ))}
-                            </div>
-                            <span className="font-medium text-gray-900">{q.answer}/10</span>
-                          </div>
-                        ) : q.type === 'text' ? (
-                          <div className="bg-gray-50 rounded-lg p-3 text-gray-700">{q.answer}</div>
-                        ) : (
-                          <div className="flex items-center">
-                            <CheckCircle size={16} className="text-green-600 mr-2" />
-                            <span className="text-gray-900">{q.answer}</span>
+                        <div className="text-sm text-gray-500 mb-2">
+                          回答形式: {
+                            q.type === 'radio' ? '単一選択' :
+                            q.type === 'text' ? '自由記述' :
+                            q.type === 'rating' ? '評価（10点満点）' : q.type
+                          }
+                        </div>
+                        {q.options.length > 0 && (
+                          <div className="space-y-1">
+                            {q.options.map((option, i) => (
+                              <div key={i} className="text-sm text-gray-700 pl-4">
+                                • {option}
+                              </div>
+                            ))}
                           </div>
                         )}
                       </div>
@@ -173,75 +211,48 @@ export default function AdvertiserQuestionnaireDetailPage() {
             </div>
           </div>
 
-          {/* 右側: ユーザー情報とキャンペーン情報 */}
+          {/* 右側: キャンペーン情報 */}
           <div className="lg:col-span-1 space-y-6">
-            {/* ユーザー情報 */}
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">ユーザー情報</h2>
-              <div className="space-y-3">
-                <div>
-                  <div className="text-sm text-gray-600 mb-1">氏名</div>
-                  <div className="flex items-center text-gray-900">
-                    <User size={16} className="mr-2 text-gray-400" />
-                    {response.userName}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-sm text-gray-600 mb-1">ユーザーID</div>
-                  <div className="text-gray-900 font-mono text-sm">{response.userId}</div>
-                </div>
-                <div>
-                  <div className="text-sm text-gray-600 mb-1">属性</div>
-                  <div className="text-gray-900">
-                    {response.userGender} / {response.userAge}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-sm text-gray-600 mb-1">メールアドレス</div>
-                  <div className="text-gray-900 text-sm">{response.userEmail}</div>
-                </div>
-              </div>
-            </div>
-
             {/* キャンペーン情報 */}
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">キャンペーン情報</h2>
               <div className="space-y-3">
                 <div>
                   <div className="text-sm text-gray-600 mb-1">キャンペーン名</div>
-                  <div className="font-medium text-gray-900">{response.campaignName}</div>
+                  <div className="font-medium text-gray-900">{questionnaire.campaignName}</div>
                 </div>
                 <div>
                   <div className="text-sm text-gray-600 mb-1">キャンペーンID</div>
-                  <div className="text-gray-900 font-mono text-sm">{response.campaignId}</div>
+                  <div className="text-gray-900 font-mono text-sm">{questionnaire.campaignId}</div>
+                </div>
+                <div className="pt-3">
+                  <Link
+                    href={`/advertiser/campaigns/${questionnaire.campaignId}`}
+                    className="text-sm text-blue-600 hover:text-blue-700"
+                  >
+                    キャンペーン詳細を見る →
+                  </Link>
                 </div>
               </div>
             </div>
 
-            {/* 店舗情報 */}
+            {/* アンケート設定 */}
             <div className="bg-white rounded-lg shadow-sm p-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-4">店舗情報</h2>
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">アンケート設定</h2>
               <div className="space-y-3">
                 <div>
-                  <div className="text-sm text-gray-600 mb-1">店舗名</div>
-                  <div className="flex items-center text-gray-900">
-                    <MapPin size={16} className="mr-2 text-gray-400" />
-                    {response.storeName}
-                  </div>
+                  <div className="text-sm text-gray-600 mb-1">設問数</div>
+                  <div className="text-gray-900">{questionnaire.totalQuestions}問</div>
                 </div>
                 <div>
-                  <div className="text-sm text-gray-600 mb-1">店舗ID</div>
-                  <div className="text-gray-900 font-mono text-sm">{response.storeId}</div>
+                  <div className="text-sm text-gray-600 mb-1">目標回答数</div>
+                  <div className="text-gray-900">{questionnaire.targetResponses.toLocaleString()}件</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-600 mb-1">現在の回答数</div>
+                  <div className="text-gray-900 font-semibold">{questionnaire.totalResponses.toLocaleString()}件</div>
                 </div>
               </div>
-            </div>
-
-            {/* アクション */}
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <button className="w-full flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-                <Download size={20} className="mr-2" />
-                回答をダウンロード
-              </button>
             </div>
           </div>
         </div>

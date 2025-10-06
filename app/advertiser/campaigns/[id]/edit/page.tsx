@@ -127,17 +127,6 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    プランID
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.campaignPlanId}
-                    onChange={(e) => setFormData({ ...formData, campaignPlanId: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     プラン名 <span className="text-red-500">*</span>
                   </label>
                   <select
@@ -149,6 +138,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     <option value="スタンダードプラン">スタンダードプラン</option>
                     <option value="プレミアムプラン">プレミアムプラン</option>
                     <option value="エンタープライズプラン">エンタープライズプラン</option>
+                    <option value="カスタムプラン">カスタムプラン</option>
                   </select>
                 </div>
               </div>
@@ -197,11 +187,15 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     type="number"
                     value={formData.giftCardAmount}
                     onChange={(e) => setFormData({ ...formData, giftCardAmount: parseInt(e.target.value) })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
                     min="100"
                     step="100"
+                    disabled={formData.campaignPlanName !== 'カスタムプラン'}
                     required
                   />
+                  {formData.campaignPlanName !== 'カスタムプラン' && (
+                    <p className="text-xs text-gray-500 mt-1">※カスタムプランの場合のみ編集可能</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -211,38 +205,14 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     type="number"
                     value={formData.totalCards}
                     onChange={(e) => setFormData({ ...formData, totalCards: parseInt(e.target.value) })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
                     min="1"
+                    disabled={formData.campaignPlanName !== 'カスタムプラン'}
                     required
                   />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    総予算 (円) <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    value={formData.budgetAmount}
-                    onChange={(e) => setFormData({ ...formData, budgetAmount: parseInt(e.target.value) })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                    min="0"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    配布方法 <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    value={formData.distributionMethod}
-                    onChange={(e) => setFormData({ ...formData, distributionMethod: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                    required
-                  >
-                    <option value="店頭配布">店頭配布</option>
-                    <option value="QRコード配布">QRコード配布</option>
-                    <option value="アプリ配布">アプリ配布</option>
-                  </select>
+                  {formData.campaignPlanName !== 'カスタムプラン' && (
+                    <p className="text-xs text-gray-500 mt-1">※カスタムプランの場合のみ編集可能</p>
+                  )}
                 </div>
               </div>
 
@@ -271,19 +241,20 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
               </div>
             </div>
             <div className="p-6">
+              <p className="text-sm text-gray-600 mb-4">※対象店舗は編集できません。変更が必要な場合は運営者にお問い合わせください。</p>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-96 overflow-y-auto">
                 {mockStores.map((store) => (
                   <label
                     key={store.id}
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer"
+                    className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 cursor-not-allowed"
                   >
                     <input
                       type="checkbox"
                       checked={selectedStores.includes(store.id)}
-                      onChange={() => handleStoreToggle(store.id)}
-                      className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                      disabled
+                      className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 opacity-50"
                     />
-                    <span className="text-sm text-gray-700">{store.storeName || store.name}</span>
+                    <span className="text-sm text-gray-500">{store.storeName || store.name}</span>
                   </label>
                 ))}
               </div>

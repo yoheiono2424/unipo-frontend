@@ -1,9 +1,9 @@
 "use client";
 
 import AdvertiserLayout from "@/components/advertiser/AdvertiserLayout";
-import { ArrowLeft, Edit, Calendar, Building2, TrendingUp, Gift, Clock, Shield, PlayCircle, PauseCircle, FileImage, MapPin, CreditCard, Hash, Package, FileText } from "lucide-react";
+import { ArrowLeft, Edit, Calendar, Building2, TrendingUp, Gift, Clock, Shield, FileImage, MapPin, CreditCard, Hash, Package, FileText } from "lucide-react";
 import Link from "next/link";
-import { use, useState } from "react";
+import { use } from "react";
 
 // 広告主用のモックデータ - 運営者のものと同じ構造
 const mockCampaigns = [
@@ -70,20 +70,6 @@ export default function AdvertiserCampaignDetailPage({ params }: { params: Promi
   const resolvedParams = use(params);
   const campaign = mockCampaigns.find(c => c.id === resolvedParams.id) || mockCampaigns[0];
 
-  const [showStatusModal, setShowStatusModal] = useState(false);
-  const [statusAction, setStatusAction] = useState<'start' | 'pause' | 'complete' | null>(null);
-
-  const handleStatusChange = () => {
-    // ステータス変更処理（実際にはAPIコール）
-    console.log("ステータス変更:", statusAction);
-    setShowStatusModal(false);
-    setStatusAction(null);
-  };
-
-  const openStatusModal = (action: 'start' | 'pause' | 'complete') => {
-    setStatusAction(action);
-    setShowStatusModal(true);
-  };
 
   const getStatusBadge = (status: string) => {
     switch(status) {
@@ -132,33 +118,6 @@ export default function AdvertiserCampaignDetailPage({ params }: { params: Promi
             </div>
           </div>
           <div className="flex gap-3">
-            {campaign.status === 'pending' && (
-              <button
-                onClick={() => openStatusModal('start')}
-                className="bg-green-600 text-white px-5 py-2.5 rounded-lg hover:bg-green-700 flex items-center gap-2 transition-colors"
-              >
-                <PlayCircle className="h-4 w-4" />
-                開始
-              </button>
-            )}
-            {campaign.status === 'active' && (
-              <>
-                <button
-                  onClick={() => openStatusModal('pause')}
-                  className="bg-yellow-600 text-white px-5 py-2.5 rounded-lg hover:bg-yellow-700 flex items-center gap-2 transition-colors"
-                >
-                  <PauseCircle className="h-4 w-4" />
-                  一時停止
-                </button>
-                <button
-                  onClick={() => openStatusModal('complete')}
-                  className="bg-gray-600 text-white px-5 py-2.5 rounded-lg hover:bg-gray-700 flex items-center gap-2 transition-colors"
-                >
-                  <Clock className="h-4 w-4" />
-                  終了
-                </button>
-              </>
-            )}
             <Link
               href={`/advertiser/campaigns/${campaign.id}/edit`}
               className="bg-indigo-600 text-white px-5 py-2.5 rounded-lg hover:bg-indigo-700 flex items-center gap-2 transition-colors"
@@ -423,58 +382,6 @@ export default function AdvertiserCampaignDetailPage({ params }: { params: Promi
         </div>
       </div>
 
-      {/* ステータス変更モーダル */}
-      {showStatusModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-            <h3 className="text-lg font-semibold mb-4">
-              {
-                statusAction === 'start' ? 'キャンペーン開始' :
-                statusAction === 'pause' ? 'キャンペーン一時停止' :
-                'キャンペーン終了'
-              }
-            </h3>
-            <div className="space-y-4">
-              <div className="bg-gray-50 p-3 rounded-lg">
-                <p className="text-sm text-gray-600">キャンペーン名</p>
-                <p className="font-medium">{campaign.campaignName}</p>
-              </div>
-              <p className="text-sm text-gray-600">
-                {
-                  statusAction === 'start' ? 'このキャンペーンを開始しますか？' :
-                  statusAction === 'pause' ? 'このキャンペーンを一時停止しますか？' :
-                  'このキャンペーンを終了しますか？終了後は再開できません。'
-                }
-              </p>
-            </div>
-            <div className="flex gap-3 mt-6">
-              <button
-                onClick={() => {
-                  setShowStatusModal(false);
-                  setStatusAction(null);
-                }}
-                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
-              >
-                キャンセル
-              </button>
-              <button
-                onClick={handleStatusChange}
-                className={`flex-1 px-4 py-2 text-white rounded-lg ${
-                  statusAction === 'start' ? 'bg-green-600 hover:bg-green-700' :
-                  statusAction === 'pause' ? 'bg-yellow-600 hover:bg-yellow-700' :
-                  'bg-gray-600 hover:bg-gray-700'
-                }`}
-              >
-                {
-                  statusAction === 'start' ? '開始する' :
-                  statusAction === 'pause' ? '一時停止する' :
-                  '終了する'
-                }
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </AdvertiserLayout>
   );
 }

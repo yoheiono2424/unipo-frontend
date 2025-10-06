@@ -9,7 +9,6 @@ import {
   ChartBar,
   FileQuestion,
   Receipt,
-  Bell,
   LogOut,
   Menu,
   X
@@ -42,16 +41,6 @@ export default function AdvertiserLayout({ children }: AdvertiserLayoutProps) {
       title: '請求管理',
       href: '/advertiser/invoices',
       icon: Receipt
-    },
-    {
-      title: 'お知らせ',
-      href: '/advertiser/notices',
-      icon: Bell
-    },
-    {
-      title: 'システム設定',
-      href: '/advertiser/settings',
-      icon: LayoutDashboard
     },
     {
       title: 'アカウント設定',

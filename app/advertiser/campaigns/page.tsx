@@ -62,7 +62,6 @@ const mockCampaigns = [
 export default function AdvertiserCampaignsPage() {
   const router = useRouter();
   const [searchCampaignName, setSearchCampaignName] = useState("");
-  const [searchAdvertiserName, setSearchAdvertiserName] = useState("");
   const [searchStartDate, setSearchStartDate] = useState("");
   const [searchEndDate, setSearchEndDate] = useState("");
   const [searchStatus, setSearchStatus] = useState("");
@@ -70,10 +69,9 @@ export default function AdvertiserCampaignsPage() {
   // モックデータをフィルタリング
   const campaigns = mockCampaigns.filter(campaign => {
     const nameMatch = searchCampaignName === "" || campaign.name.toLowerCase().includes(searchCampaignName.toLowerCase());
-    const advertiserMatch = searchAdvertiserName === "" || campaign.advertiser.toLowerCase().includes(searchAdvertiserName.toLowerCase());
     const statusMatch = searchStatus === "" || searchStatus === "all" || campaign.status === searchStatus;
 
-    return nameMatch && advertiserMatch && statusMatch;
+    return nameMatch && statusMatch;
   });
 
   const getStatusBadge = (status: string) => {
@@ -111,6 +109,12 @@ export default function AdvertiserCampaignsPage() {
             <h1 className="text-2xl font-bold text-gray-900">広告キャンペーン管理</h1>
             <p className="text-sm text-gray-600 mt-1">キャンペーンの一覧と管理</p>
           </div>
+          <button
+            onClick={() => router.push('/advertiser/campaigns/new')}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            広告新規作成
+          </button>
         </div>
 
         {/* 検索・フィルタ */}
@@ -130,18 +134,6 @@ export default function AdvertiserCampaignsPage() {
                   onChange={(e) => setSearchCampaignName(e.target.value)}
                 />
               </div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                広告主名
-              </label>
-              <input
-                type="text"
-                placeholder="広告主名で検索"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                value={searchAdvertiserName}
-                onChange={(e) => setSearchAdvertiserName(e.target.value)}
-              />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -201,9 +193,6 @@ export default function AdvertiserCampaignsPage() {
                   キャンペーン名
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  広告主
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   期間
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -217,7 +206,7 @@ export default function AdvertiserCampaignsPage() {
             <tbody className="bg-white divide-y divide-gray-200">
               {campaigns.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
                     キャンペーンデータがありません
                   </td>
                 </tr>
@@ -236,9 +225,6 @@ export default function AdvertiserCampaignsPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {campaign.name}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {campaign.advertiser}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {campaign.period}

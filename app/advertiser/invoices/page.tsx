@@ -35,8 +35,8 @@ export default function AdvertiserInvoicesPage() {
       status: '未払い',
       statusColor: 'bg-yellow-100 text-yellow-800',
       statusIcon: Clock,
-      campaigns: 3,
-      distributions: 8456
+      campaignId: 'CMP001',
+      campaignName: '春の新生活応援キャンペーン'
     },
     {
       id: 2,
@@ -48,8 +48,8 @@ export default function AdvertiserInvoicesPage() {
       status: '支払済み',
       statusColor: 'bg-green-100 text-green-800',
       statusIcon: CheckCircle,
-      campaigns: 2,
-      distributions: 6320,
+      campaignId: 'CMP002',
+      campaignName: 'ゴールデンウィーク特別企画',
       paidDate: '2025/01/25'
     },
     {
@@ -62,8 +62,8 @@ export default function AdvertiserInvoicesPage() {
       status: '支払済み',
       statusColor: 'bg-green-100 text-green-800',
       statusIcon: CheckCircle,
-      campaigns: 3,
-      distributions: 7113,
+      campaignId: 'CMP001',
+      campaignName: '春の新生活応援キャンペーン',
       paidDate: '2024/12/20'
     },
     {
@@ -76,8 +76,8 @@ export default function AdvertiserInvoicesPage() {
       status: '支払済み',
       statusColor: 'bg-green-100 text-green-800',
       statusIcon: CheckCircle,
-      campaigns: 2,
-      distributions: 5223,
+      campaignId: 'CMP003',
+      campaignName: '母の日感謝キャンペーン',
       paidDate: '2024/11/28'
     },
     {
@@ -90,8 +90,8 @@ export default function AdvertiserInvoicesPage() {
       status: '期限超過',
       statusColor: 'bg-red-100 text-red-800',
       statusIcon: AlertCircle,
-      campaigns: 1,
-      distributions: 3267
+      campaignId: 'CMP002',
+      campaignName: 'ゴールデンウィーク特別企画'
     }
   ]
 
@@ -257,7 +257,10 @@ export default function AdvertiserInvoicesPage() {
                     請求額
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    内訳
+                    キャンペーンID
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    キャンペーン名
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     ステータス
@@ -287,10 +290,10 @@ export default function AdvertiserInvoicesPage() {
                       <div className="text-sm font-bold text-gray-900">{invoice.amount}</div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="text-sm text-gray-900">
-                        <div>{invoice.campaigns} キャンペーン</div>
-                        <div className="text-xs text-gray-500">{invoice.distributions.toLocaleString()} 枚配布</div>
-                      </div>
+                      <div className="text-sm text-gray-900">{invoice.campaignId}</div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="text-sm text-gray-900">{invoice.campaignName}</div>
                     </td>
                     <td className="px-6 py-4">
                       <span className={`inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full ${invoice.statusColor}`}>
