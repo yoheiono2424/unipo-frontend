@@ -8,15 +8,14 @@ import {
   Download,
   Filter,
   FileText,
-  User,
   ChevronLeft,
   ChevronRight,
-  BarChart
+  BarChart,
+  ArrowLeft
 } from 'lucide-react'
 
 export default function AdvertiserQuestionnairesPage() {
   const [searchTerm, setSearchTerm] = useState('')
-  const [campaignFilter, setCampaignFilter] = useState('all')
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
@@ -102,8 +101,7 @@ export default function AdvertiserQuestionnairesPage() {
   const filteredResponses = responses.filter(response => {
     const matchesSearch = response.userName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          response.userId.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCampaign = campaignFilter === 'all' || response.campaignName === campaignFilter
-    return matchesSearch && matchesCampaign
+    return matchesSearch
   })
 
   // ページネーション
@@ -117,12 +115,20 @@ export default function AdvertiserQuestionnairesPage() {
       <div className="p-6">
         {/* ヘッダー */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">アンケート回答</h1>
-          <p className="text-gray-600 mt-1">収集したアンケート回答を確認・分析できます</p>
+          <div className="flex items-center gap-4 mb-2">
+            <Link
+              href="/advertiser/questionnaires"
+              className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <ArrowLeft size={24} className="text-gray-600" />
+            </Link>
+            <h1 className="text-2xl font-bold text-gray-900">アンケート回答</h1>
+          </div>
+          <p className="text-gray-600 ml-14">収集したアンケート回答を確認・分析できます</p>
         </div>
 
         {/* 統計カード */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="bg-white rounded-lg shadow-sm p-4">
             <div className="flex items-center justify-between mb-2">
               <FileText className="text-blue-600" size={20} />
@@ -149,20 +155,11 @@ export default function AdvertiserQuestionnairesPage() {
             <div className="text-2xl font-bold text-gray-900">{statistics.averageCompletionRate}</div>
             <div className="text-sm text-gray-600">平均完了率</div>
           </div>
-
-          <div className="bg-white rounded-lg shadow-sm p-4">
-            <div className="flex items-center justify-between mb-2">
-              <User className="text-orange-600" size={20} />
-              <span className="text-xs text-green-600 font-medium">+5.2%</span>
-            </div>
-            <div className="text-2xl font-bold text-gray-900">{statistics.highQualityRate}</div>
-            <div className="text-sm text-gray-600">高品質回答率</div>
-          </div>
         </div>
 
         {/* フィルター */}
         <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="md:col-span-2">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
@@ -175,16 +172,6 @@ export default function AdvertiserQuestionnairesPage() {
                 />
               </div>
             </div>
-
-            <select
-              value={campaignFilter}
-              onChange={(e) => setCampaignFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
-            >
-              <option value="all">すべてのキャンペーン</option>
-              <option value="春の新生活応援キャンペーン">春の新生活応援キャンペーン</option>
-              <option value="母の日感謝キャンペーン">母の日感謝キャンペーン</option>
-            </select>
 
             <input
               type="date"
@@ -252,7 +239,7 @@ export default function AdvertiserQuestionnairesPage() {
                   <tr
                     key={response.id}
                     className="hover:bg-gray-50 cursor-pointer"
-                    onClick={() => window.location.href = `/advertiser/questionnaires/${response.id}`}
+                    onClick={() => window.location.href = `/advertiser/questionnaires/responses/${response.id}`}
                   >
                     <td className="px-6 py-4">
                       <div className="text-sm text-gray-900">{response.responseDate}</div>

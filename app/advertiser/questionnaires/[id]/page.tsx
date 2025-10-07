@@ -2,19 +2,40 @@
 
 import AdvertiserLayout from '@/components/advertiser/AdvertiserLayout'
 import Link from 'next/link'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
+import { useState } from 'react'
 import {
   ArrowLeft,
   Calendar,
-  FileText,
   BarChart,
   Users,
   TrendingUp,
-  List
+  List,
+  Edit,
+  Trash2,
+  X,
+  AlertTriangle
 } from 'lucide-react'
 
 export default function AdvertiserQuestionnaireDetailPage() {
   const params = useParams()
+  const router = useRouter()
+  const [status, setStatus] = useState('下書き') // モックデータのステータス
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+
+  // 削除ボタン押下
+  const handleDeleteClick = () => {
+    setShowDeleteModal(true)
+  }
+
+  // 削除確定処理
+  const handleDeleteConfirm = () => {
+    // 実際にはここでAPIにステータス更新リクエストを送信
+    setStatus('削除済み')
+    setShowDeleteModal(false)
+    alert('アンケートを削除しました')
+    router.push('/advertiser/questionnaires')
+  }
 
   // アンケート詳細データ（モック）
   const questionnaire = {
@@ -23,8 +44,11 @@ export default function AdvertiserQuestionnaireDetailPage() {
     title: '春の新生活応援キャンペーン アンケート',
     campaignName: '春の新生活応援キャンペーン',
     campaignId: 'CMP001',
-    status: '実施中',
-    statusColor: 'bg-green-100 text-green-800',
+    status: status,
+    statusColor: status === '公開' ? 'bg-green-100 text-green-800' :
+                 status === '下書き' ? 'bg-gray-100 text-gray-800' :
+                 status === '終了' ? 'bg-yellow-100 text-yellow-800' :
+                 'bg-red-100 text-red-800',
     createdAt: '2025/01/15',
     startDate: '2025/01/20',
     endDate: '2025/03/31',
@@ -86,9 +110,25 @@ export default function AdvertiserQuestionnaireDetailPage() {
               <p className="text-gray-600 mt-1">アンケートID: {questionnaire.questionnaireId}</p>
             </div>
             <div className="flex gap-3">
+              {questionnaire.status === '下書き' && (
+                <Link
+                  href={`/advertiser/questionnaires/${questionnaire.id}/edit`}
+                  className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  <Edit size={18} className="mr-2" />
+                  編集
+                </Link>
+              )}
+              <button
+                onClick={handleDeleteClick}
+                className="flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+              >
+                <Trash2 size={18} className="mr-2" />
+                削除
+              </button>
               <Link
                 href="/advertiser/questionnaires/responses"
-                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
                 <List size={20} className="mr-2" />
                 回答一覧へ
@@ -98,7 +138,7 @@ export default function AdvertiserQuestionnaireDetailPage() {
         </div>
 
         {/* 統計カード */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="bg-white rounded-lg shadow-sm p-4">
             <div className="flex items-center justify-between mb-2">
               <Users className="text-blue-600" size={20} />
@@ -106,7 +146,6 @@ export default function AdvertiserQuestionnaireDetailPage() {
             </div>
             <div className="text-2xl font-bold text-gray-900">{questionnaire.totalResponses.toLocaleString()}</div>
             <div className="text-sm text-gray-600">総回答数</div>
-            <div className="text-xs text-gray-500 mt-1">目標: {questionnaire.targetResponses.toLocaleString()}</div>
           </div>
 
           <div className="bg-white rounded-lg shadow-sm p-4">
@@ -125,15 +164,6 @@ export default function AdvertiserQuestionnaireDetailPage() {
             </div>
             <div className="text-2xl font-bold text-gray-900">{questionnaire.averageCompletionRate}</div>
             <div className="text-sm text-gray-600">平均完了率</div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-sm p-4">
-            <div className="flex items-center justify-between mb-2">
-              <FileText className="text-orange-600" size={20} />
-              <span className="text-xs text-green-600 font-medium">+5.2%</span>
-            </div>
-            <div className="text-2xl font-bold text-gray-900">{questionnaire.highQualityRate}</div>
-            <div className="text-sm text-gray-600">高品質回答率</div>
           </div>
         </div>
 
@@ -245,10 +275,6 @@ export default function AdvertiserQuestionnaireDetailPage() {
                   <div className="text-gray-900">{questionnaire.totalQuestions}問</div>
                 </div>
                 <div>
-                  <div className="text-sm text-gray-600 mb-1">目標回答数</div>
-                  <div className="text-gray-900">{questionnaire.targetResponses.toLocaleString()}件</div>
-                </div>
-                <div>
                   <div className="text-sm text-gray-600 mb-1">現在の回答数</div>
                   <div className="text-gray-900 font-semibold">{questionnaire.totalResponses.toLocaleString()}件</div>
                 </div>
@@ -256,6 +282,54 @@ export default function AdvertiserQuestionnaireDetailPage() {
             </div>
           </div>
         </div>
+
+        {/* 削除確認モーダル */}
+        {showDeleteModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-3">
+                    <AlertTriangle className="text-red-600" size={20} />
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    アンケート削除の確認
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setShowDeleteModal(false)}
+                  className="p-1 hover:bg-gray-100 rounded"
+                >
+                  <X size={20} className="text-gray-600" />
+                </button>
+              </div>
+
+              <div className="mb-6">
+                <p className="text-gray-700 mb-2">
+                  このアンケートを削除してもよろしいですか？
+                </p>
+                <p className="text-sm text-gray-600">
+                  削除後は「削除済み」ステータスとなり、管理画面にデフォルト表示されなくなります。
+                </p>
+              </div>
+
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowDeleteModal(false)}
+                  className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  キャンセル
+                </button>
+                <button
+                  onClick={handleDeleteConfirm}
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  削除する
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </AdvertiserLayout>
   )

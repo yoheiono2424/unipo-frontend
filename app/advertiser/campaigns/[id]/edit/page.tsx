@@ -1,7 +1,7 @@
 "use client";
 
 import AdvertiserLayout from "@/components/advertiser/AdvertiserLayout";
-import { ArrowLeft, Save, X, Gift, Hash, Package, FileImage, MapPin } from "lucide-react";
+import { ArrowLeft, Save, X, Gift, Hash, Package, FileImage, MapPin, Copy } from "lucide-react";
 import Link from "next/link";
 import { use, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -32,6 +32,8 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
     campaignImage5: campaign.campaignImage5,
   });
 
+  const [showDuplicateModal, setShowDuplicateModal] = useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const saveData = {
@@ -46,6 +48,38 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
 
   const handleCancel = () => {
     router.push(`/advertiser/campaigns/${resolvedParams.id}`);
+  };
+
+  const handleDuplicateClick = () => {
+    setShowDuplicateModal(true);
+  };
+
+  const handleDuplicateConfirm = () => {
+    // 新しいキャンペーンIDとNoを生成
+    const maxId = Math.max(...mockCampaigns.map(c => parseInt(c.id.replace('camp', ''))));
+    const newId = `camp${(maxId + 1).toString().padStart(3, '0')}`;
+
+    const maxCampaignNo = Math.max(...mockCampaigns.map(c => parseInt(c.campaignNo.replace('CMP', ''))));
+    const newCampaignNo = `CMP${(maxCampaignNo + 1).toString().padStart(3, '0')}`;
+
+    // 複製データの作成
+    const duplicateData = {
+      ...formData,
+      id: newId,
+      campaignNo: newCampaignNo,
+      campaignName: formData.campaignName + 'のコピー',
+      startDate: formData.startDate.replace(/-/g, ''),
+      endDate: formData.endDate.replace(/-/g, ''),
+      targetStores: campaign.targetStores || [],
+    };
+
+    console.log("複製データ:", duplicateData);
+    setShowDuplicateModal(false);
+    router.push('/advertiser/campaigns');
+  };
+
+  const handleDuplicateCancel = () => {
+    setShowDuplicateModal(false);
   };
 
   return (
@@ -64,6 +98,14 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
               <p className="text-sm text-gray-600 mt-1">キャンペーンID: {campaign.id} | キャンペーンNO: {campaign.campaignNo}</p>
             </div>
           </div>
+          <button
+            type="button"
+            onClick={handleDuplicateClick}
+            className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 flex items-center gap-2 transition-colors font-medium"
+          >
+            <Copy className="h-4 w-4" />
+            複製
+          </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -380,6 +422,53 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
             </div>
           </div>
         </form>
+
+        {/* 複製確認モーダル */}
+        {showDuplicateModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+              <div className="mb-4">
+                <h3 className="text-lg font-bold text-gray-900 mb-2">キャンペーンの複製確認</h3>
+                <p className="text-sm text-gray-600">
+                  このキャンペーンを複製してもよろしいですか？
+                </p>
+              </div>
+
+              <div className="bg-gray-50 rounded-lg p-4 mb-6 space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">元のキャンペーン名:</span>
+                  <span className="font-medium text-gray-900">{formData.campaignName}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">複製後のキャンペーン名:</span>
+                  <span className="font-medium text-gray-900">{formData.campaignName}のコピー</span>
+                </div>
+                <div className="mt-3 pt-3 border-t border-gray-200">
+                  <p className="text-xs text-gray-500">
+                    ※キャンペーンID・Noは自動で新規採番されます
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={handleDuplicateCancel}
+                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+                >
+                  キャンセル
+                </button>
+                <button
+                  type="button"
+                  onClick={handleDuplicateConfirm}
+                  className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-medium"
+                >
+                  複製する
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </AdvertiserLayout>
   );

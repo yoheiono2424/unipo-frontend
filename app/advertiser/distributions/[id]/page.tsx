@@ -1,7 +1,7 @@
 "use client";
 
 import AdvertiserLayout from "@/components/advertiser/AdvertiserLayout";
-import { ArrowLeft, Edit, Calendar, Building2, Users, Hash, Package, Plus, Search } from "lucide-react";
+import { ArrowLeft, Calendar, Building2, Users, Hash, Package, Plus, Search } from "lucide-react";
 import Link from "next/link";
 import { use, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -176,22 +176,13 @@ export default function AdvertiserDistributionDetailPage({ params }: { params: P
               <p className="text-sm text-gray-600 mt-1">記録ID: {record.recordId}</p>
             </div>
           </div>
-          <div className="flex gap-3">
-            <Link
-              href="/advertiser/distribution-records/create"
-              className="bg-green-600 text-white px-5 py-2.5 rounded-lg hover:bg-green-700 flex items-center gap-2 transition-colors"
-            >
-              <Plus className="h-4 w-4" />
-              配布履歴作成
-            </Link>
-            <Link
-              href={`/advertiser/distribution-records/${record.id}/edit`}
-              className="bg-indigo-600 text-white px-5 py-2.5 rounded-lg hover:bg-indigo-700 flex items-center gap-2 transition-colors"
-            >
-              <Edit className="h-4 w-4" />
-              編集
-            </Link>
-          </div>
+          <Link
+            href="/advertiser/distribution-records/create"
+            className="bg-green-600 text-white px-5 py-2.5 rounded-lg hover:bg-green-700 flex items-center gap-2 transition-colors"
+          >
+            <Plus className="h-4 w-4" />
+            配布履歴作成
+          </Link>
         </div>
 
         {/* 基本情報 */}

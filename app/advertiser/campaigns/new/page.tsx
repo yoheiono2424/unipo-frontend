@@ -1,10 +1,18 @@
 'use client'
 
 import AdvertiserLayout from '@/components/advertiser/AdvertiserLayout'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Upload } from 'lucide-react'
+
+// キャンペーンプランのモックデータ
+const campaignPlans = [
+  { id: 'plan001', name: 'ベーシックプラン', issueCount: 1000, amount: 500 },
+  { id: 'plan002', name: 'スタンダードプラン', issueCount: 5000, amount: 1000 },
+  { id: 'plan003', name: 'プレミアムプラン', issueCount: 10000, amount: 3000 },
+  { id: 'custom', name: 'カスタムプラン', issueCount: 0, amount: 0 }
+]
 
 export default function AdvertiserCampaignNewPage() {
   const router = useRouter()
@@ -17,12 +25,40 @@ export default function AdvertiserCampaignNewPage() {
     endDate: '',
     creativeUrl: '',
     bannerImage: null as File | null,
-    issueCount: '',
-    amount: '',
+    issueCount: '0',
+    amount: '0',
     targetDescription: ''
   })
 
   const [imagePreview, setImagePreview] = useState<string>('')
+
+  // キャンペーンプラン選択時に発行枚数と額面を自動設定
+  useEffect(() => {
+    if (formData.planId === '') {
+      // 未選択の場合は0にする
+      setFormData(prev => ({
+        ...prev,
+        issueCount: '0',
+        amount: '0'
+      }))
+    } else {
+      const selectedPlan = campaignPlans.find(plan => plan.id === formData.planId)
+      if (selectedPlan && selectedPlan.id !== 'custom') {
+        setFormData(prev => ({
+          ...prev,
+          issueCount: selectedPlan.issueCount.toString(),
+          amount: selectedPlan.amount.toString()
+        }))
+      } else if (selectedPlan && selectedPlan.id === 'custom') {
+        // カスタムプランの場合は空にする
+        setFormData(prev => ({
+          ...prev,
+          issueCount: '',
+          amount: ''
+        }))
+      }
+    }
+  }, [formData.planId])
 
   // 画像アップロード処理
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -196,7 +232,10 @@ export default function AdvertiserCampaignNewPage() {
                   type="number"
                   value={formData.issueCount}
                   onChange={(e) => setFormData({ ...formData, issueCount: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                  disabled={formData.planId !== 'custom'}
+                  className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 ${
+                    formData.planId !== 'custom' ? 'bg-gray-100 cursor-not-allowed' : ''
+                  }`}
                   placeholder="1000"
                   min="1"
                 />
@@ -208,7 +247,10 @@ export default function AdvertiserCampaignNewPage() {
                 <select
                   value={formData.amount}
                   onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                  disabled={formData.planId !== 'custom'}
+                  className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 ${
+                    formData.planId !== 'custom' ? 'bg-gray-100 cursor-not-allowed' : ''
+                  }`}
                 >
                   <option value="">選択してください</option>
                   <option value="500">¥500</option>

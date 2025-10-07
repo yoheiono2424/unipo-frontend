@@ -3,6 +3,7 @@
 import AdvertiserLayout from '@/components/advertiser/AdvertiserLayout'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
+import { useState } from 'react'
 import {
   ArrowLeft,
   Download,
@@ -14,6 +15,7 @@ import {
 
 export default function AdvertiserInvoiceDetailPage() {
   const params = useParams()
+  const [status, setStatus] = useState('未払い')
 
   // 請求書詳細データ（モック）
   const invoice = {
@@ -69,8 +71,6 @@ export default function AdvertiserInvoiceDetailPage() {
     }
   }
 
-  // 合計を計算
-  const totalDistributions = invoice.campaigns.reduce((sum, c) => sum + c.distributions, 0)
 
   return (
     <AdvertiserLayout>
@@ -116,10 +116,21 @@ export default function AdvertiserInvoiceDetailPage() {
                   <div>発行日: {invoice.issueDate}</div>
                   <div className="font-medium text-red-600">支払期限: {invoice.dueDate}</div>
                 </div>
-                <span className={`inline-flex items-center px-3 py-1 text-sm font-semibold rounded-full ${invoice.statusColor}`}>
-                  <invoice.statusIcon size={16} className="mr-1" />
-                  {invoice.status}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium text-gray-700">ステータス:</span>
+                  <select
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    className={`px-3 py-1 text-sm font-semibold rounded-full border-0 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                      status === '未払い'
+                        ? 'bg-yellow-100 text-yellow-800'
+                        : 'bg-green-100 text-green-800'
+                    }`}
+                  >
+                    <option value="未払い">未払い</option>
+                    <option value="支払い済み">支払い済み</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
@@ -156,9 +167,6 @@ export default function AdvertiserInvoiceDetailPage() {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">請求金額</h3>
-                <p className="text-sm text-gray-600 mt-1">
-                  {totalDistributions.toLocaleString()}枚のギフトカード配布に対する請求
-                </p>
               </div>
               <div className="text-right">
                 <div className="text-3xl font-bold text-gray-900">{invoice.totalAmount}</div>
@@ -176,7 +184,6 @@ export default function AdvertiserInvoiceDetailPage() {
                   <tr>
                     <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">キャンペーン名</th>
                     <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">期間</th>
-                    <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">配布枚数</th>
                     <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">金額</th>
                   </tr>
                 </thead>
@@ -185,9 +192,6 @@ export default function AdvertiserInvoiceDetailPage() {
                     <tr key={campaign.id}>
                       <td className="px-4 py-4 text-sm text-gray-900">{campaign.name}</td>
                       <td className="px-4 py-4 text-sm text-gray-600">{campaign.period}</td>
-                      <td className="px-4 py-4 text-sm text-gray-900 text-right">
-                        {campaign.distributions.toLocaleString()} 枚
-                      </td>
                       <td className="px-4 py-4 text-sm font-medium text-gray-900 text-right">
                         {campaign.amount}
                       </td>
@@ -198,20 +202,17 @@ export default function AdvertiserInvoiceDetailPage() {
                   <tr>
                     <td colSpan={2} className="px-4 py-3 text-sm font-medium text-gray-900">小計</td>
                     <td className="px-4 py-3 text-sm font-medium text-gray-900 text-right">
-                      {totalDistributions.toLocaleString()} 枚
-                    </td>
-                    <td className="px-4 py-3 text-sm font-medium text-gray-900 text-right">
                       {invoice.subtotal}
                     </td>
                   </tr>
                   <tr>
-                    <td colSpan={3} className="px-4 py-3 text-sm font-medium text-gray-900">消費税（10%）</td>
+                    <td colSpan={2} className="px-4 py-3 text-sm font-medium text-gray-900">消費税（10%）</td>
                     <td className="px-4 py-3 text-sm font-medium text-gray-900 text-right">
                       {invoice.tax}
                     </td>
                   </tr>
                   <tr>
-                    <td colSpan={3} className="px-4 py-3 text-lg font-bold text-gray-900">合計金額</td>
+                    <td colSpan={2} className="px-4 py-3 text-lg font-bold text-gray-900">合計金額</td>
                     <td className="px-4 py-3 text-lg font-bold text-gray-900 text-right">
                       {invoice.totalAmount}
                     </td>
@@ -257,14 +258,6 @@ export default function AdvertiserInvoiceDetailPage() {
               </div>
             </div>
 
-            {/* アクションボタン */}
-            {invoice.status === '未払い' && (
-              <div className="mt-6 flex justify-end">
-                <button className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium">
-                  支払い手続きへ進む
-                </button>
-              </div>
-            )}
           </div>
         </div>
       </div>

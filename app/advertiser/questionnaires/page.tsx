@@ -2,6 +2,7 @@
 
 import AdvertiserLayout from '@/components/advertiser/AdvertiserLayout'
 import { useState } from 'react'
+import Link from 'next/link'
 import {
   Search,
   FileText,
@@ -9,7 +10,8 @@ import {
   Users,
   CheckCircle,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Plus
 } from 'lucide-react'
 
 export default function AdvertiserQuestionnairesManagementPage() {
@@ -17,6 +19,7 @@ export default function AdvertiserQuestionnairesManagementPage() {
   const [statusFilter, setStatusFilter] = useState('all')
   const [campaignFilter, setCampaignFilter] = useState('all')
   const [currentPage, setCurrentPage] = useState(1)
+  const [showDeleted, setShowDeleted] = useState(false)
 
   // アンケートデータ（モック）
   const questionnaires = [
@@ -26,7 +29,7 @@ export default function AdvertiserQuestionnairesManagementPage() {
       title: '春の新生活応援キャンペーン アンケート',
       campaignName: '春の新生活応援キャンペーン',
       campaignId: 'CMP001',
-      status: '実施中',
+      status: '公開',
       statusColor: 'bg-green-100 text-green-800',
       createdAt: '2025/01/15',
       startDate: '2025/01/20',
@@ -43,7 +46,7 @@ export default function AdvertiserQuestionnairesManagementPage() {
       campaignName: '母の日感謝キャンペーン',
       campaignId: 'CMP002',
       status: '終了',
-      statusColor: 'bg-gray-100 text-gray-800',
+      statusColor: 'bg-yellow-100 text-yellow-800',
       createdAt: '2024/04/01',
       startDate: '2024/05/01',
       endDate: '2024/05/31',
@@ -58,8 +61,8 @@ export default function AdvertiserQuestionnairesManagementPage() {
       title: 'ゴールデンウィーク特別企画 アンケート',
       campaignName: 'ゴールデンウィーク特別企画',
       campaignId: 'CMP003',
-      status: '終了',
-      statusColor: 'bg-gray-100 text-gray-800',
+      status: '削除済み',
+      statusColor: 'bg-red-100 text-red-800',
       createdAt: '2024/03/15',
       startDate: '2024/04/25',
       endDate: '2024/05/10',
@@ -74,8 +77,8 @@ export default function AdvertiserQuestionnairesManagementPage() {
       title: '夏のボーナスキャンペーン アンケート',
       campaignName: '夏のボーナスキャンペーン',
       campaignId: 'CMP004',
-      status: '準備中',
-      statusColor: 'bg-blue-100 text-blue-800',
+      status: '下書き',
+      statusColor: 'bg-gray-100 text-gray-800',
       createdAt: '2025/01/28',
       startDate: '2025/06/01',
       endDate: '2025/07/31',
@@ -90,8 +93,8 @@ export default function AdvertiserQuestionnairesManagementPage() {
       title: '秋の味覚フェア アンケート',
       campaignName: '秋の味覚フェア',
       campaignId: 'CMP005',
-      status: '終了',
-      statusColor: 'bg-gray-100 text-gray-800',
+      status: '公開',
+      statusColor: 'bg-green-100 text-green-800',
       createdAt: '2024/08/20',
       startDate: '2024/09/01',
       endDate: '2024/11/30',
@@ -99,14 +102,31 @@ export default function AdvertiserQuestionnairesManagementPage() {
       totalResponses: 4521,
       responseRate: '41.3%',
       targetResponses: 11000
+    },
+    {
+      id: 6,
+      questionnaireId: 'QST-2024-008',
+      title: '削除されたアンケート',
+      campaignName: 'テストキャンペーン',
+      campaignId: 'CMP006',
+      status: '削除済み',
+      statusColor: 'bg-red-100 text-red-800',
+      createdAt: '2024/02/01',
+      startDate: '2024/03/01',
+      endDate: '2024/03/31',
+      totalQuestions: 4,
+      totalResponses: 123,
+      responseRate: '12.3%',
+      targetResponses: 1000
     }
   ]
 
-  // 統計データ（モック）
+  // 統計データ（動的計算）
+  const publicQuestionnaires = questionnaires.filter(q => q.status === '公開')
   const statistics = {
-    totalQuestionnaires: '12',
-    activeQuestionnaires: '3',
-    totalResponses: '18,542',
+    totalQuestionnaires: questionnaires.filter(q => q.status !== '削除済み').length.toString(),
+    activeQuestionnaires: publicQuestionnaires.length.toString(),
+    totalResponses: questionnaires.reduce((sum, q) => sum + q.totalResponses, 0).toLocaleString(),
     averageResponseRate: '43.5%'
   }
 
@@ -117,7 +137,8 @@ export default function AdvertiserQuestionnairesManagementPage() {
                          questionnaire.campaignName.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesStatus = statusFilter === 'all' || questionnaire.status === statusFilter
     const matchesCampaign = campaignFilter === 'all' || questionnaire.campaignName === campaignFilter
-    return matchesSearch && matchesStatus && matchesCampaign
+    const matchesDeleted = showDeleted || questionnaire.status !== '削除済み'
+    return matchesSearch && matchesStatus && matchesCampaign && matchesDeleted
   })
 
   // ページネーション
@@ -130,9 +151,18 @@ export default function AdvertiserQuestionnairesManagementPage() {
     <AdvertiserLayout>
       <div className="p-6">
         {/* ヘッダー */}
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">アンケート管理</h1>
-          <p className="text-gray-600 mt-1">作成したアンケートの管理と回答状況を確認できます</p>
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">アンケート管理</h1>
+            <p className="text-gray-600 mt-1">作成したアンケートの管理と回答状況を確認できます</p>
+          </div>
+          <Link
+            href="/advertiser/questionnaires/new"
+            className="bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-blue-700 flex items-center gap-2 transition-colors"
+          >
+            <Plus className="h-4 w-4" />
+            アンケート新規作成
+          </Link>
         </div>
 
         {/* 統計カード */}
@@ -176,7 +206,7 @@ export default function AdvertiserQuestionnairesManagementPage() {
 
         {/* フィルター */}
         <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
             <div className="md:col-span-2">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
@@ -196,9 +226,10 @@ export default function AdvertiserQuestionnairesManagementPage() {
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
             >
               <option value="all">すべてのステータス</option>
-              <option value="実施中">実施中</option>
-              <option value="準備中">準備中</option>
+              <option value="公開">公開</option>
+              <option value="下書き">下書き</option>
               <option value="終了">終了</option>
+              <option value="削除済み">削除済み</option>
             </select>
 
             <select
@@ -211,6 +242,20 @@ export default function AdvertiserQuestionnairesManagementPage() {
               <option value="母の日感謝キャンペーン">母の日感謝キャンペーン</option>
               <option value="ゴールデンウィーク特別企画">ゴールデンウィーク特別企画</option>
             </select>
+          </div>
+
+          {/* 削除済みアンケート表示チェックボックス */}
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="showDeleted"
+              checked={showDeleted}
+              onChange={(e) => setShowDeleted(e.target.checked)}
+              className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+            />
+            <label htmlFor="showDeleted" className="ml-2 text-sm text-gray-700">
+              削除済みアンケートを表示する
+            </label>
           </div>
         </div>
 
@@ -267,7 +312,6 @@ export default function AdvertiserQuestionnairesManagementPage() {
                     </td>
                     <td className="px-6 py-4">
                       <div className="text-sm font-medium text-gray-900">{questionnaire.totalResponses.toLocaleString()}</div>
-                      <div className="text-xs text-gray-500">目標: {questionnaire.targetResponses.toLocaleString()}</div>
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center">
