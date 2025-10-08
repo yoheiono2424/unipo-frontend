@@ -5,6 +5,7 @@ import { ArrowLeft, Save, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { mockCampaigns } from "@/lib/mock-data";
 
 const mockAdvertisers = [
   "株式会社ABC",
@@ -12,10 +13,25 @@ const mockAdvertisers = [
   "グローバルフーズ株式会社",
 ];
 
-const mockCampaigns = [
-  "新春キャンペーン2025",
-  "バレンタインキャンペーン",
-  "クリスマスキャンペーン2024",
+const mockCampaignPlans = [
+  {
+    id: "PLAN001",
+    name: "スタンダードプラン",
+    issuanceCount: 1000,
+    faceValue: 500,
+  },
+  {
+    id: "PLAN002",
+    name: "プレミアムプラン",
+    issuanceCount: 5000,
+    faceValue: 1000,
+  },
+  {
+    id: "PLAN003",
+    name: "エンタープライズプラン",
+    issuanceCount: 10000,
+    faceValue: 2000,
+  },
 ];
 
 export default function InvoiceNewPage() {
@@ -27,16 +43,27 @@ export default function InvoiceNewPage() {
     billingPeriod: "",
     issueDate: "",
     dueDate: "",
-    distributedCount: "",
-    unitPrice: "",
     paymentMethod: "銀行振込",
     description: "",
   });
 
+  // キャンペーン選択時に金額を自動計算
   const calculateAmounts = () => {
-    const count = parseInt(formData.distributedCount) || 0;
-    const price = parseInt(formData.unitPrice) || 0;
-    const amount = count * price;
+    if (!formData.campaign) {
+      return { amount: 0, tax: 0, totalAmount: 0 };
+    }
+
+    const selectedCampaign = mockCampaigns.find(c => c.campaignName === formData.campaign);
+    if (!selectedCampaign) {
+      return { amount: 0, tax: 0, totalAmount: 0 };
+    }
+
+    const campaignPlan = mockCampaignPlans.find(p => p.id === selectedCampaign.campaignPlanId);
+    if (!campaignPlan) {
+      return { amount: 0, tax: 0, totalAmount: 0 };
+    }
+
+    const amount = campaignPlan.issuanceCount * campaignPlan.faceValue;
     const tax = Math.floor(amount * 0.1);
     const totalAmount = amount + tax;
     return { amount, tax, totalAmount };
@@ -116,8 +143,8 @@ export default function InvoiceNewPage() {
                   >
                     <option value="">選択してください</option>
                     {mockCampaigns.map((campaign) => (
-                      <option key={campaign} value={campaign}>
-                        {campaign}
+                      <option key={campaign.id} value={campaign.campaignName}>
+                        {campaign.campaignName}
                       </option>
                     ))}
                   </select>
@@ -159,36 +186,6 @@ export default function InvoiceNewPage() {
                     value={formData.dueDate}
                     onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    配布枚数 <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    value={formData.distributedCount}
-                    onChange={(e) => setFormData({ ...formData, distributedCount: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                    placeholder="例: 1000"
-                    min="0"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    単価 (円) <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    value={formData.unitPrice}
-                    onChange={(e) => setFormData({ ...formData, unitPrice: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                    placeholder="例: 500"
-                    min="0"
                     required
                   />
                 </div>

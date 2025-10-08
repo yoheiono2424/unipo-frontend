@@ -26,11 +26,14 @@ export default function StoreGiftcardDetailPage({ params }: PageProps) {
   }
 
   const distributionHistory = [
-    { id: '1', date: '2025/10/07', count: 12, method: '自動', canEdit: false },
-    { id: '2', date: '2025/10/06', count: 18, method: '自動', canEdit: false },
-    { id: '3', date: '2025/10/05', count: 8, method: '手動', canEdit: true },
-    { id: '4', date: '2025/10/04', count: 22, method: '自動', canEdit: false },
-    { id: '5', date: '2025/10/03', count: 15, method: '手動', canEdit: true }
+    { id: '1', userId: 'USR-12345', userName: '田中 太郎', date: '2025/10/07', time: '14:23', count: 1, method: '自動', canEdit: false },
+    { id: '2', userId: 'USR-67890', userName: '佐藤 花子', date: '2025/10/07', time: '11:15', count: 1, method: '自動', canEdit: false },
+    { id: '3', userId: 'USR-11223', userName: '鈴木 一郎', date: '2025/10/06', time: '16:45', count: 1, method: '手動', canEdit: true },
+    { id: '4', userId: 'USR-44556', userName: '山田 美咲', date: '2025/10/06', time: '10:30', count: 1, method: '自動', canEdit: false },
+    { id: '5', userId: 'USR-77889', userName: '高橋 健太', date: '2025/10/05', time: '13:20', count: 1, method: '手動', canEdit: true },
+    { id: '6', userId: 'USR-22334', userName: '伊藤 愛', date: '2025/10/05', time: '09:50', count: 1, method: '自動', canEdit: false },
+    { id: '7', userId: 'USR-55667', userName: '渡辺 健', date: '2025/10/04', time: '15:10', count: 1, method: '自動', canEdit: false },
+    { id: '8', userId: 'USR-88990', userName: '中村 翔太', date: '2025/10/04', time: '12:05', count: 1, method: '手動', canEdit: true }
   ]
 
   const handleUpdate = () => {
@@ -130,8 +133,13 @@ export default function StoreGiftcardDetailPage({ params }: PageProps) {
                 className="bg-gray-50 border border-gray-200 rounded-xl p-4 flex items-center justify-between hover:bg-gray-100 transition-colors"
               >
                 <div className="flex-1">
-                  <div className="text-sm text-gray-900 font-medium">{history.date}</div>
-                  <div className="text-xs text-gray-600 mt-1 flex items-center gap-2">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-sm text-gray-900 font-medium">{history.userName}</span>
+                    <span className="text-xs text-gray-500">({history.userId})</span>
+                  </div>
+                  <div className="text-xs text-gray-600 flex items-center gap-2">
+                    <span>{history.date} {history.time}</span>
+                    <span className="text-gray-400">·</span>
                     <span className="font-medium">{history.count}枚</span>
                     <span className="text-gray-400">·</span>
                     <span className={`px-2 py-0.5 rounded-full text-xs ${

@@ -75,7 +75,7 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
 
     console.log("複製データ:", duplicateData);
     setShowDuplicateModal(false);
-    router.push('/advertiser/campaigns');
+    router.push(`/advertiser/campaigns/${newId}/edit`);
   };
 
   const handleDuplicateCancel = () => {

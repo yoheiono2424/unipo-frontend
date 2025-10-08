@@ -43,7 +43,7 @@ export default function AdvertiserQuestionnairesPage() {
       userName: '佐藤 花子',
       userAge: '35-44歳',
       userGender: '女性',
-      campaignName: '母の日感謝キャンペーン',
+      campaignName: '春の新生活応援キャンペーン',
       storeName: 'ららぽーと豊洲',
       completionRate: 100,
       responseQuality: '高'
@@ -69,7 +69,7 @@ export default function AdvertiserQuestionnairesPage() {
       userName: '山田 美咲',
       userAge: '18-24歳',
       userGender: '女性',
-      campaignName: '母の日感謝キャンペーン',
+      campaignName: '春の新生活応援キャンペーン',
       storeName: '新宿ルミネ',
       completionRate: 100,
       responseQuality: '高'
