@@ -26,6 +26,8 @@ const mockDistributions = {
 export default function CompanyDistributionsPage() {
   const [activeTab, setActiveTab] = useState<'company' | 'groups' | 'stores'>('company')
   const [searchTerm, setSearchTerm] = useState('')
+  const [dateFrom, setDateFrom] = useState('')
+  const [dateTo, setDateTo] = useState('')
 
   return (
     <CompanyLayout>
@@ -103,7 +105,7 @@ export default function CompanyDistributionsPage() {
             {/* グループ別タブ */}
             {activeTab === 'groups' && (
               <div>
-                <div className="mb-4">
+                <div className="mb-4 grid grid-cols-2 gap-4">
                   <div className="relative">
                     <input
                       type="text"
@@ -113,6 +115,23 @@ export default function CompanyDistributionsPage() {
                       className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     />
                     <Search className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
+                  </div>
+                  <div className="flex gap-2">
+                    <input
+                      type="date"
+                      value={dateFrom}
+                      onChange={(e) => setDateFrom(e.target.value)}
+                      placeholder="配布日From"
+                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    />
+                    <span className="flex items-center text-gray-500">〜</span>
+                    <input
+                      type="date"
+                      value={dateTo}
+                      onChange={(e) => setDateTo(e.target.value)}
+                      placeholder="配布日To"
+                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    />
                   </div>
                 </div>
                 <table className="min-w-full divide-y divide-gray-200">
@@ -149,7 +168,7 @@ export default function CompanyDistributionsPage() {
             {/* 店舗別タブ */}
             {activeTab === 'stores' && (
               <div>
-                <div className="mb-4">
+                <div className="mb-4 grid grid-cols-2 gap-4">
                   <div className="relative">
                     <input
                       type="text"
@@ -159,6 +178,23 @@ export default function CompanyDistributionsPage() {
                       className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     />
                     <Search className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
+                  </div>
+                  <div className="flex gap-2">
+                    <input
+                      type="date"
+                      value={dateFrom}
+                      onChange={(e) => setDateFrom(e.target.value)}
+                      placeholder="配布日From"
+                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    />
+                    <span className="flex items-center text-gray-500">〜</span>
+                    <input
+                      type="date"
+                      value={dateTo}
+                      onChange={(e) => setDateTo(e.target.value)}
+                      placeholder="配布日To"
+                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    />
                   </div>
                 </div>
                 <table className="min-w-full divide-y divide-gray-200">

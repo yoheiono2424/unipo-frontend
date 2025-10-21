@@ -21,6 +21,8 @@ const mockDistributions = {
 export default function GroupDistributionsPage() {
   const [activeTab, setActiveTab] = useState<'group' | 'stores'>('group')
   const [searchTerm, setSearchTerm] = useState('')
+  const [dateFrom, setDateFrom] = useState('')
+  const [dateTo, setDateTo] = useState('')
 
   const filteredStores = mockDistributions.stores.filter(store =>
     store.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -92,7 +94,7 @@ export default function GroupDistributionsPage() {
             {/* 店舗別タブ */}
             {activeTab === 'stores' && (
               <div>
-                <div className="mb-4">
+                <div className="mb-4 grid grid-cols-2 gap-4">
                   <div className="relative">
                     <input
                       type="text"
@@ -102,6 +104,23 @@ export default function GroupDistributionsPage() {
                       className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900"
                     />
                     <Search className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
+                  </div>
+                  <div className="flex gap-2">
+                    <input
+                      type="date"
+                      value={dateFrom}
+                      onChange={(e) => setDateFrom(e.target.value)}
+                      placeholder="配布日From"
+                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900"
+                    />
+                    <span className="flex items-center text-gray-500">〜</span>
+                    <input
+                      type="date"
+                      value={dateTo}
+                      onChange={(e) => setDateTo(e.target.value)}
+                      placeholder="配布日To"
+                      className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900"
+                    />
                   </div>
                 </div>
 
