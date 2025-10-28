@@ -1,24 +1,37 @@
 'use client'
 
-import AdvertiserLayout from '@/components/advertiser/AdvertiserLayout'
-import { useState } from 'react'
+import AdminLayout from '@/components/admin/AdminLayout'
+import { useState, Suspense } from 'react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import {
   Search,
   Download,
-  Filter,
-  FileText,
   ChevronLeft,
   ChevronRight,
+  ArrowLeft,
+  FileText,
   BarChart,
-  ArrowLeft
+  Filter
 } from 'lucide-react'
 
-export default function AdvertiserQuestionnairesPage() {
+function ResponsesContent() {
+  const searchParams = useSearchParams()
+  const questionnaireId = searchParams.get('questionnaireId')
+
   const [searchTerm, setSearchTerm] = useState('')
   const [dateFrom, setDateFrom] = useState('')
   const [dateTo, setDateTo] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
+
+  // アンケート情報（モック）
+  const questionnaire = {
+    id: questionnaireId || '1',
+    questionnaireId: 'QST-2025-001',
+    title: '春の新生活応援キャンペーン アンケート',
+    advertiserName: '○○株式会社',
+    campaignName: '春の新生活応援キャンペーン'
+  }
 
   // アンケート回答データ（モック）
   const responses = [
@@ -93,8 +106,7 @@ export default function AdvertiserQuestionnairesPage() {
   const statistics = {
     totalResponses: '3,892',
     responseRate: '45.2%',
-    averageCompletionRate: '92.5%',
-    highQualityRate: '78.3%'
+    averageCompletionRate: '92.5%'
   }
 
   // フィルタリング
@@ -111,20 +123,23 @@ export default function AdvertiserQuestionnairesPage() {
   const displayedResponses = filteredResponses.slice(startIndex, startIndex + itemsPerPage)
 
   return (
-    <AdvertiserLayout>
+    <AdminLayout>
       <div className="p-6">
         {/* ヘッダー */}
         <div className="mb-6">
           <div className="flex items-center gap-4 mb-2">
             <Link
-              href="/advertiser/questionnaires"
+              href={`/admin/questionnaires/${questionnaire.id}`}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
               <ArrowLeft size={24} className="text-gray-600" />
             </Link>
-            <h1 className="text-2xl font-bold text-gray-900">アンケート回答</h1>
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">アンケート回答</h1>
+              <p className="text-sm text-gray-600 mt-1">{questionnaire.title}</p>
+            </div>
           </div>
-          <p className="text-gray-600 ml-14">収集したアンケート回答を確認・分析できます</p>
+          <p className="text-gray-600 ml-14">広告主：{questionnaire.advertiserName} | キャンペーン：{questionnaire.campaignName}</p>
         </div>
 
         {/* 統計カード */}
@@ -232,7 +247,7 @@ export default function AdvertiserQuestionnairesPage() {
                   <tr
                     key={response.id}
                     className="hover:bg-gray-50 cursor-pointer"
-                    onClick={() => window.location.href = `/advertiser/questionnaires/responses/${response.id}`}
+                    onClick={() => window.location.href = `/admin/questionnaires/responses/${response.id}?questionnaireId=${questionnaire.id}`}
                   >
                     <td className="px-6 py-4">
                       <div className="text-sm text-gray-900">{response.responseDate}</div>
@@ -321,6 +336,14 @@ export default function AdvertiserQuestionnairesPage() {
           )}
         </div>
       </div>
-    </AdvertiserLayout>
+    </AdminLayout>
+  )
+}
+
+export default function AdminQuestionnairesResponsesPage() {
+  return (
+    <Suspense fallback={<div className="p-6">読み込み中...</div>}>
+      <ResponsesContent />
+    </Suspense>
   )
 }

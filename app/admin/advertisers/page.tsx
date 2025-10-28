@@ -11,11 +11,7 @@ export default function AdminAdvertisersPage() {
   const [searchAdvertiserName, setSearchAdvertiserName] = useState("");
   const [searchAddress, setSearchAddress] = useState("");
   const [searchStatus, setSearchStatus] = useState("");
-  const [searchMemo1, setSearchMemo1] = useState("");
-  const [searchMemo2, setSearchMemo2] = useState("");
-  const [searchMemo3, setSearchMemo3] = useState("");
-  const [searchMemo4, setSearchMemo4] = useState("");
-  const [searchMemo5, setSearchMemo5] = useState("");
+  const [searchMemo, setSearchMemo] = useState("");
   const router = useRouter();
 
   const advertisers = mockAdvertisers.filter(advertiser => {
@@ -23,14 +19,15 @@ export default function AdminAdvertisersPage() {
     const addressMatch = searchAddress === "" || searchAddress === "all";
     const statusMatch = searchStatus === "" || searchStatus === "all" || advertiser.status === searchStatus;
 
-    // メモ検索
-    const memo1Match = searchMemo1 === "" || (advertiser.memo1 && advertiser.memo1.toLowerCase().includes(searchMemo1.toLowerCase()));
-    const memo2Match = searchMemo2 === "" || (advertiser.memo2 && advertiser.memo2.toLowerCase().includes(searchMemo2.toLowerCase()));
-    const memo3Match = searchMemo3 === "" || (advertiser.memo3 && advertiser.memo3.toLowerCase().includes(searchMemo3.toLowerCase()));
-    const memo4Match = searchMemo4 === "" || (advertiser.memo4 && advertiser.memo4.toLowerCase().includes(searchMemo4.toLowerCase()));
-    const memo5Match = searchMemo5 === "" || (advertiser.memo5 && advertiser.memo5.toLowerCase().includes(searchMemo5.toLowerCase()));
+    // 運営メモ統合検索（メモ1〜5のいずれかにマッチすればOK）
+    const memoMatch = searchMemo === "" ||
+      (advertiser.memo1 && advertiser.memo1.toLowerCase().includes(searchMemo.toLowerCase())) ||
+      (advertiser.memo2 && advertiser.memo2.toLowerCase().includes(searchMemo.toLowerCase())) ||
+      (advertiser.memo3 && advertiser.memo3.toLowerCase().includes(searchMemo.toLowerCase())) ||
+      (advertiser.memo4 && advertiser.memo4.toLowerCase().includes(searchMemo.toLowerCase())) ||
+      (advertiser.memo5 && advertiser.memo5.toLowerCase().includes(searchMemo.toLowerCase()));
 
-    return nameMatch && addressMatch && statusMatch && memo1Match && memo2Match && memo3Match && memo4Match && memo5Match;
+    return nameMatch && addressMatch && statusMatch && memoMatch;
   });
 
   return (
@@ -102,65 +99,18 @@ export default function AdminAdvertisersPage() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                メモ1
+                運営メモ統合検索
               </label>
-              <input
-                type="text"
-                placeholder="メモ1で検索"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                value={searchMemo1}
-                onChange={(e) => setSearchMemo1(e.target.value)}
-              />
-            </div>
-
-            {/* 第2行 */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                メモ2
-              </label>
-              <input
-                type="text"
-                placeholder="メモ2で検索"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                value={searchMemo2}
-                onChange={(e) => setSearchMemo2(e.target.value)}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                メモ3
-              </label>
-              <input
-                type="text"
-                placeholder="メモ3で検索"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                value={searchMemo3}
-                onChange={(e) => setSearchMemo3(e.target.value)}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                メモ4
-              </label>
-              <input
-                type="text"
-                placeholder="メモ4で検索"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                value={searchMemo4}
-                onChange={(e) => setSearchMemo4(e.target.value)}
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                メモ5
-              </label>
-              <input
-                type="text"
-                placeholder="メモ5で検索"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                value={searchMemo5}
-                onChange={(e) => setSearchMemo5(e.target.value)}
-              />
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="メモ1〜5から検索"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                  value={searchMemo}
+                  onChange={(e) => setSearchMemo(e.target.value)}
+                />
+              </div>
             </div>
           </div>
         </div>

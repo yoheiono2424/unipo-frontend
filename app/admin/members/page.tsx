@@ -2,9 +2,10 @@
 
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useState } from "react";
-import { Search } from "lucide-react";
+import { Search, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { mockMembers } from "@/lib/mock-data";
+import Link from "next/link";
 
 export default function AdminMembersPage() {
   const [searchName, setSearchName] = useState("");
@@ -15,6 +16,7 @@ export default function AdminMembersPage() {
   const [searchStatus, setSearchStatus] = useState("");
   const [searchRegDateFrom, setSearchRegDateFrom] = useState("");
   const [searchRegDateTo, setSearchRegDateTo] = useState("");
+  const [searchMemberMemo, setSearchMemberMemo] = useState("");
   const router = useRouter();
 
   // モックデータをフィルタリング
@@ -25,6 +27,7 @@ export default function AdminMembersPage() {
     const rankMatch = searchMemberRank === "" || member.memberRank === searchMemberRank;
     const phoneMatch = searchPhone === "" || member.phone.includes(searchPhone);
     const statusMatch = searchStatus === "" || member.memberStatus === searchStatus;
+    const memoMatch = searchMemberMemo === "" || (member.memberMemo && member.memberMemo.toLowerCase().includes(searchMemberMemo.toLowerCase()));
 
     // 登録日の範囲フィルタ
     let regDateMatch = true;
@@ -34,7 +37,7 @@ export default function AdminMembersPage() {
       if (searchRegDateTo && regDate > searchRegDateTo) regDateMatch = false;
     }
 
-    return nameMatch && genderMatch && birthdateMatch && rankMatch && phoneMatch && statusMatch && regDateMatch;
+    return nameMatch && genderMatch && birthdateMatch && rankMatch && phoneMatch && statusMatch && regDateMatch && memoMatch;
   });
 
   return (
@@ -45,6 +48,13 @@ export default function AdminMembersPage() {
             <h1 className="text-2xl font-bold text-gray-900">会員管理</h1>
             <p className="text-sm text-gray-600 mt-1">登録会員の一覧と管理</p>
           </div>
+          <Link
+            href="/admin/members/new"
+            className="bg-indigo-600 text-white px-5 py-2.5 rounded-lg hover:bg-indigo-700 flex items-center gap-2 transition-colors"
+          >
+            <Plus className="h-4 w-4" />
+            新規登録
+          </Link>
         </div>
 
         {/* 検索・フィルタ */}
@@ -131,9 +141,9 @@ export default function AdminMembersPage() {
               >
                 <option value="">すべて</option>
                 <option value="本登録">本登録</option>
-                <option value="仮登録">仮登録</option>
                 <option value="休止">休止</option>
-                <option value="退会">退会</option>
+                <option value="自主退会">自主退会</option>
+                <option value="強制退会">強制退会</option>
               </select>
             </div>
             <div>
@@ -157,6 +167,22 @@ export default function AdminMembersPage() {
                 value={searchRegDateTo}
                 onChange={(e) => setSearchRegDateTo(e.target.value)}
               />
+            </div>
+            {/* 第3行 */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                会員メモ（運営専用）
+              </label>
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="メモ内容で検索（例：VIP）"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                  value={searchMemberMemo}
+                  onChange={(e) => setSearchMemberMemo(e.target.value)}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -248,11 +274,13 @@ export default function AdminMembersPage() {
                       <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                         member.memberStatus === '本登録'
                           ? 'bg-green-100 text-green-800'
-                          : member.memberStatus === '仮登録'
-                          ? 'bg-yellow-100 text-yellow-800'
                           : member.memberStatus === '休止'
                           ? 'bg-gray-100 text-gray-800'
-                          : 'bg-red-100 text-red-800'
+                          : member.memberStatus === '自主退会'
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : member.memberStatus === '強制退会'
+                          ? 'bg-red-100 text-red-800'
+                          : 'bg-gray-100 text-gray-800'
                       }`}>
                         {member.memberStatus}
                       </span>

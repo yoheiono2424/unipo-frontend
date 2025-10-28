@@ -1,11 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import Link from "next/link";
-import { ChevronLeft, Save } from "lucide-react";
+import { ChevronLeft, Save, Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { mockStores } from "@/lib/mock-data";
+
+// キャンペーンプランのモックデータ
+const campaignPlans = [
+  { id: 'plan001', name: 'ベーシックプラン', issueCount: 1000, amount: 500 },
+  { id: 'plan002', name: 'スタンダードプラン', issueCount: 5000, amount: 1000 },
+  { id: 'plan003', name: 'プレミアムプラン', issueCount: 10000, amount: 3000 },
+  { id: 'custom', name: 'カスタムプラン', issueCount: 0, amount: 0 }
+];
 
 export default function NewCampaignPage() {
   const router = useRouter();
@@ -15,6 +23,8 @@ export default function NewCampaignPage() {
     advertiserName: "",
     planId: "",
     planName: "",
+    giftCardAmount: 0,
+    totalCards: 0,
     budget: "",
     actualCost: "",
     distributionScheduledDate: "",
@@ -23,14 +33,47 @@ export default function NewCampaignPage() {
     distributionEndDate: "",
     distributionEndTime: "",
     applicableStoreIds: [] as string[],
-    campaignThumbnailImageUrl: "",
-    campaignBannerImageUrl: "",
-    campaignDetailImageUrl1: "",
-    campaignDetailImageUrl2: "",
-    campaignDetailImageUrl3: "",
+    campaignImage: null as File | null,
     registeredAt: "",
     registeredBy: "",
+    // ターゲット設定
+    isAgeUnrestricted: true,
+    ageFrom: "",
+    ageTo: "",
+    targetGender: "指定なし",
   });
+
+  const [imagePreview, setImagePreview] = useState<string>("");
+
+  // キャンペーンプラン選択時に発行枚数と額面を自動設定
+  useEffect(() => {
+    if (formData.planId === '') {
+      // 未選択の場合は0にする
+      setFormData(prev => ({
+        ...prev,
+        giftCardAmount: 0,
+        totalCards: 0
+      }));
+    } else {
+      const selectedPlan = campaignPlans.find(plan => plan.id === formData.planId);
+      if (selectedPlan && selectedPlan.id !== 'custom') {
+        setFormData(prev => ({
+          ...prev,
+          planName: selectedPlan.name,
+          giftCardAmount: selectedPlan.amount,
+          totalCards: selectedPlan.issueCount
+        }));
+      } else if (selectedPlan && selectedPlan.id === 'custom') {
+        // カスタムプランの場合は0にする（手動入力可能）
+        setFormData(prev => ({
+          ...prev,
+          planName: selectedPlan.name,
+          giftCardAmount: 0,
+          totalCards: 0
+        }));
+      }
+    }
+  }, [formData.planId]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -44,6 +87,28 @@ export default function NewCampaignPage() {
         ? prev.applicableStoreIds.filter((id) => id !== storeId)
         : [...prev.applicableStoreIds, storeId],
     }));
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // ファイルサイズチェック（5MB以内）
+      if (file.size > 5 * 1024 * 1024) {
+        alert('ファイルサイズは5MB以内にしてください');
+        return;
+      }
+      // ファイル形式チェック
+      if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+        alert('JPG、PNG、WEBP形式のファイルをアップロードしてください');
+        return;
+      }
+      setFormData({ ...formData, campaignImage: file });
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = () => {
@@ -107,6 +172,106 @@ export default function NewCampaignPage() {
               </div>
             </div>
 
+            {/* ターゲット設定 */}
+            <div className="bg-white rounded-lg shadow-sm p-6">
+              <h2 className="text-lg font-semibold mb-4">ターゲット設定</h2>
+
+              {/* 対象年齢 */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-3">対象年齢</label>
+                <div className="space-y-3">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      name="isAgeUnrestricted"
+                      checked={formData.isAgeUnrestricted}
+                      onChange={(e) => setFormData(prev => ({
+                        ...prev,
+                        isAgeUnrestricted: e.target.checked,
+                        ageFrom: e.target.checked ? "" : prev.ageFrom,
+                        ageTo: e.target.checked ? "" : prev.ageTo
+                      }))}
+                      className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    />
+                    <label className="ml-2 text-sm text-gray-700">
+                      年齢制限なし
+                    </label>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm text-gray-600 mb-1">From（歳以上）</label>
+                      <input
+                        type="number"
+                        name="ageFrom"
+                        value={formData.ageFrom}
+                        onChange={handleChange}
+                        disabled={formData.isAgeUnrestricted}
+                        min="0"
+                        max="120"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        placeholder="例: 20"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-gray-600 mb-1">To（歳以下）</label>
+                      <input
+                        type="number"
+                        name="ageTo"
+                        value={formData.ageTo}
+                        onChange={handleChange}
+                        disabled={formData.isAgeUnrestricted}
+                        min="0"
+                        max="120"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        placeholder="例: 40"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 対象性別 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-3">対象性別</label>
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      name="targetGender"
+                      value="指定なし"
+                      checked={formData.targetGender === "指定なし"}
+                      onChange={handleChange}
+                      className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <label className="ml-2 text-sm text-gray-700">指定なし</label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      name="targetGender"
+                      value="男性"
+                      checked={formData.targetGender === "男性"}
+                      onChange={handleChange}
+                      className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <label className="ml-2 text-sm text-gray-700">男性</label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      name="targetGender"
+                      value="女性"
+                      checked={formData.targetGender === "女性"}
+                      onChange={handleChange}
+                      className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <label className="ml-2 text-sm text-gray-700">女性</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* プラン・広告主情報 */}
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h2 className="text-lg font-semibold mb-4">プラン・広告主情報</h2>
@@ -137,51 +302,62 @@ export default function NewCampaignPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    プランID
+                    キャンペーンプラン <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="text"
+                  <select
                     name="planId"
                     value={formData.planId}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                    required
+                  >
+                    <option value="">選択してください</option>
+                    <option value="plan001">ベーシックプラン</option>
+                    <option value="plan002">スタンダードプラン</option>
+                    <option value="plan003">プレミアムプラン</option>
+                    <option value="custom">カスタムプラン</option>
+                  </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    プラン名
-                  </label>
-                  <input
-                    type="text"
-                    name="planName"
-                    value={formData.planName}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    予算
+                    ギフトカード金額 (円) <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="number"
-                    name="budget"
-                    value={formData.budget}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    name="giftCardAmount"
+                    value={formData.giftCardAmount}
+                    onChange={(e) => setFormData({ ...formData, giftCardAmount: parseInt(e.target.value) || 0 })}
+                    disabled={formData.planId !== 'custom' && formData.planId !== ''}
+                    className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 ${
+                      formData.planId !== 'custom' && formData.planId !== '' ? 'bg-gray-100 cursor-not-allowed' : ''
+                    }`}
+                    min="100"
+                    step="100"
+                    required
                   />
+                  {formData.planId !== 'custom' && formData.planId !== '' && (
+                    <p className="text-xs text-gray-500 mt-1">※カスタムプランの場合のみ編集可能</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    実費用
+                    総発行枚数 <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="number"
-                    name="actualCost"
-                    value={formData.actualCost}
-                    onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    name="totalCards"
+                    value={formData.totalCards}
+                    onChange={(e) => setFormData({ ...formData, totalCards: parseInt(e.target.value) || 0 })}
+                    disabled={formData.planId !== 'custom' && formData.planId !== ''}
+                    className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 ${
+                      formData.planId !== 'custom' && formData.planId !== '' ? 'bg-gray-100 cursor-not-allowed' : ''
+                    }`}
+                    min="1"
+                    required
                   />
+                  {formData.planId !== 'custom' && formData.planId !== '' && (
+                    <p className="text-xs text-gray-500 mt-1">※カスタムプランの場合のみ編集可能</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -280,134 +456,44 @@ export default function NewCampaignPage() {
             {/* キャンペーン画像 */}
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h2 className="text-lg font-semibold mb-4">キャンペーン画像</h2>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    サムネイル画像URL
-                  </label>
-                  <input
-                    type="url"
-                    name="campaignThumbnailImageUrl"
-                    value={formData.campaignThumbnailImageUrl}
-                    onChange={handleChange}
-                    placeholder="https://example.com/thumbnail.jpg"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                  {formData.campaignThumbnailImageUrl && (
-                    <div className="mt-2">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  キャンペーン画像 <span className="text-red-500">*</span>
+                </label>
+                <p className="text-xs text-gray-500 mb-3">
+                  JPG、PNG、WEBP形式（最大5MB）
+                </p>
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
+                  {imagePreview ? (
+                    <div className="text-center">
                       <img
-                        src={formData.campaignThumbnailImageUrl}
-                        alt="サムネイル画像プレビュー"
-                        className="h-24 w-24 object-cover rounded border"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = 'none';
-                        }}
+                        src={imagePreview}
+                        alt="プレビュー"
+                        className="mx-auto mb-4 max-h-64 rounded-lg"
                       />
-                    </div>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    バナー画像URL
-                  </label>
-                  <input
-                    type="url"
-                    name="campaignBannerImageUrl"
-                    value={formData.campaignBannerImageUrl}
-                    onChange={handleChange}
-                    placeholder="https://example.com/banner.jpg"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                  {formData.campaignBannerImageUrl && (
-                    <div className="mt-2">
-                      <img
-                        src={formData.campaignBannerImageUrl}
-                        alt="バナー画像プレビュー"
-                        className="h-32 w-auto object-cover rounded border"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = 'none';
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setFormData({ ...formData, campaignImage: null });
+                          setImagePreview('');
                         }}
-                      />
+                        className="text-sm text-red-600 hover:text-red-700 font-medium"
+                      >
+                        画像を削除
+                      </button>
                     </div>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    詳細画像URL 1
-                  </label>
-                  <input
-                    type="url"
-                    name="campaignDetailImageUrl1"
-                    value={formData.campaignDetailImageUrl1}
-                    onChange={handleChange}
-                    placeholder="https://example.com/detail1.jpg"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                  {formData.campaignDetailImageUrl1 && (
-                    <div className="mt-2">
-                      <img
-                        src={formData.campaignDetailImageUrl1}
-                        alt="詳細画像1プレビュー"
-                        className="h-32 w-auto object-cover rounded border"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = 'none';
-                        }}
+                  ) : (
+                    <label className="flex flex-col items-center cursor-pointer">
+                      <Upload className="h-12 w-12 text-gray-400 mb-2" />
+                      <span className="text-sm text-gray-600 mb-1">クリックして画像をアップロード</span>
+                      <span className="text-xs text-gray-500">JPG、PNG、WEBP（最大5MB）</span>
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        onChange={handleImageUpload}
+                        className="hidden"
                       />
-                    </div>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    詳細画像URL 2
-                  </label>
-                  <input
-                    type="url"
-                    name="campaignDetailImageUrl2"
-                    value={formData.campaignDetailImageUrl2}
-                    onChange={handleChange}
-                    placeholder="https://example.com/detail2.jpg"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                  {formData.campaignDetailImageUrl2 && (
-                    <div className="mt-2">
-                      <img
-                        src={formData.campaignDetailImageUrl2}
-                        alt="詳細画像2プレビュー"
-                        className="h-32 w-auto object-cover rounded border"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = 'none';
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    詳細画像URL 3
-                  </label>
-                  <input
-                    type="url"
-                    name="campaignDetailImageUrl3"
-                    value={formData.campaignDetailImageUrl3}
-                    onChange={handleChange}
-                    placeholder="https://example.com/detail3.jpg"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                  {formData.campaignDetailImageUrl3 && (
-                    <div className="mt-2">
-                      <img
-                        src={formData.campaignDetailImageUrl3}
-                        alt="詳細画像3プレビュー"
-                        className="h-32 w-auto object-cover rounded border"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = 'none';
-                        }}
-                      />
-                    </div>
+                    </label>
                   )}
                 </div>
               </div>

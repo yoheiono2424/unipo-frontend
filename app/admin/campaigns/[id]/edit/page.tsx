@@ -1,11 +1,19 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Save, X, Gift, Hash, Package, FileImage, MapPin, CreditCard } from "lucide-react";
+import { ArrowLeft, Save, X, Gift, Hash, Package, FileImage, MapPin, CreditCard, Users, Upload } from "lucide-react";
 import Link from "next/link";
-import { use, useState } from "react";
+import { use, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { mockCampaigns, mockStores } from "@/lib/mock-data";
+
+// キャンペーンプランのモックデータ
+const campaignPlans = [
+  { id: 'plan001', name: 'ベーシックプラン', issueCount: 1000, amount: 500 },
+  { id: 'plan002', name: 'スタンダードプラン', issueCount: 5000, amount: 1000 },
+  { id: 'plan003', name: 'プレミアムプラン', issueCount: 10000, amount: 3000 },
+  { id: 'custom', name: 'カスタムプラン', issueCount: 0, amount: 0 }
+];
 
 export default function CampaignEditPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
@@ -27,15 +35,35 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
     budgetAmount: campaign.budgetAmount,
     campaignDescription: campaign.campaignDescription,
     targetStores: campaign.targetStores || [],
-    distributionMethod: campaign.distributionMethod,
-    campaignImage1: campaign.campaignImage1,
-    campaignImage2: campaign.campaignImage2,
-    campaignImage3: campaign.campaignImage3,
-    campaignImage4: campaign.campaignImage4,
-    campaignImage5: campaign.campaignImage5,
+    campaignImage: null as File | null,
+    // ターゲット設定（モックデータにはないのでデフォルト値）
+    isAgeUnrestricted: true,
+    ageFrom: "",
+    ageTo: "",
+    targetGender: "指定なし",
   });
 
   const [selectedStores, setSelectedStores] = useState<string[]>(campaign.targetStores || []);
+  const [imagePreview, setImagePreview] = useState<string>(campaign.campaignImage1 || "");
+
+  // キャンペーンプラン選択時に発行枚数と額面を自動設定
+  useEffect(() => {
+    if (formData.campaignPlanId === '') {
+      // 未選択の場合は変更しない（編集画面なので既存値を保持）
+      return;
+    }
+
+    const selectedPlan = campaignPlans.find(plan => plan.id === formData.campaignPlanId);
+    if (selectedPlan && selectedPlan.id !== 'custom') {
+      setFormData(prev => ({
+        ...prev,
+        campaignPlanName: selectedPlan.name,
+        giftCardAmount: selectedPlan.amount,
+        totalCards: selectedPlan.issueCount
+      }));
+    }
+    // カスタムプランの場合は既存値を保持（手動入力を許可）
+  }, [formData.campaignPlanId]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,6 +89,28 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
         ? prev.filter(id => id !== storeId)
         : [...prev, storeId]
     );
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // ファイルサイズチェック（5MB以内）
+      if (file.size > 5 * 1024 * 1024) {
+        alert('ファイルサイズは5MB以内にしてください');
+        return;
+      }
+      // ファイル形式チェック
+      if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+        alert('JPG、PNG、WEBP形式のファイルをアップロードしてください');
+        return;
+      }
+      setFormData({ ...formData, campaignImage: file });
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -142,6 +192,110 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
             </div>
           </div>
 
+          {/* ターゲット設定セクション */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+            <div className="p-6 border-b border-gray-100">
+              <div className="flex items-center gap-2">
+                <Users className="h-5 w-5 text-purple-500" />
+                <h2 className="text-lg font-semibold text-gray-900">ターゲット設定</h2>
+              </div>
+            </div>
+            <div className="p-6 space-y-6">
+              {/* 対象年齢 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-3">対象年齢</label>
+                <div className="space-y-3">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      name="isAgeUnrestricted"
+                      checked={formData.isAgeUnrestricted}
+                      onChange={(e) => setFormData(prev => ({
+                        ...prev,
+                        isAgeUnrestricted: e.target.checked,
+                        ageFrom: e.target.checked ? "" : prev.ageFrom,
+                        ageTo: e.target.checked ? "" : prev.ageTo
+                      }))}
+                      className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    />
+                    <label className="ml-2 text-sm text-gray-700">年齢制限なし</label>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm text-gray-600 mb-1">From（歳以上）</label>
+                      <input
+                        type="number"
+                        name="ageFrom"
+                        value={formData.ageFrom}
+                        onChange={(e) => setFormData({ ...formData, ageFrom: e.target.value })}
+                        disabled={formData.isAgeUnrestricted}
+                        min="0"
+                        max="120"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        placeholder="例: 20"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-gray-600 mb-1">To（歳以下）</label>
+                      <input
+                        type="number"
+                        name="ageTo"
+                        value={formData.ageTo}
+                        onChange={(e) => setFormData({ ...formData, ageTo: e.target.value })}
+                        disabled={formData.isAgeUnrestricted}
+                        min="0"
+                        max="120"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        placeholder="例: 40"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 対象性別 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-3">対象性別</label>
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      name="targetGender"
+                      value="指定なし"
+                      checked={formData.targetGender === "指定なし"}
+                      onChange={(e) => setFormData({ ...formData, targetGender: e.target.value })}
+                      className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <label className="ml-2 text-sm text-gray-700">指定なし</label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      name="targetGender"
+                      value="男性"
+                      checked={formData.targetGender === "男性"}
+                      onChange={(e) => setFormData({ ...formData, targetGender: e.target.value })}
+                      className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <label className="ml-2 text-sm text-gray-700">男性</label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      name="targetGender"
+                      value="女性"
+                      checked={formData.targetGender === "女性"}
+                      onChange={(e) => setFormData({ ...formData, targetGender: e.target.value })}
+                      className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <label className="ml-2 text-sm text-gray-700">女性</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* プラン・広告主情報セクション */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-100">
             <div className="p-6 border-b border-gray-100">
@@ -154,28 +308,19 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    プランID
+                    キャンペーンプラン <span className="text-red-500">*</span>
                   </label>
-                  <input
-                    type="text"
+                  <select
                     value={formData.campaignPlanId}
                     onChange={(e) => setFormData({ ...formData, campaignPlanId: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    プラン名 <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    value={formData.campaignPlanName}
-                    onChange={(e) => setFormData({ ...formData, campaignPlanName: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   >
-                    <option value="スタンダードプラン">スタンダードプラン</option>
-                    <option value="プレミアムプラン">プレミアムプラン</option>
-                    <option value="エンタープライズプラン">エンタープライズプラン</option>
+                    <option value="">選択してください</option>
+                    <option value="plan001">ベーシックプラン</option>
+                    <option value="plan002">スタンダードプラン</option>
+                    <option value="plan003">プレミアムプラン</option>
+                    <option value="custom">カスタムプラン</option>
                   </select>
                 </div>
                 <div>
@@ -250,11 +395,17 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     type="number"
                     value={formData.giftCardAmount}
                     onChange={(e) => setFormData({ ...formData, giftCardAmount: parseInt(e.target.value) })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                    disabled={formData.campaignPlanId !== 'custom' && formData.campaignPlanId !== ''}
+                    className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 ${
+                      formData.campaignPlanId !== 'custom' && formData.campaignPlanId !== '' ? 'bg-gray-100 cursor-not-allowed' : ''
+                    }`}
                     min="100"
                     step="100"
                     required
                   />
+                  {formData.campaignPlanId !== 'custom' && formData.campaignPlanId !== '' && (
+                    <p className="text-xs text-gray-500 mt-1">※カスタムプランの場合のみ編集可能</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -264,10 +415,16 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     type="number"
                     value={formData.totalCards}
                     onChange={(e) => setFormData({ ...formData, totalCards: parseInt(e.target.value) })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                    disabled={formData.campaignPlanId !== 'custom' && formData.campaignPlanId !== ''}
+                    className={`w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 ${
+                      formData.campaignPlanId !== 'custom' && formData.campaignPlanId !== '' ? 'bg-gray-100 cursor-not-allowed' : ''
+                    }`}
                     min="1"
                     required
                   />
+                  {formData.campaignPlanId !== 'custom' && formData.campaignPlanId !== '' && (
+                    <p className="text-xs text-gray-500 mt-1">※カスタムプランの場合のみ編集可能</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -281,21 +438,6 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     min="0"
                     required
                   />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    配布方法 <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    value={formData.distributionMethod}
-                    onChange={(e) => setFormData({ ...formData, distributionMethod: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                    required
-                  >
-                    <option value="店頭配布">店頭配布</option>
-                    <option value="QRコード配布">QRコード配布</option>
-                    <option value="アプリ配布">アプリ配布</option>
-                  </select>
                 </div>
               </div>
 
@@ -351,93 +493,46 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                 <h2 className="text-lg font-semibold text-gray-900">キャンペーン画像</h2>
               </div>
             </div>
-            <div className="p-6 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    画像1 URL
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.campaignImage1}
-                    onChange={(e) => setFormData({ ...formData, campaignImage1: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                    placeholder="画像URLを入力"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    画像2 URL
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.campaignImage2}
-                    onChange={(e) => setFormData({ ...formData, campaignImage2: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                    placeholder="画像URLを入力"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    画像3 URL
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.campaignImage3}
-                    onChange={(e) => setFormData({ ...formData, campaignImage3: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                    placeholder="画像URLを入力"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    画像4 URL
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.campaignImage4}
-                    onChange={(e) => setFormData({ ...formData, campaignImage4: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                    placeholder="画像URLを入力"
-                  />
-                </div>
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    画像5 URL
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.campaignImage5}
-                    onChange={(e) => setFormData({ ...formData, campaignImage5: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                    placeholder="画像URLを入力"
-                  />
-                </div>
-              </div>
-
-              {/* プレビュー */}
-              <div className="border-t pt-6">
-                <p className="text-sm font-medium text-gray-700 mb-3">画像プレビュー</p>
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                  {[formData.campaignImage1, formData.campaignImage2, formData.campaignImage3, formData.campaignImage4, formData.campaignImage5].map((url, index) => (
-                    <div key={index} className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
-                      {url ? (
-                        <img
-                          src={url}
-                          alt={`画像${index + 1}`}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).style.display = 'none';
-                          }}
-                        />
-                      ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
-                          <FileImage className="h-6 w-6 mb-1" />
-                          <span className="text-xs">画像{index + 1}</span>
-                        </div>
-                      )}
+            <div className="p-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  キャンペーン画像 <span className="text-red-500">*</span>
+                </label>
+                <p className="text-xs text-gray-500 mb-3">
+                  JPG、PNG、WEBP形式（最大5MB）
+                </p>
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
+                  {imagePreview ? (
+                    <div className="text-center">
+                      <img
+                        src={imagePreview}
+                        alt="プレビュー"
+                        className="mx-auto mb-4 max-h-64 rounded-lg"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setFormData({ ...formData, campaignImage: null });
+                          setImagePreview('');
+                        }}
+                        className="text-sm text-red-600 hover:text-red-700 font-medium"
+                      >
+                        画像を削除
+                      </button>
                     </div>
-                  ))}
+                  ) : (
+                    <label className="flex flex-col items-center cursor-pointer">
+                      <Upload className="h-12 w-12 text-gray-400 mb-2" />
+                      <span className="text-sm text-gray-600 mb-1">クリックして画像をアップロード</span>
+                      <span className="text-xs text-gray-500">JPG、PNG、WEBP（最大5MB）</span>
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                      />
+                    </label>
+                  )}
                 </div>
               </div>
             </div>

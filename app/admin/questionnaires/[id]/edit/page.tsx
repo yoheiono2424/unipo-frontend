@@ -1,7 +1,7 @@
 'use client'
 
-import AdvertiserLayout from '@/components/advertiser/AdvertiserLayout'
-import { useState } from 'react'
+import AdminLayout from '@/components/admin/AdminLayout'
+import { useState, useEffect, use } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   ArrowLeft,
@@ -24,10 +24,12 @@ interface Question {
   isExpanded: boolean
 }
 
-export default function AdvertiserQuestionnaireNewPage() {
+export default function AdminQuestionnaireEditPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
+  const resolvedParams = use(params)
 
   // 基本情報
+  const [advertiserId, setAdvertiserId] = useState('')
   const [title, setTitle] = useState('')
   const [points, setPoints] = useState('')
   const [responseLimit, setResponseLimit] = useState('')
@@ -46,12 +48,69 @@ export default function AdvertiserQuestionnaireNewPage() {
   const [modalQuestionType, setModalQuestionType] = useState<QuestionType>('free_text')
   const [modalOptions, setModalOptions] = useState<string[]>([''])
 
-  // キャンペーンリスト（モック）
-  const campaigns = [
-    { id: 'CMP001', name: '春の新生活応援キャンペーン' },
-    { id: 'CMP002', name: '母の日感謝キャンペーン' },
-    { id: 'CMP003', name: 'ゴールデンウィーク特別企画' }
+  // 広告主リスト（モック）
+  const advertisers = [
+    { id: 'ADV001', name: '○○株式会社' },
+    { id: 'ADV002', name: '△△商事' },
+    { id: 'ADV003', name: '××コーポレーション' }
   ]
+
+  // キャンペーンリスト（広告主ごと）（モック）
+  const allCampaigns: Record<string, { id: string; name: string }[]> = {
+    'ADV001': [
+      { id: 'CMP001', name: '春の新生活応援キャンペーン' },
+      { id: 'CMP003', name: 'ゴールデンウィーク特別企画' }
+    ],
+    'ADV002': [
+      { id: 'CMP002', name: '母の日感謝キャンペーン' },
+      { id: 'CMP005', name: '秋の味覚フェア' }
+    ],
+    'ADV003': [
+      { id: 'CMP004', name: '夏のボーナスキャンペーン' }
+    ]
+  }
+
+  // 選択された広告主のキャンペーンリスト
+  const campaigns = advertiserId ? allCampaigns[advertiserId] || [] : []
+
+  // 既存データの読み込み（モック）
+  useEffect(() => {
+    // 実際にはここでAPIから既存データを取得
+    setAdvertiserId('ADV001')
+    setTitle('春の新生活応援キャンペーン アンケート')
+    setPoints('50')
+    setResponseLimit('500')
+    setCampaignId('CMP001')
+    setDescription('このアンケートは、春の新生活応援キャンペーンに参加されたお客様を対象に、商品・サービスの満足度や改善点についてお伺いするものです。')
+    setQuestions([
+      {
+        id: 1,
+        title: '今回のギフトカードをどのように知りましたか？',
+        type: 'single_choice',
+        options: ['店頭のポスター', 'SNS', '友人・知人の紹介', 'その他'],
+        isExpanded: false
+      },
+      {
+        id: 2,
+        title: '商品・サービスの満足度を教えてください',
+        type: 'single_choice',
+        options: ['とても満足', '満足', 'どちらでもない', '不満', 'とても不満'],
+        isExpanded: false
+      },
+      {
+        id: 3,
+        title: '改善してほしい点があれば教えてください',
+        type: 'free_text',
+        options: [],
+        isExpanded: false
+      }
+    ])
+  }, [resolvedParams.id])
+
+  // 広告主変更時にキャンペーンIDをクリア
+  useEffect(() => {
+    setCampaignId('')
+  }, [advertiserId])
 
   // 質問追加ボタン
   const handleAddQuestion = () => {
@@ -133,8 +192,12 @@ export default function AdvertiserQuestionnaireNewPage() {
     setShowQuestionModal(false)
   }
 
-  // アンケート作成（公開）
+  // アンケート更新（公開）
   const handlePublish = () => {
+    if (!advertiserId) {
+      alert('広告主を選択してください')
+      return
+    }
     if (!title.trim()) {
       alert('タイトルを入力してください')
       return
@@ -153,12 +216,16 @@ export default function AdvertiserQuestionnaireNewPage() {
     }
 
     // 実際にはここでAPIにデータを送信（ステータス：公開）
-    alert('アンケートを公開しました')
-    router.push('/advertiser/questionnaires')
+    alert('アンケートを更新して公開しました')
+    router.push(`/admin/questionnaires/${resolvedParams.id}`)
   }
 
   // アンケート下書き保存
   const handleSaveDraft = () => {
+    if (!advertiserId) {
+      alert('広告主を選択してください')
+      return
+    }
     if (!title.trim()) {
       alert('タイトルを入力してください')
       return
@@ -178,23 +245,31 @@ export default function AdvertiserQuestionnaireNewPage() {
 
     // 実際にはここでAPIにデータを送信（ステータス：下書き）
     alert('下書きとして保存しました')
-    router.push('/advertiser/questionnaires')
+    router.push(`/admin/questionnaires/${resolvedParams.id}`)
   }
 
+  // 回答形式の表示名
+  const getTypeLabel = (type: QuestionType) => {
+    switch (type) {
+      case 'free_text': return '自由記述'
+      case 'single_choice': return '単数選択'
+      case 'multiple_choice': return '複数選択'
+    }
+  }
 
   return (
-    <AdvertiserLayout>
+    <AdminLayout>
       <div className="p-6">
         {/* ヘッダー */}
         <div className="mb-6">
           <div className="flex items-center mb-4">
             <Link
-              href="/advertiser/questionnaires"
+              href={`/admin/questionnaires/${resolvedParams.id}`}
               className="mr-4 p-2 hover:bg-gray-100 rounded-lg"
             >
               <ArrowLeft size={20} />
             </Link>
-            <h1 className="text-2xl font-bold text-gray-900">アンケート作成</h1>
+            <h1 className="text-2xl font-bold text-gray-900">アンケート編集</h1>
           </div>
         </div>
 
@@ -203,9 +278,28 @@ export default function AdvertiserQuestionnaireNewPage() {
           <div className="mb-8">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">基本情報</h2>
             <div className="space-y-4">
+              {/* 広告主選択（運営者版のみ） */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  タイトル
+                  広告主 <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={advertiserId}
+                  onChange={(e) => setAdvertiserId(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                >
+                  <option value="">選択してください</option>
+                  {advertisers.map((advertiser) => (
+                    <option key={advertiser.id} value={advertiser.id}>
+                      {advertiser.name}（{advertiser.id}）
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  タイトル <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -218,14 +312,14 @@ export default function AdvertiserQuestionnaireNewPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  付与ポイント数
+                  付与ポイント数 <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="number"
                   value={points}
                   onChange={(e) => setPoints(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
-                  placeholder="回答者に付与するポイント数"
+                  placeholder="例: 50"
                 />
               </div>
 
@@ -245,14 +339,15 @@ export default function AdvertiserQuestionnaireNewPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  キャンペーンID
+                  キャンペーンID <span className="text-red-500">*</span>
                 </label>
                 <select
                   value={campaignId}
                   onChange={(e) => setCampaignId(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                  disabled={!advertiserId}
                 >
-                  <option value="">選択してください</option>
+                  <option value="">{advertiserId ? '選択してください' : '広告主を先に選択してください'}</option>
                   {campaigns.map((campaign) => (
                     <option key={campaign.id} value={campaign.id}>
                       {campaign.id} - {campaign.name}
@@ -263,27 +358,28 @@ export default function AdvertiserQuestionnaireNewPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  説明文
+                  説明
                 </label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  rows={4}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                  rows={4}
                   placeholder="アンケートの説明を入力"
                 />
               </div>
             </div>
           </div>
 
-          {/* 質問セクション */}
+          {/* 質問管理 */}
           <div className="mb-8">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-900">質問</h2>
+              <h2 className="text-lg font-semibold text-gray-900">質問管理</h2>
               <button
                 onClick={handleAddQuestion}
-                className="flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+                className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
               >
+                <Plus size={18} className="mr-2" />
                 質問追加
               </button>
             </div>
@@ -293,11 +389,11 @@ export default function AdvertiserQuestionnaireNewPage() {
                 質問を追加してください
               </div>
             ) : (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {questions.map((question, index) => (
-                  <div key={question.id} className="border border-gray-200 rounded-lg p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center flex-1">
+                  <div key={question.id} className="border border-gray-300 rounded-lg p-4">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1 flex items-start">
                         <button
                           onClick={() => toggleQuestionExpand(question.id)}
                           className="mr-3 p-1 hover:bg-gray-100 rounded"
@@ -309,6 +405,11 @@ export default function AdvertiserQuestionnaireNewPage() {
                           )}
                         </button>
                         <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="inline-flex px-2 py-1 text-xs font-semibold rounded bg-blue-100 text-blue-800">
+                              {getTypeLabel(question.type)}
+                            </span>
+                          </div>
                           <div className="font-medium text-gray-900">
                             質問タイトル{index + 1}
                           </div>
@@ -353,7 +454,7 @@ export default function AdvertiserQuestionnaireNewPage() {
             )}
           </div>
 
-          {/* 作成ボタン */}
+          {/* 更新ボタン */}
           <div className="flex justify-center gap-4">
             <button
               onClick={handleSaveDraft}
@@ -365,7 +466,7 @@ export default function AdvertiserQuestionnaireNewPage() {
               onClick={handlePublish}
               className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium transition-colors"
             >
-              公開
+              更新して公開
             </button>
           </div>
         </div>
@@ -373,7 +474,7 @@ export default function AdvertiserQuestionnaireNewPage() {
         {/* 質問作成/編集モーダル */}
         {showQuestionModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+            <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-semibold text-gray-900">
                   {editingQuestionId !== null ? '質問を編集' : '質問を作成'}
@@ -396,7 +497,7 @@ export default function AdvertiserQuestionnaireNewPage() {
                     value={modalQuestionTitle}
                     onChange={(e) => setModalQuestionTitle(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
-                    placeholder="入力する"
+                    placeholder="質問を入力"
                   />
                 </div>
 
@@ -406,12 +507,7 @@ export default function AdvertiserQuestionnaireNewPage() {
                   </label>
                   <select
                     value={modalQuestionType}
-                    onChange={(e) => {
-                      setModalQuestionType(e.target.value as QuestionType)
-                      if (e.target.value === 'free_text') {
-                        setModalOptions([''])
-                      }
-                    }}
+                    onChange={(e) => setModalQuestionType(e.target.value as QuestionType)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                   >
                     <option value="free_text">自由記述</option>
@@ -420,21 +516,11 @@ export default function AdvertiserQuestionnaireNewPage() {
                   </select>
                 </div>
 
-                {/* 選択肢入力（単数選択・複数選択の場合のみ） */}
                 {(modalQuestionType === 'single_choice' || modalQuestionType === 'multiple_choice') && (
                   <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <label className="block text-sm font-medium text-gray-700">
-                        選択肢
-                      </label>
-                      <button
-                        onClick={handleAddOption}
-                        className="text-sm text-blue-600 hover:text-blue-700 flex items-center"
-                      >
-                        <Plus size={16} className="mr-1" />
-                        追加
-                      </button>
-                    </div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      選択肢
+                    </label>
                     <div className="space-y-2">
                       {modalOptions.map((option, index) => (
                         <div key={index} className="flex items-center gap-2">
@@ -448,30 +534,43 @@ export default function AdvertiserQuestionnaireNewPage() {
                           {modalOptions.length > 1 && (
                             <button
                               onClick={() => handleRemoveOption(index)}
-                              className="p-2 hover:bg-gray-100 rounded-lg"
+                              className="p-2 hover:bg-gray-100 rounded"
                             >
                               <Trash2 size={18} className="text-gray-600" />
                             </button>
                           )}
                         </div>
                       ))}
+                      <button
+                        onClick={handleAddOption}
+                        className="flex items-center text-sm text-blue-600 hover:text-blue-700"
+                      >
+                        <Plus size={16} className="mr-1" />
+                        選択肢を追加
+                      </button>
                     </div>
                   </div>
                 )}
-              </div>
 
-              <div className="mt-6 flex justify-center">
-                <button
-                  onClick={handleSaveQuestion}
-                  className="px-6 py-2 bg-gray-300 text-gray-700 rounded-full hover:bg-gray-400"
-                >
-                  保存
-                </button>
+                <div className="flex justify-end gap-3 pt-4">
+                  <button
+                    onClick={() => setShowQuestionModal(false)}
+                    className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+                  >
+                    キャンセル
+                  </button>
+                  <button
+                    onClick={handleSaveQuestion}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  >
+                    保存
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         )}
       </div>
-    </AdvertiserLayout>
+    </AdminLayout>
   )
 }

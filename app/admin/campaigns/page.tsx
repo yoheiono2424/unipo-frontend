@@ -3,7 +3,8 @@
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Search } from "lucide-react";
+import { Search, Plus } from "lucide-react";
+import Link from "next/link";
 import { mockCampaigns } from "@/lib/mock-data";
 
 export default function AdminCampaignsPage() {
@@ -57,6 +58,13 @@ export default function AdminCampaignsPage() {
             <h1 className="text-2xl font-bold text-gray-900">広告キャンペーン管理</h1>
             <p className="text-sm text-gray-600 mt-1">キャンペーンの一覧と審査</p>
           </div>
+          <Link
+            href="/admin/campaigns/new"
+            className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center gap-2"
+          >
+            <Plus className="h-4 w-4" />
+            新規キャンペーン作成
+          </Link>
         </div>
 
         {/* 検索・フィルタ */}

@@ -1,8 +1,8 @@
 'use client'
 
-import AdvertiserLayout from '@/components/advertiser/AdvertiserLayout'
+import AdminLayout from '@/components/admin/AdminLayout'
 import Link from 'next/link'
-import { useParams, useRouter } from 'next/navigation'
+import { use } from 'react'
 import { useState } from 'react'
 import {
   ArrowLeft,
@@ -14,13 +14,13 @@ import {
   Edit,
   Trash2,
   X,
-  AlertTriangle
+  AlertTriangle,
+  Building
 } from 'lucide-react'
 
-export default function AdvertiserQuestionnaireDetailPage() {
-  const params = useParams()
-  const router = useRouter()
-  const [status, setStatus] = useState('下書き') // モックデータのステータス
+export default function AdminQuestionnaireDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = use(params)
+  const [status, setStatus] = useState('公開') // モックデータのステータス
   const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   // 削除ボタン押下
@@ -34,14 +34,17 @@ export default function AdvertiserQuestionnaireDetailPage() {
     setStatus('削除済み')
     setShowDeleteModal(false)
     alert('アンケートを削除しました')
-    router.push('/advertiser/questionnaires')
+    // router.push('/admin/questionnaires')
   }
 
   // アンケート詳細データ（モック）
   const questionnaire = {
-    id: params.id,
+    id: resolvedParams.id,
     questionnaireId: 'QST-2025-001',
     title: '春の新生活応援キャンペーン アンケート',
+    // 広告主情報（運営会社版で追加）
+    advertiserName: '○○株式会社',
+    advertiserId: 'ADV001',
     campaignName: '春の新生活応援キャンペーン',
     campaignId: 'CMP001',
     status: status,
@@ -95,13 +98,13 @@ export default function AdvertiserQuestionnaireDetailPage() {
   }
 
   return (
-    <AdvertiserLayout>
+    <AdminLayout>
       <div className="p-6">
         {/* ヘッダー */}
         <div className="mb-6">
           <div className="flex items-center mb-4">
             <Link
-              href="/advertiser/questionnaires"
+              href="/admin/questionnaires"
               className="mr-4 p-2 hover:bg-gray-100 rounded-lg"
             >
               <ArrowLeft size={20} />
@@ -111,15 +114,13 @@ export default function AdvertiserQuestionnaireDetailPage() {
               <p className="text-gray-600 mt-1">アンケートID: {questionnaire.questionnaireId}</p>
             </div>
             <div className="flex gap-3">
-              {questionnaire.status === '下書き' && (
-                <Link
-                  href={`/advertiser/questionnaires/${questionnaire.id}/edit`}
-                  className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                >
-                  <Edit size={18} className="mr-2" />
-                  編集
-                </Link>
-              )}
+              <Link
+                href={`/admin/questionnaires/${questionnaire.id}/edit`}
+                className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+              >
+                <Edit size={18} className="mr-2" />
+                編集
+              </Link>
               <button
                 onClick={handleDeleteClick}
                 className="flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
@@ -128,7 +129,7 @@ export default function AdvertiserQuestionnaireDetailPage() {
                 削除
               </button>
               <Link
-                href="/advertiser/questionnaires/responses"
+                href={`/admin/questionnaires/responses?questionnaireId=${questionnaire.id}`}
                 className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
                 <List size={20} className="mr-2" />
@@ -183,6 +184,15 @@ export default function AdvertiserQuestionnaireDetailPage() {
                 <div>
                   <div className="text-sm text-gray-600 mb-1">アンケート名</div>
                   <div className="text-gray-900 font-medium">{questionnaire.title}</div>
+                </div>
+                {/* 広告主情報（運営会社版で追加） */}
+                <div>
+                  <div className="text-sm text-gray-600 mb-1">広告主</div>
+                  <div className="flex items-center text-gray-900">
+                    <Building size={16} className="mr-2 text-blue-600" />
+                    <span className="font-medium">{questionnaire.advertiserName}</span>
+                    <span className="ml-2 text-sm text-gray-500">（{questionnaire.advertiserId}）</span>
+                  </div>
                 </div>
                 <div>
                   <div className="text-sm text-gray-600 mb-1">説明</div>
@@ -258,7 +268,7 @@ export default function AdvertiserQuestionnaireDetailPage() {
                 </div>
                 <div className="pt-3">
                   <Link
-                    href={`/advertiser/campaigns/${questionnaire.campaignId}`}
+                    href={`/admin/campaigns/${questionnaire.campaignId}`}
                     className="text-sm text-blue-600 hover:text-blue-700"
                   >
                     キャンペーン詳細を見る →
@@ -352,6 +362,6 @@ export default function AdvertiserQuestionnaireDetailPage() {
           </div>
         )}
       </div>
-    </AdvertiserLayout>
+    </AdminLayout>
   )
 }

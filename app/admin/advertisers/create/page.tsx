@@ -25,8 +25,10 @@ export default function AdvertiserCreatePage() {
     fax: "",
     email: "",
     companyUrl: "",
+    contactDepartment: "",
     contactName: "",
     contactPhone: "",
+    billingCompanyName: "",
     billingDepartment: "",
     billingContactName: "",
     billingEmail: "",
@@ -409,6 +411,21 @@ export default function AdvertiserCreatePage() {
               </div>
               <div className="p-6 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* 担当者部署 */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      担当者部署
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.contactDepartment}
+                      onChange={(e) => setFormData({ ...formData, contactDepartment: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                      placeholder="営業部"
+                      maxLength={100}
+                    />
+                  </div>
+
                   {/* 担当者氏名 */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -454,6 +471,22 @@ export default function AdvertiserCreatePage() {
               </div>
               <div className="p-6 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* 請求先会社名 */}
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      請求先会社名 <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.billingCompanyName}
+                      onChange={(e) => setFormData({ ...formData, billingCompanyName: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                      placeholder="株式会社サンプル"
+                      maxLength={100}
+                      required
+                    />
+                  </div>
+
                   {/* 請求先部署名 */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">

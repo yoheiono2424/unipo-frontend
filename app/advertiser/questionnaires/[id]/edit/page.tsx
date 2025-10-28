@@ -31,6 +31,7 @@ export default function AdvertiserQuestionnaireEditPage() {
   // 基本情報
   const [title, setTitle] = useState('')
   const [points, setPoints] = useState('')
+  const [responseLimit, setResponseLimit] = useState('')
   const [campaignId, setCampaignId] = useState('')
   const [description, setDescription] = useState('')
 
@@ -58,6 +59,7 @@ export default function AdvertiserQuestionnaireEditPage() {
     // 実際にはここでAPIから既存データを取得
     setTitle('春の新生活応援キャンペーン アンケート')
     setPoints('50')
+    setResponseLimit('500')
     setCampaignId('CMP001')
     setDescription('このアンケートは、春の新生活応援キャンペーンに参加されたお客様を対象に、商品・サービスの満足度や改善点についてお伺いするものです。')
     setQuestions([
@@ -266,6 +268,20 @@ export default function AdvertiserQuestionnaireEditPage() {
                   onChange={(e) => setPoints(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                   placeholder="例: 50"
+                />
+              </div>
+
+              {/* 回答人数上限（新規追加） */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  回答人数上限
+                </label>
+                <input
+                  type="number"
+                  value={responseLimit}
+                  onChange={(e) => setResponseLimit(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                  placeholder="未入力の場合は無制限"
                 />
               </div>
 

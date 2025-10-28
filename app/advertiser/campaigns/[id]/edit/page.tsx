@@ -1,7 +1,7 @@
 "use client";
 
 import AdvertiserLayout from "@/components/advertiser/AdvertiserLayout";
-import { ArrowLeft, Save, X, Gift, Hash, Package, FileImage, MapPin, Copy } from "lucide-react";
+import { ArrowLeft, Save, X, Gift, Hash, Package, FileImage, MapPin, Copy, Upload } from "lucide-react";
 import Link from "next/link";
 import { use, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -24,14 +24,15 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
     budgetAmount: campaign.budgetAmount,
     campaignDescription: campaign.campaignDescription,
     targetStores: campaign.targetStores || [],
-    distributionMethod: campaign.distributionMethod,
-    campaignImage1: campaign.campaignImage1,
-    campaignImage2: campaign.campaignImage2,
-    campaignImage3: campaign.campaignImage3,
-    campaignImage4: campaign.campaignImage4,
-    campaignImage5: campaign.campaignImage5,
+    campaignImage: null as File | null,
+    // ターゲット設定（モックデータにはないのでデフォルト値）
+    isAgeUnrestricted: true,
+    ageFrom: "",
+    ageTo: "",
+    targetGender: "指定なし",
   });
 
+  const [imagePreview, setImagePreview] = useState<string>(campaign.campaignImage1 || "");
   const [showDuplicateModal, setShowDuplicateModal] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -48,6 +49,28 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
 
   const handleCancel = () => {
     router.push(`/advertiser/campaigns/${resolvedParams.id}`);
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // ファイルサイズチェック（5MB以内）
+      if (file.size > 5 * 1024 * 1024) {
+        alert('ファイルサイズは5MB以内にしてください');
+        return;
+      }
+      // ファイル形式チェック
+      if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+        alert('JPG、PNG、WEBP形式のファイルをアップロードしてください');
+        return;
+      }
+      setFormData({ ...formData, campaignImage: file });
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleDuplicateClick = () => {
@@ -142,6 +165,115 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ターゲット設定セクション */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+            <div className="p-6 border-b border-gray-100">
+              <div className="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-500">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                <h2 className="text-lg font-semibold text-gray-900">ターゲット設定</h2>
+              </div>
+            </div>
+            <div className="p-6 space-y-6">
+              {/* 対象年齢 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-3">対象年齢</label>
+                <div className="space-y-3">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      name="isAgeUnrestricted"
+                      checked={formData.isAgeUnrestricted}
+                      onChange={(e) => setFormData(prev => ({
+                        ...prev,
+                        isAgeUnrestricted: e.target.checked,
+                        ageFrom: e.target.checked ? "" : prev.ageFrom,
+                        ageTo: e.target.checked ? "" : prev.ageTo
+                      }))}
+                      className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    />
+                    <label className="ml-2 text-sm text-gray-700">年齢制限なし</label>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm text-gray-600 mb-1">From（歳以上）</label>
+                      <input
+                        type="number"
+                        name="ageFrom"
+                        value={formData.ageFrom}
+                        onChange={(e) => setFormData({ ...formData, ageFrom: e.target.value })}
+                        disabled={formData.isAgeUnrestricted}
+                        min="0"
+                        max="120"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        placeholder="例: 20"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-gray-600 mb-1">To（歳以下）</label>
+                      <input
+                        type="number"
+                        name="ageTo"
+                        value={formData.ageTo}
+                        onChange={(e) => setFormData({ ...formData, ageTo: e.target.value })}
+                        disabled={formData.isAgeUnrestricted}
+                        min="0"
+                        max="120"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        placeholder="例: 40"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 対象性別 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-3">対象性別</label>
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      name="targetGender"
+                      value="指定なし"
+                      checked={formData.targetGender === "指定なし"}
+                      onChange={(e) => setFormData({ ...formData, targetGender: e.target.value })}
+                      className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <label className="ml-2 text-sm text-gray-700">指定なし</label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      name="targetGender"
+                      value="男性"
+                      checked={formData.targetGender === "男性"}
+                      onChange={(e) => setFormData({ ...formData, targetGender: e.target.value })}
+                      className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <label className="ml-2 text-sm text-gray-700">男性</label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      name="targetGender"
+                      value="女性"
+                      checked={formData.targetGender === "女性"}
+                      onChange={(e) => setFormData({ ...formData, targetGender: e.target.value })}
+                      className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <label className="ml-2 text-sm text-gray-700">女性</label>
+                  </div>
                 </div>
               </div>
             </div>
@@ -301,93 +433,46 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                 <h2 className="text-lg font-semibold text-gray-900">キャンペーン画像</h2>
               </div>
             </div>
-            <div className="p-6 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    画像1 URL
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.campaignImage1}
-                    onChange={(e) => setFormData({ ...formData, campaignImage1: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                    placeholder="画像URLを入力"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    画像2 URL
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.campaignImage2}
-                    onChange={(e) => setFormData({ ...formData, campaignImage2: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                    placeholder="画像URLを入力"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    画像3 URL
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.campaignImage3}
-                    onChange={(e) => setFormData({ ...formData, campaignImage3: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                    placeholder="画像URLを入力"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    画像4 URL
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.campaignImage4}
-                    onChange={(e) => setFormData({ ...formData, campaignImage4: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                    placeholder="画像URLを入力"
-                  />
-                </div>
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    画像5 URL
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.campaignImage5}
-                    onChange={(e) => setFormData({ ...formData, campaignImage5: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                    placeholder="画像URLを入力"
-                  />
-                </div>
-              </div>
-
-              {/* プレビュー */}
-              <div className="border-t pt-6">
-                <p className="text-sm font-medium text-gray-700 mb-3">画像プレビュー</p>
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                  {[formData.campaignImage1, formData.campaignImage2, formData.campaignImage3, formData.campaignImage4, formData.campaignImage5].map((url, index) => (
-                    <div key={index} className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
-                      {url ? (
-                        <img
-                          src={url}
-                          alt={`画像${index + 1}`}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).style.display = 'none';
-                          }}
-                        />
-                      ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
-                          <FileImage className="h-6 w-6 mb-1" />
-                          <span className="text-xs">画像{index + 1}</span>
-                        </div>
-                      )}
+            <div className="p-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  キャンペーン画像 <span className="text-red-500">*</span>
+                </label>
+                <p className="text-xs text-gray-500 mb-3">
+                  JPG、PNG、WEBP形式（最大5MB）
+                </p>
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6">
+                  {imagePreview ? (
+                    <div className="text-center">
+                      <img
+                        src={imagePreview}
+                        alt="プレビュー"
+                        className="mx-auto mb-4 max-h-64 rounded-lg"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setFormData({ ...formData, campaignImage: null });
+                          setImagePreview('');
+                        }}
+                        className="text-sm text-red-600 hover:text-red-700 font-medium"
+                      >
+                        画像を削除
+                      </button>
                     </div>
-                  ))}
+                  ) : (
+                    <label className="flex flex-col items-center cursor-pointer">
+                      <Upload className="h-12 w-12 text-gray-400 mb-2" />
+                      <span className="text-sm text-gray-600 mb-1">クリックして画像をアップロード</span>
+                      <span className="text-xs text-gray-500">JPG、PNG、WEBP（最大5MB）</span>
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                      />
+                    </label>
+                  )}
                 </div>
               </div>
             </div>

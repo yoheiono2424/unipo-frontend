@@ -11,14 +11,12 @@ export default function AdminInvoicesPage() {
   const [searchUserName, setSearchUserName] = useState("");
   const [searchStartDate, setSearchStartDate] = useState("");
   const [searchEndDate, setSearchEndDate] = useState("");
-  const [searchStatus, setSearchStatus] = useState("");
 
   const invoices = mockInvoices.filter(
     invoice => {
       const campaignMatch = searchCampaignName === "" || invoice.campaign.toLowerCase().includes(searchCampaignName.toLowerCase());
-      const statusMatch = searchStatus === "" || invoice.status === searchStatus;
       // Note: ユーザー名はモックデータに含まれていないため、実際の実装時に追加が必要
-      return campaignMatch && statusMatch;
+      return campaignMatch;
     }
   );
 
@@ -89,22 +87,6 @@ export default function AdminInvoicesPage() {
               />
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                ステータス
-              </label>
-              <select
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                value={searchStatus}
-                onChange={(e) => setSearchStatus(e.target.value)}
-              >
-                <option value="">すべて</option>
-                <option value="未払い">未払い</option>
-                <option value="支払済み">支払済み</option>
-              </select>
-            </div>
-          </div>
         </div>
 
         {/* テーブル */}
@@ -128,58 +110,37 @@ export default function AdminInvoicesPage() {
                   発行日
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  支払期限
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  ステータス
+                  支払日
                 </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {invoices.map((invoice) => {
-                const isOverdue = invoice.status === "未払い" &&
-                  new Date(invoice.dueDate) < new Date();
-
-                return (
-                  <tr
-                    key={invoice.id}
-                    className="hover:bg-gray-50 cursor-pointer"
-                    onClick={() => window.location.href = `/admin/invoices/${invoice.id}`}
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {invoice.id}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {invoice.advertiser}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {invoice.campaign}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      ¥{invoice.amount.toLocaleString()}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {invoice.issuedDate}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <span className={isOverdue ? "text-red-600 font-medium" : ""}>
-                        {invoice.dueDate}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        invoice.status === '支払済み'
-                          ? 'bg-green-100 text-green-800'
-                          : isOverdue
-                          ? 'bg-red-100 text-red-800'
-                          : 'bg-yellow-100 text-yellow-800'
-                      }`}>
-                        {isOverdue ? '期限超過' : invoice.status}
-                      </span>
-                    </td>
-                  </tr>
-                );
-              })}
+              {invoices.map((invoice) => (
+                <tr
+                  key={invoice.id}
+                  className="hover:bg-gray-50 cursor-pointer"
+                  onClick={() => window.location.href = `/admin/invoices/${invoice.id}`}
+                >
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {invoice.id}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {invoice.advertiser}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {invoice.campaign}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    ¥{invoice.amount.toLocaleString()}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {invoice.issuedDate}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {invoice.dueDate}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

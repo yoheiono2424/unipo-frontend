@@ -2,18 +2,67 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Camera, User, Mail, Phone, Save } from 'lucide-react'
+import { Camera, User, Mail, Phone, Save, Calendar, MapPin, Home } from 'lucide-react'
 import UserLayout from '@/components/user/UserLayout'
 
 export default function UserProfileEditPage() {
   const router = useRouter()
   const [formData, setFormData] = useState({
     nickname: 'ユニーポ太郎',
+    lastName: '山田',
+    firstName: '太郎',
+    birthdate: '1990-01-01',
+    gender: 'male',
     email: 'unipo@example.com',
     phone: '090-1234-5678',
-    birthdate: '1990-01-01',
-    gender: 'male'
+    postalCode: '460-0003',
+    prefecture: '愛知県',
+    city: '名古屋市中区',
+    address: '錦1-2-3'
   })
+  const [loadingAddress, setLoadingAddress] = useState(false)
+
+  // 郵便番号から住所を取得
+  const fetchAddress = async (postalCode: string) => {
+    const cleanCode = postalCode.replace(/-/g, '')
+
+    if (cleanCode.length !== 7) {
+      return
+    }
+
+    setLoadingAddress(true)
+    try {
+      const response = await fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${cleanCode}`)
+      const data = await response.json()
+
+      if (data.status === 200 && data.results) {
+        const result = data.results[0]
+        setFormData({
+          ...formData,
+          postalCode: postalCode,
+          prefecture: result.address1,
+          city: result.address2 + result.address3
+        })
+      } else {
+        alert('郵便番号が見つかりませんでした')
+      }
+    } catch (error) {
+      console.error('住所取得エラー:', error)
+      alert('住所の取得に失敗しました')
+    } finally {
+      setLoadingAddress(false)
+    }
+  }
+
+  const handlePostalCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setFormData({ ...formData, postalCode: value })
+
+    const cleanCode = value.replace(/-/g, '')
+    if (cleanCode.length === 7) {
+      fetchAddress(value)
+    }
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -79,10 +128,76 @@ export default function UserProfileEditPage() {
               </div>
             </div>
 
+            {/* 氏名（姓・名） */}
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  姓 <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={formData.lastName}
+                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                  placeholder="山田"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  名 <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={formData.firstName}
+                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                  placeholder="太郎"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* 生年月日 */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                生年月日 <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  type="date"
+                  value={formData.birthdate}
+                  onChange={(e) => setFormData({ ...formData, birthdate: e.target.value })}
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* 性別 */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                性別 <span className="text-red-500">*</span>
+              </label>
+              <select
+                value={formData.gender}
+                onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                required
+              >
+                <option value="">選択してください</option>
+                <option value="male">男性</option>
+                <option value="female">女性</option>
+                <option value="other">その他</option>
+                <option value="no-answer">回答しない</option>
+              </select>
+            </div>
+
             {/* メールアドレス */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                メールアドレス
+                メールアドレス（ログインID） <span className="text-red-500">*</span>
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -92,6 +207,7 @@ export default function UserProfileEditPage() {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="example@email.com"
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  required
                 />
               </div>
             </div>
@@ -113,35 +229,74 @@ export default function UserProfileEditPage() {
               <p className="text-xs text-gray-500 mt-1">電話番号は変更できません</p>
             </div>
 
-            {/* 生年月日 */}
+            {/* 郵便番号 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                生年月日 <span className="text-red-500">*</span>
+                郵便番号 <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  type="text"
+                  value={formData.postalCode}
+                  onChange={handlePostalCodeChange}
+                  placeholder="123-4567"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  required
+                  maxLength={8}
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                {loadingAddress ? '住所を取得中...' : '7桁入力すると自動で住所が入力されます'}
+              </p>
+            </div>
+
+            {/* 都道府県 */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                都道府県 <span className="text-red-500">*</span>
               </label>
               <input
-                type="date"
-                value={formData.birthdate}
-                onChange={(e) => setFormData({ ...formData, birthdate: e.target.value })}
+                type="text"
+                value={formData.prefecture}
+                onChange={(e) => setFormData({ ...formData, prefecture: e.target.value })}
+                placeholder="愛知県"
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
                 required
               />
             </div>
 
-            {/* 性別 */}
+            {/* 市区町村 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                性別
+                市区町村 <span className="text-red-500">*</span>
               </label>
-              <select
-                value={formData.gender}
-                onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+              <input
+                type="text"
+                value={formData.city}
+                onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                placeholder="名古屋市中区"
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
-              >
-                <option value="male">男性</option>
-                <option value="female">女性</option>
-                <option value="other">その他</option>
-                <option value="no-answer">回答しない</option>
-              </select>
+                required
+              />
+            </div>
+
+            {/* 番地・建物名 */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                番地・建物名 <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <Home className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <input
+                  type="text"
+                  value={formData.address}
+                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                  placeholder="錦1-2-3 ○○ビル101"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  required
+                />
+              </div>
             </div>
           </div>
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { User, ChevronRight, Bell, LogOut, Shield, HelpCircle, Lock } from 'lucide-react'
+import { User, ChevronRight, Bell, LogOut, Shield, HelpCircle, Lock, FileText, UserX } from 'lucide-react'
 import UserLayout from '@/components/user/UserLayout'
 
 export default function UserMyPagePage() {
@@ -19,6 +19,7 @@ export default function UserMyPagePage() {
       title: '設定・その他',
       items: [
         { id: 'password', label: 'パスワード変更', icon: Lock, path: '/user/password/change', color: 'text-gray-600' },
+        { id: 'terms', label: '利用規約', icon: FileText, path: '/user/terms', color: 'text-gray-600' },
         { id: 'privacy', label: 'プライバシーポリシー', icon: Shield, path: '/user/privacy', color: 'text-gray-600' },
         { id: 'help', label: 'ヘルプ', icon: HelpCircle, path: '/user/help', color: 'text-gray-600' },
       ]
@@ -28,6 +29,14 @@ export default function UserMyPagePage() {
   const handleLogout = () => {
     if (confirm('ログアウトしますか？')) {
       console.log('ログアウト')
+      router.push('/user/auth/login')
+    }
+  }
+
+  const handleWithdraw = () => {
+    if (confirm('本当に退会しますか？\n退会すると、すべてのポイントやギフトカードが失われます。')) {
+      console.log('退会処理')
+      // 退会処理を実装
       router.push('/user/auth/login')
     }
   }
@@ -104,6 +113,17 @@ export default function UserMyPagePage() {
           >
             <LogOut className="w-5 h-5" />
             ログアウト
+          </button>
+        </div>
+
+        {/* 退会ボタン */}
+        <div className="px-4 mt-4">
+          <button
+            onClick={handleWithdraw}
+            className="w-full bg-gray-100 text-gray-600 py-4 rounded-2xl font-semibold hover:bg-gray-200 transition-colors flex items-center justify-center gap-2"
+          >
+            <UserX className="w-5 h-5" />
+            退会する
           </button>
         </div>
       </div>

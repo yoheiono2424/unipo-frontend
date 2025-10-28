@@ -1,32 +1,31 @@
 'use client'
 
-import AdvertiserLayout from '@/components/advertiser/AdvertiserLayout'
+import AdminLayout from '@/components/admin/AdminLayout'
 import { useState } from 'react'
 import Link from 'next/link'
 import {
   Search,
-  FileText,
-  TrendingUp,
-  Users,
-  CheckCircle,
   ChevronLeft,
   ChevronRight,
   Plus
 } from 'lucide-react'
 
-export default function AdvertiserQuestionnairesManagementPage() {
+export default function AdminQuestionnairesManagementPage() {
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
+  const [advertiserFilter, setAdvertiserFilter] = useState('all')
   const [campaignFilter, setCampaignFilter] = useState('all')
   const [currentPage, setCurrentPage] = useState(1)
   const [showDeleted, setShowDeleted] = useState(false)
 
-  // アンケートデータ（モック）
+  // アンケートデータ（モック）- 広告主情報追加
   const questionnaires = [
     {
       id: 1,
       questionnaireId: 'QST-2025-001',
       title: '春の新生活応援キャンペーン アンケート',
+      advertiserName: '○○株式会社',
+      advertiserId: 'ADV001',
       campaignName: '春の新生活応援キャンペーン',
       campaignId: 'CMP001',
       status: '公開',
@@ -44,6 +43,8 @@ export default function AdvertiserQuestionnairesManagementPage() {
       id: 2,
       questionnaireId: 'QST-2024-012',
       title: '母の日感謝キャンペーン アンケート',
+      advertiserName: '△△商事',
+      advertiserId: 'ADV002',
       campaignName: '母の日感謝キャンペーン',
       campaignId: 'CMP002',
       status: '終了',
@@ -61,6 +62,8 @@ export default function AdvertiserQuestionnairesManagementPage() {
       id: 3,
       questionnaireId: 'QST-2024-011',
       title: 'ゴールデンウィーク特別企画 アンケート',
+      advertiserName: '○○株式会社',
+      advertiserId: 'ADV001',
       campaignName: 'ゴールデンウィーク特別企画',
       campaignId: 'CMP003',
       status: '削除済み',
@@ -78,6 +81,8 @@ export default function AdvertiserQuestionnairesManagementPage() {
       id: 4,
       questionnaireId: 'QST-2024-010',
       title: '夏のボーナスキャンペーン アンケート',
+      advertiserName: '××コーポレーション',
+      advertiserId: 'ADV003',
       campaignName: '夏のボーナスキャンペーン',
       campaignId: 'CMP004',
       status: '下書き',
@@ -95,6 +100,8 @@ export default function AdvertiserQuestionnairesManagementPage() {
       id: 5,
       questionnaireId: 'QST-2024-009',
       title: '秋の味覚フェア アンケート',
+      advertiserName: '△△商事',
+      advertiserId: 'ADV002',
       campaignName: '秋の味覚フェア',
       campaignId: 'CMP005',
       status: '公開',
@@ -112,6 +119,8 @@ export default function AdvertiserQuestionnairesManagementPage() {
       id: 6,
       questionnaireId: 'QST-2024-008',
       title: '削除されたアンケート',
+      advertiserName: '○○株式会社',
+      advertiserId: 'ADV001',
       campaignName: 'テストキャンペーン',
       campaignId: 'CMP006',
       status: '削除済み',
@@ -127,24 +136,27 @@ export default function AdvertiserQuestionnairesManagementPage() {
     }
   ]
 
-  // 統計データ（動的計算）
-  const publicQuestionnaires = questionnaires.filter(q => q.status === '公開')
-  const statistics = {
-    totalQuestionnaires: questionnaires.filter(q => q.status !== '削除済み').length.toString(),
-    activeQuestionnaires: publicQuestionnaires.length.toString(),
-    totalResponses: questionnaires.reduce((sum, q) => sum + q.totalResponses, 0).toLocaleString(),
-    averageResponseRate: '43.5%'
-  }
+  // 広告主一覧取得（ユニーク）
+  const advertisers = Array.from(
+    new Set(
+      questionnaires.map(q => JSON.stringify({
+        name: q.advertiserName,
+        id: q.advertiserId
+      }))
+    )
+  ).map(a => JSON.parse(a))
 
   // フィルタリング
   const filteredQuestionnaires = questionnaires.filter(questionnaire => {
     const matchesSearch = questionnaire.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          questionnaire.questionnaireId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         questionnaire.advertiserName.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          questionnaire.campaignName.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesStatus = statusFilter === 'all' || questionnaire.status === statusFilter
+    const matchesAdvertiser = advertiserFilter === 'all' || questionnaire.advertiserName === advertiserFilter
     const matchesCampaign = campaignFilter === 'all' || questionnaire.campaignName === campaignFilter
     const matchesDeleted = showDeleted || questionnaire.status !== '削除済み'
-    return matchesSearch && matchesStatus && matchesCampaign && matchesDeleted
+    return matchesSearch && matchesStatus && matchesAdvertiser && matchesCampaign && matchesDeleted
   })
 
   // ページネーション
@@ -154,60 +166,21 @@ export default function AdvertiserQuestionnairesManagementPage() {
   const displayedQuestionnaires = filteredQuestionnaires.slice(startIndex, startIndex + itemsPerPage)
 
   return (
-    <AdvertiserLayout>
+    <AdminLayout>
       <div className="p-6">
         {/* ヘッダー */}
         <div className="mb-6 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">アンケート管理</h1>
-            <p className="text-gray-600 mt-1">作成したアンケートの管理と回答状況を確認できます</p>
+            <p className="text-gray-600 mt-1">全広告主のアンケート管理と回答状況を確認できます</p>
           </div>
           <Link
-            href="/advertiser/questionnaires/new"
+            href="/admin/questionnaires/new"
             className="bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-blue-700 flex items-center gap-2 transition-colors"
           >
             <Plus className="h-4 w-4" />
             アンケート新規作成
           </Link>
-        </div>
-
-        {/* 統計カード */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white rounded-lg shadow-sm p-4">
-            <div className="flex items-center justify-between mb-2">
-              <FileText className="text-blue-600" size={20} />
-              <span className="text-xs text-gray-600">全体</span>
-            </div>
-            <div className="text-2xl font-bold text-gray-900">{statistics.totalQuestionnaires}</div>
-            <div className="text-sm text-gray-600">総アンケート数</div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-sm p-4">
-            <div className="flex items-center justify-between mb-2">
-              <CheckCircle className="text-green-600" size={20} />
-              <span className="text-xs text-green-600 font-medium">実施中</span>
-            </div>
-            <div className="text-2xl font-bold text-gray-900">{statistics.activeQuestionnaires}</div>
-            <div className="text-sm text-gray-600">実施中のアンケート</div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-sm p-4">
-            <div className="flex items-center justify-between mb-2">
-              <Users className="text-purple-600" size={20} />
-              <span className="text-xs text-green-600 font-medium">+8.3%</span>
-            </div>
-            <div className="text-2xl font-bold text-gray-900">{statistics.totalResponses}</div>
-            <div className="text-sm text-gray-600">総回答数</div>
-          </div>
-
-          <div className="bg-white rounded-lg shadow-sm p-4">
-            <div className="flex items-center justify-between mb-2">
-              <TrendingUp className="text-orange-600" size={20} />
-              <span className="text-xs text-green-600 font-medium">+2.1%</span>
-            </div>
-            <div className="text-2xl font-bold text-gray-900">{statistics.averageResponseRate}</div>
-            <div className="text-sm text-gray-600">平均回答率</div>
-          </div>
         </div>
 
         {/* フィルター */}
@@ -218,13 +191,27 @@ export default function AdvertiserQuestionnairesManagementPage() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                 <input
                   type="text"
-                  placeholder="アンケート名・IDで検索"
+                  placeholder="アンケート名・ID・広告主名で検索"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                 />
               </div>
             </div>
+
+            {/* 広告主フィルター（新規追加） */}
+            <select
+              value={advertiserFilter}
+              onChange={(e) => setAdvertiserFilter(e.target.value)}
+              className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+            >
+              <option value="all">すべての広告主</option>
+              {advertisers.map((advertiser) => (
+                <option key={advertiser.id} value={advertiser.name}>
+                  {advertiser.name}（{advertiser.id}）
+                </option>
+              ))}
+            </select>
 
             <select
               value={statusFilter}
@@ -237,7 +224,9 @@ export default function AdvertiserQuestionnairesManagementPage() {
               <option value="終了">終了</option>
               <option value="削除済み">削除済み</option>
             </select>
+          </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <select
               value={campaignFilter}
               onChange={(e) => setCampaignFilter(e.target.value)}
@@ -248,20 +237,20 @@ export default function AdvertiserQuestionnairesManagementPage() {
               <option value="母の日感謝キャンペーン">母の日感謝キャンペーン</option>
               <option value="ゴールデンウィーク特別企画">ゴールデンウィーク特別企画</option>
             </select>
-          </div>
 
-          {/* 削除済みアンケート表示チェックボックス */}
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="showDeleted"
-              checked={showDeleted}
-              onChange={(e) => setShowDeleted(e.target.checked)}
-              className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-            />
-            <label htmlFor="showDeleted" className="ml-2 text-sm text-gray-700">
-              削除済みアンケートを表示する
-            </label>
+            {/* 削除済みアンケート表示チェックボックス */}
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                id="showDeleted"
+                checked={showDeleted}
+                onChange={(e) => setShowDeleted(e.target.checked)}
+                className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label htmlFor="showDeleted" className="ml-2 text-sm text-gray-700">
+                削除済みアンケートを表示する
+              </label>
+            </div>
           </div>
         </div>
 
@@ -276,6 +265,10 @@ export default function AdvertiserQuestionnairesManagementPage() {
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     アンケート名
+                  </th>
+                  {/* 広告主列（新規追加） */}
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    広告主
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     キャンペーン
@@ -299,7 +292,7 @@ export default function AdvertiserQuestionnairesManagementPage() {
                   <tr
                     key={questionnaire.id}
                     className="hover:bg-gray-50 cursor-pointer"
-                    onClick={() => window.location.href = `/advertiser/questionnaires/${questionnaire.id}`}
+                    onClick={() => window.location.href = `/admin/questionnaires/${questionnaire.id}`}
                   >
                     <td className="px-6 py-4">
                       <div className="text-sm font-medium text-gray-900">{questionnaire.questionnaireId}</div>
@@ -307,6 +300,11 @@ export default function AdvertiserQuestionnairesManagementPage() {
                     <td className="px-6 py-4">
                       <div className="text-sm text-gray-900">{questionnaire.title}</div>
                       <div className="text-xs text-gray-500">{questionnaire.totalQuestions}問</div>
+                    </td>
+                    {/* 広告主列（新規追加） */}
+                    <td className="px-6 py-4">
+                      <div className="text-sm text-gray-900">{questionnaire.advertiserName}</div>
+                      <div className="text-xs text-gray-500">{questionnaire.advertiserId}</div>
                     </td>
                     <td className="px-6 py-4">
                       <div className="text-sm text-gray-900">{questionnaire.campaignName}</div>
@@ -387,6 +385,6 @@ export default function AdvertiserQuestionnairesManagementPage() {
           )}
         </div>
       </div>
-    </AdvertiserLayout>
+    </AdminLayout>
   )
 }

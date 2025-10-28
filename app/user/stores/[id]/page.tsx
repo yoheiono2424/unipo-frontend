@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter, useParams } from 'next/navigation'
-import { MapPin, Clock, Phone, Globe, Navigation, Gift, ChevronRight } from 'lucide-react'
+import { MapPin, Clock, Phone, Globe, Gift, ChevronRight } from 'lucide-react'
 import UserLayout from '@/components/user/UserLayout'
 
 export default function UserStoreDetailPage() {
@@ -9,13 +9,60 @@ export default function UserStoreDetailPage() {
   const params = useParams()
   const storeId = params.id
 
+  // モックユーザーデータ（実際にはログインユーザーの情報を取得）
+  const currentUser = {
+    birthdate: '1990-05-15', // 生年月日（YYYY-MM-DD形式）
+    gender: '男性' // 性別
+  }
+
+  // 年齢計算関数
+  const calculateAge = (birthdate: string): number => {
+    const today = new Date()
+    const birthDate = new Date(birthdate)
+    let age = today.getFullYear() - birthDate.getFullYear()
+    const monthDiff = today.getMonth() - birthDate.getMonth()
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--
+    }
+    return age
+  }
+
+  // キャンペーン表示制御関数
+  const shouldDisplayCampaign = (campaign: {
+    isAgeUnrestricted?: boolean;
+    ageFrom?: string;
+    ageTo?: string;
+    targetGender?: string;
+  }): boolean => {
+    const userAge = calculateAge(currentUser.birthdate)
+    const userGender = currentUser.gender
+
+    // 年齢チェック
+    if (!campaign.isAgeUnrestricted) {
+      if (campaign.ageFrom && userAge < parseInt(campaign.ageFrom)) {
+        return false // 最低年齢未満
+      }
+      if (campaign.ageTo && userAge > parseInt(campaign.ageTo)) {
+        return false // 最高年齢超過
+      }
+    }
+
+    // 性別チェック
+    if (campaign.targetGender && campaign.targetGender !== '指定なし') {
+      if (campaign.targetGender !== userGender) {
+        return false // 性別不一致
+      }
+    }
+
+    return true // すべての条件を満たす
+  }
+
   // モックデータ
   const store = {
     id: storeId,
     name: 'ユニー高蔵寺店',
     area: '愛知県春日井市',
     address: '愛知県春日井市中央台1-2-2',
-    distance: '1.2km',
     hours: '9:00-21:00',
     phone: '0568-91-1211',
     website: 'https://www.uny.co.jp',
@@ -26,17 +73,30 @@ export default function UserStoreDetailPage() {
         title: '新規会員登録で500円クーポンプレゼント',
         description: '今なら新規会員登録で500円分のクーポンをプレゼント！',
         validUntil: '2025/10/31',
-        type: 'giftcard'
+        type: 'giftcard',
+        // ターゲット設定（モック）
+        isAgeUnrestricted: true,
+        ageFrom: '',
+        ageTo: '',
+        targetGender: '指定なし'
       },
       {
         id: 2,
         title: 'アンケート回答で50ポイント',
         description: '簡単なアンケートに答えて50ポイントゲット！',
         validUntil: '2025/11/15',
-        type: 'survey'
+        type: 'survey',
+        // ターゲット設定（モック）
+        isAgeUnrestricted: false,
+        ageFrom: '20',
+        ageTo: '40',
+        targetGender: '男性'
       },
     ]
   }
+
+  // フィルタリング済みキャンペーン
+  const filteredCampaigns = store.campaigns.filter(shouldDisplayCampaign)
 
   return (
     <UserLayout>
@@ -58,16 +118,12 @@ export default function UserStoreDetailPage() {
       <div className="max-w-[428px] mx-auto px-4 py-6 space-y-6">
         {/* 店舗基本情報 */}
         <div className="bg-white rounded-2xl shadow-lg p-6">
-          <div className="flex items-start gap-4 mb-4">
+          <div className="flex items-center gap-4 mb-4">
             <div className="w-20 h-20 bg-gradient-to-br from-red-100 to-red-200 rounded-xl flex items-center justify-center text-4xl flex-shrink-0">
               {store.image}
             </div>
             <div className="flex-1">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">{store.name}</h2>
-              <div className="flex items-center gap-1 text-sm text-red-500 font-medium">
-                <Navigation className="w-4 h-4" />
-                <span>{store.distance}</span>
-              </div>
+              <h2 className="text-2xl font-bold text-gray-900">{store.name}</h2>
             </div>
           </div>
 
@@ -105,15 +161,15 @@ export default function UserStoreDetailPage() {
         </div>
 
         {/* 実施中のキャンペーン */}
-        {store.campaigns.length > 0 && (
+        {filteredCampaigns.length > 0 && (
           <div>
             <h3 className="text-lg font-bold text-gray-900 mb-4">実施中のキャンペーン</h3>
             <div className="space-y-3">
-              {store.campaigns.map((campaign) => (
+              {filteredCampaigns.map((campaign) => (
                 <div
                   key={campaign.id}
                   className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer overflow-hidden"
-                  onClick={() => console.log('キャンペーン詳細:', campaign.id)}
+                  onClick={() => router.push(`/user/campaigns/${campaign.id}`)}
                 >
                   <div className="p-4">
                     <div className="flex items-start gap-3">

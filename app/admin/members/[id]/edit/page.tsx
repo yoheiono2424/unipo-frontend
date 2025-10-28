@@ -15,6 +15,7 @@ export default function MemberEditPage({ params }: { params: Promise<{ id: strin
   const [formData, setFormData] = useState({
     memberStatus: member.memberStatus || "本登録",
     memberRank: member.memberRank || "ブロンズ",
+    nickname: member.nickname || "",
     lastName: member.lastName || "",
     firstName: member.firstName || "",
     birthDate: member.birthDate || "",
@@ -24,31 +25,65 @@ export default function MemberEditPage({ params }: { params: Promise<{ id: strin
     postalCode: member.postalCode || "",
     prefecture: member.prefecture || "",
     city: member.city || "",
-    streetAddress: member.streetAddress || "",
-    buildingName: member.buildingName || "",
+    address: member.address || "",
+    joinDate: member.joinDate || "",
     memberMemo: member.memberMemo || "",
+    withdrawalDate: member.withdrawalDate || null as string | null,
   });
+
+  const [loadingAddress, setLoadingAddress] = useState(false);
+
+  // 郵便番号から住所を自動取得
+  const handlePostalCodeChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/[^\d-]/g, '');
+    setFormData({ ...formData, postalCode: value });
+
+    if (value.replace(/-/g, '').length === 7) {
+      setLoadingAddress(true);
+      try {
+        const response = await fetch(`https://zipcloud.ibsnet.co.jp/api/search?zipcode=${value.replace(/-/g, '')}`);
+        const data = await response.json();
+
+        if (data.results) {
+          const result = data.results[0];
+          setFormData({
+            ...formData,
+            postalCode: value,
+            prefecture: result.address1,
+            city: result.address2 + result.address3,
+          });
+        }
+      } catch (error) {
+        console.error('住所の取得に失敗しました', error);
+      } finally {
+        setLoadingAddress(false);
+      }
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // ここで保存処理を行う（実際にはAPIコール等）
-    console.log("会員情報更新:", formData);
-    // 詳細ページに戻る
+
+    // ステータス変更時の退会日自動設定
+    const updatedFormData = { ...formData };
+
+    if (formData.memberStatus === '自主退会' || formData.memberStatus === '強制退会') {
+      if (!member.withdrawalDate) {
+        // 新たに退会状態になった場合、今日の日付を設定
+        updatedFormData.withdrawalDate = new Date().toISOString().split('T')[0];
+      }
+    } else {
+      // 本登録または休止に戻した場合、退会日をクリア
+      updatedFormData.withdrawalDate = null;
+    }
+
+    console.log("会員情報更新:", updatedFormData);
     router.push(`/admin/members/${resolvedParams.id}`);
   };
 
   const handleCancel = () => {
     router.push(`/admin/members/${resolvedParams.id}`);
   };
-
-  const prefectures = [
-    "北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県",
-    "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県",
-    "新潟県", "富山県", "石川県", "福井県", "山梨県", "長野県", "岐阜県", "静岡県", "愛知県",
-    "三重県", "滋賀県", "京都府", "大阪府", "兵庫県", "奈良県", "和歌山県",
-    "鳥取県", "島根県", "岡山県", "広島県", "山口県", "徳島県", "香川県", "愛媛県", "高知県",
-    "福岡県", "佐賀県", "長崎県", "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県"
-  ];
 
   return (
     <AdminLayout>
@@ -87,7 +122,6 @@ export default function MemberEditPage({ params }: { params: Promise<{ id: strin
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                       required
                     >
-                      <option value="仮申請">仮申請</option>
                       <option value="本登録">本登録</option>
                       <option value="休止">休止</option>
                       <option value="自主退会">自主退会</option>
@@ -111,6 +145,25 @@ export default function MemberEditPage({ params }: { params: Promise<{ id: strin
                       <option value="プラチナ">プラチナ</option>
                     </select>
                   </div>
+
+                  {/* ニックネーム */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      ニックネーム <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.nickname}
+                      onChange={(e) => setFormData({ ...formData, nickname: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                      placeholder="たろう"
+                      maxLength={50}
+                      required
+                    />
+                  </div>
+
+                  {/* 空欄（グリッド調整） */}
+                  <div></div>
 
                   {/* 氏名（姓） */}
                   <div>
@@ -237,82 +290,83 @@ export default function MemberEditPage({ params }: { params: Promise<{ id: strin
                   {/* 郵便番号 */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      郵便番号
+                      郵便番号 <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
                       value={formData.postalCode}
-                      onChange={(e) => {
-                        const value = e.target.value.replace(/\D/g, '');
-                        setFormData({ ...formData, postalCode: value });
-                      }}
+                      onChange={handlePostalCodeChange}
+                      placeholder="123-4567"
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                      placeholder="1234567"
-                      maxLength={7}
+                      required
+                      maxLength={8}
                     />
-                    <p className="text-xs text-gray-500 mt-1">ハイフンなしの7桁で入力</p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      {loadingAddress ? '住所を取得中...' : '7桁入力すると自動で住所が入力されます'}
+                    </p>
                   </div>
+
+                  {/* 空欄 */}
+                  <div></div>
 
                   {/* 都道府県 */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      都道府県
+                      都道府県 <span className="text-red-500">*</span>
                     </label>
-                    <select
+                    <input
+                      type="text"
                       value={formData.prefecture}
                       onChange={(e) => setFormData({ ...formData, prefecture: e.target.value })}
+                      placeholder="愛知県"
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                    >
-                      <option value="">選択してください</option>
-                      {prefectures.map((pref) => (
-                        <option key={pref} value={pref}>{pref}</option>
-                      ))}
-                    </select>
+                      required
+                    />
                   </div>
 
                   {/* 市区町村 */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      市区町村
+                      市区町村 <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                      placeholder="名古屋市中区"
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                      placeholder="渋谷区"
-                      maxLength={50}
+                      required
                     />
                   </div>
 
-                  {/* 町名・丁目・番地 */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      町名・丁目・番地
-                    </label>
-                    <input
-                      type="text"
-                      value={formData.streetAddress}
-                      onChange={(e) => setFormData({ ...formData, streetAddress: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                      placeholder="神宮前1-2-3"
-                      maxLength={50}
-                    />
-                  </div>
-
-                  {/* 建物名・部屋番号 */}
+                  {/* 番地・建物名 */}
                   <div className="md:col-span-2">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      建物名・部屋番号
+                      番地・建物名 <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
-                      value={formData.buildingName}
-                      onChange={(e) => setFormData({ ...formData, buildingName: e.target.value })}
+                      value={formData.address}
+                      onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                      placeholder="錦1-2-3 ○○ビル101"
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                      placeholder="サンプルマンション101"
-                      maxLength={100}
+                      required
                     />
+                  </div>
+
+                  {/* 入会日 */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      入会日 <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="date"
+                      value={formData.joinDate}
+                      onChange={(e) => setFormData({ ...formData, joinDate: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                      required
+                    />
+                    <p className="text-xs text-gray-500 mt-1">申込用紙の日付を入力してください</p>
                   </div>
                 </div>
               </div>

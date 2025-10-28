@@ -24,6 +24,7 @@ import {
   BarChart3,
   ChevronDown,
   ChevronRight,
+  ClipboardList,
   type LucideIcon,
 } from "lucide-react";
 
@@ -43,6 +44,7 @@ const menuItems: MenuItem[] = [
   { title: "店舗管理", href: "/admin/stores", icon: Store },
   { title: "運営アカウント管理", href: "/admin/admin-accounts", icon: ShieldCheck },
   { title: "広告キャンペーン管理", href: "/admin/campaigns", icon: Megaphone },
+  { title: "アンケート管理", href: "/admin/questionnaires", icon: ClipboardList },
   { title: "ギフトカード管理", href: "/admin/gift-cards", icon: CreditCard },
   { title: "配布実績管理", href: "/admin/distributions", icon: BarChart3 },
   { title: "請求管理", href: "/admin/invoices", icon: FileText },

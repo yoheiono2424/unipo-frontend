@@ -2,12 +2,12 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Phone, Lock, LogIn } from 'lucide-react'
+import { Mail, Lock, LogIn } from 'lucide-react'
 
 export default function UserLoginPage() {
   const router = useRouter()
   const [formData, setFormData] = useState({
-    phone: '090-1234-5678',
+    email: 'example@email.com',
     password: 'password123'
   })
 
@@ -45,18 +45,18 @@ export default function UserLoginPage() {
           {/* ログインフォーム */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="bg-white rounded-2xl shadow-lg p-6 space-y-4">
-              {/* 電話番号入力 */}
+              {/* メールアドレス入力 */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  電話番号
+                  メールアドレス
                 </label>
                 <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                   <input
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="090-1234-5678"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="example@email.com"
                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
                     required
                   />

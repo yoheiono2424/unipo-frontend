@@ -27,7 +27,12 @@ export default function AdvertiserCampaignNewPage() {
     bannerImage: null as File | null,
     issueCount: '0',
     amount: '0',
-    targetDescription: ''
+    targetDescription: '',
+    // ターゲット設定
+    isAgeUnrestricted: true,
+    ageFrom: "",
+    ageTo: "",
+    targetGender: "指定なし",
   })
 
   const [imagePreview, setImagePreview] = useState<string>('')
@@ -274,6 +279,104 @@ export default function AdvertiserCampaignNewPage() {
                 rows={6}
                 placeholder="例：20代〜30代の女性、都内在住、美容・ファッションに関心が高い層"
               />
+            </div>
+
+            {/* ターゲット設定 */}
+            <div className="border-t pt-6 mt-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">ターゲット設定</h3>
+
+              {/* 対象年齢 */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-3">対象年齢</label>
+                <div className="space-y-3">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      name="isAgeUnrestricted"
+                      checked={formData.isAgeUnrestricted}
+                      onChange={(e) => setFormData(prev => ({
+                        ...prev,
+                        isAgeUnrestricted: e.target.checked,
+                        ageFrom: e.target.checked ? "" : prev.ageFrom,
+                        ageTo: e.target.checked ? "" : prev.ageTo
+                      }))}
+                      className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    />
+                    <label className="ml-2 text-sm text-gray-700">年齢制限なし</label>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm text-gray-600 mb-1">From（歳以上）</label>
+                      <input
+                        type="number"
+                        name="ageFrom"
+                        value={formData.ageFrom}
+                        onChange={(e) => setFormData({ ...formData, ageFrom: e.target.value })}
+                        disabled={formData.isAgeUnrestricted}
+                        min="0"
+                        max="120"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        placeholder="例: 20"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm text-gray-600 mb-1">To（歳以下）</label>
+                      <input
+                        type="number"
+                        name="ageTo"
+                        value={formData.ageTo}
+                        onChange={(e) => setFormData({ ...formData, ageTo: e.target.value })}
+                        disabled={formData.isAgeUnrestricted}
+                        min="0"
+                        max="120"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        placeholder="例: 40"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 対象性別 */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-3">対象性別</label>
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      name="targetGender"
+                      value="指定なし"
+                      checked={formData.targetGender === "指定なし"}
+                      onChange={(e) => setFormData({ ...formData, targetGender: e.target.value })}
+                      className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <label className="ml-2 text-sm text-gray-700">指定なし</label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      name="targetGender"
+                      value="男性"
+                      checked={formData.targetGender === "男性"}
+                      onChange={(e) => setFormData({ ...formData, targetGender: e.target.value })}
+                      className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <label className="ml-2 text-sm text-gray-700">男性</label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      name="targetGender"
+                      value="女性"
+                      checked={formData.targetGender === "女性"}
+                      onChange={(e) => setFormData({ ...formData, targetGender: e.target.value })}
+                      className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                    />
+                    <label className="ml-2 text-sm text-gray-700">女性</label>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

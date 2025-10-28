@@ -1,7 +1,7 @@
 'use client'
 
-import AdvertiserLayout from '@/components/advertiser/AdvertiserLayout'
-import { useState } from 'react'
+import AdminLayout from '@/components/admin/AdminLayout'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   ArrowLeft,
@@ -24,8 +24,11 @@ interface Question {
   isExpanded: boolean
 }
 
-export default function AdvertiserQuestionnaireNewPage() {
+export default function AdminQuestionnaireNewPage() {
   const router = useRouter()
+
+  // 運営者版のみ：広告主選択
+  const [advertiserId, setAdvertiserId] = useState('')
 
   // 基本情報
   const [title, setTitle] = useState('')
@@ -46,12 +49,34 @@ export default function AdvertiserQuestionnaireNewPage() {
   const [modalQuestionType, setModalQuestionType] = useState<QuestionType>('free_text')
   const [modalOptions, setModalOptions] = useState<string[]>([''])
 
-  // キャンペーンリスト（モック）
-  const campaigns = [
-    { id: 'CMP001', name: '春の新生活応援キャンペーン' },
-    { id: 'CMP002', name: '母の日感謝キャンペーン' },
-    { id: 'CMP003', name: 'ゴールデンウィーク特別企画' }
+  // 広告主リスト（モック）
+  const advertisers = [
+    { id: 'ADV001', name: '○○株式会社' },
+    { id: 'ADV002', name: '△△商事' },
+    { id: 'ADV003', name: '××コーポレーション' }
   ]
+
+  // キャンペーンリスト（広告主別、モック）
+  const allCampaigns: Record<string, { id: string; name: string }[]> = {
+    'ADV001': [
+      { id: 'CMP001', name: '春の新生活応援キャンペーン' },
+      { id: 'CMP003', name: 'ゴールデンウィーク特別企画' }
+    ],
+    'ADV002': [
+      { id: 'CMP002', name: '母の日感謝キャンペーン' }
+    ],
+    'ADV003': [
+      { id: 'CMP004', name: '夏のボーナスキャンペーン' }
+    ]
+  }
+
+  // 選択した広告主のキャンペーンのみ表示
+  const campaigns = advertiserId ? allCampaigns[advertiserId] || [] : []
+
+  // 広告主変更時にキャンペーンIDをリセット
+  useEffect(() => {
+    setCampaignId('')
+  }, [advertiserId])
 
   // 質問追加ボタン
   const handleAddQuestion = () => {
@@ -135,6 +160,10 @@ export default function AdvertiserQuestionnaireNewPage() {
 
   // アンケート作成（公開）
   const handlePublish = () => {
+    if (!advertiserId) {
+      alert('広告主を選択してください')
+      return
+    }
     if (!title.trim()) {
       alert('タイトルを入力してください')
       return
@@ -154,11 +183,15 @@ export default function AdvertiserQuestionnaireNewPage() {
 
     // 実際にはここでAPIにデータを送信（ステータス：公開）
     alert('アンケートを公開しました')
-    router.push('/advertiser/questionnaires')
+    router.push('/admin/questionnaires')
   }
 
   // アンケート下書き保存
   const handleSaveDraft = () => {
+    if (!advertiserId) {
+      alert('広告主を選択してください')
+      return
+    }
     if (!title.trim()) {
       alert('タイトルを入力してください')
       return
@@ -178,18 +211,18 @@ export default function AdvertiserQuestionnaireNewPage() {
 
     // 実際にはここでAPIにデータを送信（ステータス：下書き）
     alert('下書きとして保存しました')
-    router.push('/advertiser/questionnaires')
+    router.push('/admin/questionnaires')
   }
 
 
   return (
-    <AdvertiserLayout>
+    <AdminLayout>
       <div className="p-6">
         {/* ヘッダー */}
         <div className="mb-6">
           <div className="flex items-center mb-4">
             <Link
-              href="/advertiser/questionnaires"
+              href="/admin/questionnaires"
               className="mr-4 p-2 hover:bg-gray-100 rounded-lg"
             >
               <ArrowLeft size={20} />
@@ -203,6 +236,25 @@ export default function AdvertiserQuestionnaireNewPage() {
           <div className="mb-8">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">基本情報</h2>
             <div className="space-y-4">
+              {/* 広告主選択（運営者版のみ） */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  広告主 <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={advertiserId}
+                  onChange={(e) => setAdvertiserId(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                >
+                  <option value="">選択してください</option>
+                  {advertisers.map((advertiser) => (
+                    <option key={advertiser.id} value={advertiser.id}>
+                      {advertiser.name}（{advertiser.id}）
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   タイトル
@@ -251,6 +303,7 @@ export default function AdvertiserQuestionnaireNewPage() {
                   value={campaignId}
                   onChange={(e) => setCampaignId(e.target.value)}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
+                  disabled={!advertiserId}
                 >
                   <option value="">選択してください</option>
                   {campaigns.map((campaign) => (
@@ -259,6 +312,9 @@ export default function AdvertiserQuestionnaireNewPage() {
                     </option>
                   ))}
                 </select>
+                {!advertiserId && (
+                  <p className="text-xs text-gray-500 mt-1">※ 広告主を選択してください</p>
+                )}
               </div>
 
               <div>
@@ -310,7 +366,7 @@ export default function AdvertiserQuestionnaireNewPage() {
                         </button>
                         <div className="flex-1">
                           <div className="font-medium text-gray-900">
-                            質問タイトル{index + 1}
+                            質問{index + 1}
                           </div>
                           <div className="text-sm text-gray-600 mt-1">
                             {question.title}
@@ -472,6 +528,6 @@ export default function AdvertiserQuestionnaireNewPage() {
           </div>
         )}
       </div>
-    </AdvertiserLayout>
+    </AdminLayout>
   )
 }

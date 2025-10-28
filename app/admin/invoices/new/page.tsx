@@ -179,7 +179,7 @@ export default function InvoiceNewPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    支払期限 <span className="text-red-500">*</span>
+                    支払日 <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="date"

@@ -12,41 +12,59 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
   const resolvedParams = use(params);
   const advertiser = mockAdvertisers.find(a => a.id === resolvedParams.id) || mockAdvertisers[0];
 
+  // 型安全性のため、advertiserを拡張型として扱う
+  const advertiserData = advertiser as typeof advertiser & {
+    contactDepartment?: string;
+    billingCompanyName?: string;
+    billingDepartment?: string;
+    billingContactName?: string;
+    billingEmail?: string;
+    billingPostalCode?: string;
+    billingPrefecture?: string;
+    billingCity?: string;
+    billingStreetAddress?: string;
+    billingBuildingName?: string;
+    billingPhone?: string;
+    billingFax?: string;
+  };
+
   const [formData, setFormData] = useState({
-    advertiserNo: advertiser.advertiserNo || "",
-    status: advertiser.status || "",
-    serviceStartDate: advertiser.serviceStartDate || "",
-    serviceEndDate: advertiser.serviceEndDate || "",
-    companyName: advertiser.companyName || "",
-    companyNameKana: advertiser.companyNameKana || "",
-    industry: advertiser.industry || "",
-    postalCode: advertiser.postalCode || "",
-    prefecture: advertiser.prefecture || "",
-    city: advertiser.city || "",
-    streetAddress: advertiser.streetAddress || "",
-    buildingName: advertiser.buildingName || "",
-    phone: advertiser.phone || "",
-    fax: advertiser.fax || "",
-    email: advertiser.email || "",
-    companyUrl: advertiser.companyUrl || "",
-    contactName: advertiser.contactName || "",
-    contactPhone: advertiser.contactPhone || "",
-    billingDepartment: advertiser.billingDepartment || "",
-    billingContactName: advertiser.billingContactName || "",
-    billingEmail: advertiser.billingEmail || "",
-    billingPostalCode: advertiser.billingPostalCode || "",
-    billingPrefecture: advertiser.billingPrefecture || "",
-    billingCity: advertiser.billingCity || "",
-    billingStreetAddress: advertiser.billingStreetAddress || "",
-    billingBuildingName: advertiser.billingBuildingName || "",
-    billingPhone: advertiser.billingPhone || "",
-    billingFax: advertiser.billingFax || "",
-    paymentTerms: advertiser.paymentTerms || "前払い",
-    memo1: advertiser.memo1 || "",
-    memo2: advertiser.memo2 || "",
-    memo3: advertiser.memo3 || "",
-    memo4: advertiser.memo4 || "",
-    memo5: advertiser.memo5 || "",
+    advertiserNo: advertiserData.advertiserNo || "",
+    status: advertiserData.status || "",
+    serviceStartDate: advertiserData.serviceStartDate || "",
+    serviceEndDate: advertiserData.serviceEndDate || "",
+    companyName: advertiserData.companyName || "",
+    companyNameKana: advertiserData.companyNameKana || "",
+    industry: advertiserData.industry || "",
+    postalCode: advertiserData.postalCode || "",
+    prefecture: advertiserData.prefecture || "",
+    city: advertiserData.city || "",
+    streetAddress: advertiserData.streetAddress || "",
+    buildingName: advertiserData.buildingName || "",
+    phone: advertiserData.phone || "",
+    fax: advertiserData.fax || "",
+    email: advertiserData.email || "",
+    companyUrl: advertiserData.companyUrl || "",
+    contactDepartment: advertiserData.contactDepartment || "",
+    contactName: advertiserData.contactName || "",
+    contactPhone: advertiserData.contactPhone || "",
+    billingCompanyName: advertiserData.billingCompanyName || "",
+    billingDepartment: advertiserData.billingDepartment || "",
+    billingContactName: advertiserData.billingContactName || "",
+    billingEmail: advertiserData.billingEmail || "",
+    billingPostalCode: advertiserData.billingPostalCode || "",
+    billingPrefecture: advertiserData.billingPrefecture || "",
+    billingCity: advertiserData.billingCity || "",
+    billingStreetAddress: advertiserData.billingStreetAddress || "",
+    billingBuildingName: advertiserData.billingBuildingName || "",
+    billingPhone: advertiserData.billingPhone || "",
+    billingFax: advertiserData.billingFax || "",
+    paymentTerms: advertiserData.paymentTerms || "前払い",
+    memo1: advertiserData.memo1 || "",
+    memo2: advertiserData.memo2 || "",
+    memo3: advertiserData.memo3 || "",
+    memo4: advertiserData.memo4 || "",
+    memo5: advertiserData.memo5 || "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -431,6 +449,21 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
               </div>
               <div className="p-6 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* 担当者部署 */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      担当者部署
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.contactDepartment}
+                      onChange={(e) => setFormData({ ...formData, contactDepartment: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                      placeholder="営業部"
+                      maxLength={100}
+                    />
+                  </div>
+
                   {/* 担当者氏名 */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -476,6 +509,22 @@ export default function AdvertiserEditPage({ params }: { params: Promise<{ id: s
               </div>
               <div className="p-6 space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* 請求先会社名 */}
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      請求先会社名 <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.billingCompanyName}
+                      onChange={(e) => setFormData({ ...formData, billingCompanyName: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                      placeholder="株式会社サンプル"
+                      maxLength={100}
+                      required
+                    />
+                  </div>
+
                   {/* 請求先部署名 */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">

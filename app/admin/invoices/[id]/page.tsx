@@ -1,7 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Edit, Receipt, Building2, Calendar, FileText, DollarSign, CheckCircle, Clock, AlertCircle } from "lucide-react";
+import { ArrowLeft, Edit, Receipt, Building2, Calendar, FileText, DollarSign } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
 
@@ -47,32 +47,6 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ id: st
   const resolvedParams = use(params);
   const invoice = mockInvoices.find(inv => inv.id === resolvedParams.id) || mockInvoices[0];
 
-  const getStatusBadge = (status: string) => {
-    switch(status) {
-      case '未払い':
-        return 'bg-red-50 text-red-700 ring-1 ring-red-600/20';
-      case '支払済み':
-        return 'bg-green-50 text-green-700 ring-1 ring-green-600/20';
-      case '期限超過':
-        return 'bg-orange-50 text-orange-700 ring-1 ring-orange-600/20';
-      default:
-        return 'bg-gray-50 text-gray-700 ring-1 ring-gray-600/20';
-    }
-  };
-
-  const getStatusIcon = (status: string) => {
-    switch(status) {
-      case '未払い':
-        return <Clock className="h-3 w-3 mr-1" />;
-      case '支払済み':
-        return <CheckCircle className="h-3 w-3 mr-1" />;
-      case '期限超過':
-        return <AlertCircle className="h-3 w-3 mr-1" />;
-      default:
-        return null;
-    }
-  };
-
   return (
     <AdminLayout>
       <div className="space-y-6">
@@ -115,12 +89,6 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ id: st
                   <div>
                     <h3 className="text-xl font-semibold text-gray-900">{invoice.invoiceNumber}</h3>
                     <p className="text-sm text-gray-600 mt-1">{invoice.advertiser}</p>
-                    <div className="flex items-center gap-3 mt-2">
-                      <span className={`inline-flex items-center px-3 py-1 text-xs font-medium rounded-full ${getStatusBadge(invoice.status)}`}>
-                        {getStatusIcon(invoice.status)}
-                        {invoice.status}
-                      </span>
-                    </div>
                   </div>
                 </div>
                 <div className="text-right">
@@ -186,7 +154,7 @@ export default function InvoiceDetailPage({ params }: { params: Promise<{ id: st
                     <Calendar className="h-5 w-5 text-gray-600" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">支払期限</p>
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">支払日</p>
                     <p className="mt-1 text-sm font-medium text-gray-900">{invoice.dueDate}</p>
                   </div>
                 </div>

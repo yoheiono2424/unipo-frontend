@@ -9,7 +9,23 @@ import { use, useState } from "react";
 export default function AdvertiserDetailPage({ params }: { params: Promise<{ id: string }> }) {
   // paramsをアンラップ
   const resolvedParams = use(params);
-  const advertiser = mockAdvertisers.find(a => a.id === resolvedParams.id) || mockAdvertisers[0];
+  const advertiserBase = mockAdvertisers.find(a => a.id === resolvedParams.id) || mockAdvertisers[0];
+
+  // 型安全性のため、advertiserを拡張型として扱う
+  const advertiser = advertiserBase as typeof advertiserBase & {
+    contactDepartment?: string;
+    billingCompanyName?: string;
+    billingDepartment?: string;
+    billingContactName?: string;
+    billingEmail?: string;
+    billingPostalCode?: string;
+    billingPrefecture?: string;
+    billingCity?: string;
+    billingStreetAddress?: string;
+    billingBuildingName?: string;
+    billingPhone?: string;
+    billingFax?: string;
+  };
 
   const [showApprovalModal, setShowApprovalModal] = useState(false);
   const [approvalAction, setApprovalAction] = useState<'approve' | 'reject' | null>(null);
@@ -266,6 +282,18 @@ export default function AdvertiserDetailPage({ params }: { params: Promise<{ id:
                 <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
                   <div className="flex items-start gap-3">
                     <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                      <Building2 className="h-5 w-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">担当者部署</p>
+                      <p className="mt-1 text-sm font-medium text-gray-900">{advertiser.contactDepartment || "—"}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
                       <User className="h-5 w-5 text-gray-600" />
                     </div>
                     <div className="flex-1">
@@ -311,6 +339,18 @@ export default function AdvertiserDetailPage({ params }: { params: Promise<{ id:
             </div>
             <div className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors md:col-span-2">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                      <Building2 className="h-5 w-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">請求先会社名</p>
+                      <p className="mt-1 text-sm font-medium text-gray-900">{advertiser.billingCompanyName || "—"}</p>
+                    </div>
+                  </div>
+                </div>
+
                 <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
                   <div className="flex items-start gap-3">
                     <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">

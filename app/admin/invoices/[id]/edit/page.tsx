@@ -65,7 +65,6 @@ export default function InvoiceEditPage({ params }: { params: Promise<{ id: stri
     dueDate: invoice.dueDate,
     paymentMethod: invoice.paymentMethod,
     description: invoice.description,
-    status: invoice.status,
   });
 
   // キャンペーン選択時に金額を自動計算
@@ -205,7 +204,7 @@ export default function InvoiceEditPage({ params }: { params: Promise<{ id: stri
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    支払期限 <span className="text-red-500">*</span>
+                    支払日 <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="date"
@@ -228,22 +227,6 @@ export default function InvoiceEditPage({ params }: { params: Promise<{ id: stri
                     <option value="銀行振込">銀行振込</option>
                     <option value="クレジットカード">クレジットカード</option>
                     <option value="請求書払い">請求書払い</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    ステータス
-                  </label>
-                  <select
-                    value={formData.status}
-                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
-                  >
-                    <option value="未払い">未払い</option>
-                    <option value="支払済み">支払済み</option>
-                    <option value="期限超過">期限超過</option>
-                    <option value="キャンセル">キャンセル</option>
                   </select>
                 </div>
 

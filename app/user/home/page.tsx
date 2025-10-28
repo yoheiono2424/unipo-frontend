@@ -1,25 +1,36 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { QrCode, Coins, Clock, User, FileText } from 'lucide-react'
+import { Coins, User, FileText } from 'lucide-react'
 import UserLayout from '@/components/user/UserLayout'
 
 export default function UserHomePage() {
   const router = useRouter()
 
-  const menuItems = [
-    { id: 'scan', label: 'スキャン', icon: QrCode, path: '/user/scan', color: 'bg-red-100 text-red-600' },
-    { id: 'points', label: 'ポイント', icon: Coins, path: '/user/points', color: 'bg-yellow-100 text-yellow-600' },
-    { id: 'history', label: '履歴', icon: Clock, path: '/user/history', color: 'bg-blue-100 text-blue-600' },
-    { id: 'mypage', label: 'マイページ', icon: User, path: '/user/mypage', color: 'bg-purple-100 text-purple-600' },
-    { id: 'survey', label: 'アンケート', icon: FileText, path: '/user/surveys', color: 'bg-green-100 text-green-600' },
-  ]
+  // モックデータ：未回答のアンケートがあるかどうか
+  const hasUnansweredSurveys = true
 
   return (
     <UserLayout>
       <div className="bg-gradient-to-b from-red-50 to-white min-h-screen">
+        {/* 広告バナー */}
+        <div className="px-4 pt-4 pb-2">
+          <div className="relative rounded-2xl overflow-hidden shadow-lg cursor-pointer hover:shadow-xl transition-shadow">
+            <div className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 h-32 flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-white text-2xl font-bold mb-1">広告バナー</div>
+                <div className="text-white/80 text-sm">スポンサー広告がここに表示されます</div>
+              </div>
+            </div>
+            {/* 広告ラベル */}
+            <div className="absolute top-2 right-2 bg-white/90 px-2 py-1 rounded text-[10px] text-gray-600 font-medium">
+              AD
+            </div>
+          </div>
+        </div>
+
         {/* ポイント残高カード */}
-        <div className="px-4 py-6">
+        <div className="px-4 py-4">
           <div className="bg-gradient-to-br from-red-500 via-red-600 to-red-700 rounded-3xl shadow-2xl p-8 text-white relative overflow-hidden">
             {/* 装飾的な背景要素 */}
             <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
@@ -57,30 +68,7 @@ export default function UserHomePage() {
           </div>
         </div>
 
-        {/* メニューグリッド */}
-        <div className="px-4 py-4">
-          <div className="bg-white rounded-2xl shadow-lg p-4">
-            <div className="flex justify-between items-start gap-2">
-              {menuItems.map((item) => {
-                const Icon = item.icon
-                return (
-                  <button
-                    key={item.id}
-                    onClick={() => router.push(item.path)}
-                    className="flex flex-col items-center gap-1.5 hover:opacity-75 transition-opacity flex-1"
-                  >
-                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${item.color}`}>
-                      <Icon className="w-6 h-6" />
-                    </div>
-                    <span className="text-[10px] text-gray-700 text-center font-medium leading-tight">{item.label}</span>
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-        </div>
-
-        {/* 追加ボタン */}
+        {/* ボタン */}
         <div className="px-4 pb-8 space-y-3">
           <button
             onClick={() => router.push('/user/points')}
@@ -92,6 +80,28 @@ export default function UserHomePage() {
                   <Coins className="w-5 h-5 text-white" />
                 </div>
                 <span className="text-gray-900 font-semibold text-base">ポイント交換へ</span>
+              </div>
+              <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </button>
+
+          <button
+            onClick={() => router.push('/user/surveys')}
+            className="w-full bg-white rounded-2xl shadow-md p-5 hover:shadow-lg transition-all text-left"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-green-500 rounded-xl flex items-center justify-center">
+                  <FileText className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-gray-900 font-semibold text-base">アンケート</span>
+                  {hasUnansweredSurveys && (
+                    <span className="text-xs text-red-600 font-medium mt-0.5">未回答アンケートあり</span>
+                  )}
+                </div>
               </div>
               <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

@@ -284,6 +284,65 @@ export default function AdvertiserCampaignDetailPage({ params }: { params: Promi
           </div>
         </div>
 
+        {/* ターゲット設定セクション */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+          <div className="p-6 border-b border-gray-100">
+            <div className="flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-500">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+              <h2 className="text-lg font-semibold text-gray-900">ターゲット設定</h2>
+            </div>
+          </div>
+          <div className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* 対象年齢 */}
+              <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                    <Calendar className="h-5 w-5 text-gray-600" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">対象年齢</p>
+                    <p className="mt-1 text-sm font-medium text-gray-900">
+                      年齢制限なし
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      すべての年齢層が対象です
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 対象性別 */}
+              <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-600">
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                      <circle cx="9" cy="7" r="4"/>
+                      <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">対象性別</p>
+                    <p className="mt-1 text-sm font-medium text-gray-900">
+                      指定なし
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      すべての性別が対象です
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* 対象店舗セクション */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100">
           <div className="p-6 border-b border-gray-100">
@@ -314,28 +373,19 @@ export default function AdvertiserCampaignDetailPage({ params }: { params: Promi
             </div>
           </div>
           <div className="p-6">
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-              {[1, 2, 3, 4, 5].map((num) => {
-                const imageUrl = campaign[`campaignImage${num}` as keyof typeof campaign] as string;
-                return (
-                  <div key={num} className="group">
-                    <div className="aspect-square bg-gray-100 rounded-lg overflow-hidden">
-                      {imageUrl ? (
-                        <img
-                          src={imageUrl}
-                          alt={`キャンペーン画像${num}`}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center text-gray-400">
-                          <FileImage className="h-8 w-8 mb-2" />
-                          <span className="text-xs">画像{num}</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
+            <div className="flex justify-center">
+              {campaign.campaignImage1 ? (
+                <img
+                  src={campaign.campaignImage1}
+                  alt="キャンペーン画像"
+                  className="max-h-96 rounded-lg shadow-md"
+                />
+              ) : (
+                <div className="w-full max-w-md aspect-video bg-gray-100 rounded-lg flex flex-col items-center justify-center text-gray-400">
+                  <FileImage className="h-16 w-16 mb-2" />
+                  <span className="text-sm">画像未登録</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
