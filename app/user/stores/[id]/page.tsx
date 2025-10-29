@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter, useParams } from 'next/navigation'
-import { MapPin, Clock, Phone, Globe, Gift, ChevronRight } from 'lucide-react'
+import { MapPin, Clock, Phone, Globe, Gift } from 'lucide-react'
 import UserLayout from '@/components/user/UserLayout'
 
 export default function UserStoreDetailPage() {
@@ -168,8 +168,7 @@ export default function UserStoreDetailPage() {
               {filteredCampaigns.map((campaign) => (
                 <div
                   key={campaign.id}
-                  className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all cursor-pointer overflow-hidden"
-                  onClick={() => router.push(`/user/campaigns/${campaign.id}`)}
+                  className="bg-white rounded-2xl shadow-md overflow-hidden"
                 >
                   <div className="p-4">
                     <div className="flex items-start gap-3">
@@ -181,7 +180,6 @@ export default function UserStoreDetailPage() {
                         <p className="text-sm text-gray-600 mb-2">{campaign.description}</p>
                         <p className="text-xs text-gray-500">有効期限: {campaign.validUntil}</p>
                       </div>
-                      <ChevronRight className="w-5 h-5 text-gray-400 flex-shrink-0 mt-2" />
                     </div>
                   </div>
                 </div>
