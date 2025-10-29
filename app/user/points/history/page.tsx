@@ -15,43 +15,24 @@ export default function UserPointHistoryPage() {
     { id: 'year', label: '1年' },
   ]
 
-  // ギフトカード履歴データ
+  // ギフトカード履歴データ（受け取りのみ）
   const giftcardHistory = [
     {
       id: 1,
-      type: 'used',
-      amount: 500,
-      storeName: 'ユニー鳴海店',
-      date: '2025/10/18 14:30',
-      description: '店舗での支払いに使用'
-    },
-    {
-      id: 2,
-      type: 'received',
       amount: 1000,
       storeName: 'ユニー稲沢店',
       date: '2025/10/15 10:15',
       description: 'キャンペーン参加特典'
     },
     {
-      id: 3,
-      type: 'received',
+      id: 2,
       amount: 500,
       storeName: 'ユニー高蔵寺店',
       date: '2025/10/10 16:45',
       description: '新規会員登録特典'
     },
     {
-      id: 4,
-      type: 'used',
-      amount: 300,
-      storeName: 'ユニー高蔵寺店',
-      date: '2025/10/08 12:20',
-      description: '店舗での支払いに使用'
-    },
-    {
-      id: 5,
-      type: 'received',
+      id: 3,
       amount: 500,
       storeName: 'ユニー鳴海店',
       date: '2025/10/05 09:30',
@@ -196,31 +177,12 @@ export default function UserPointHistoryPage() {
                     <div className="p-4">
                       <div className="flex items-start justify-between mb-3">
                         <div className="flex items-center gap-3">
-                          <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                            item.type === 'received'
-                              ? 'bg-green-100'
-                              : 'bg-blue-100'
-                          }`}>
-                            <Gift className={`w-6 h-6 ${
-                              item.type === 'received'
-                                ? 'text-green-600'
-                                : 'text-blue-600'
-                            }`} />
+                          <div className="w-12 h-12 rounded-full flex items-center justify-center bg-green-100">
+                            <Gift className="w-6 h-6 text-green-600" />
                           </div>
                           <div>
-                            <div className={`text-xl font-bold ${
-                              item.type === 'received'
-                                ? 'text-green-600'
-                                : 'text-blue-600'
-                            }`}>
-                              {item.type === 'received' ? '+' : '-'}¥{item.amount}
-                            </div>
-                            <div className={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold ${
-                              item.type === 'received'
-                                ? 'bg-green-100 text-green-700'
-                                : 'bg-blue-100 text-blue-700'
-                            }`}>
-                              {item.type === 'received' ? '受け取り' : '利用'}
+                            <div className="text-xl font-bold text-green-600">
+                              ¥{item.amount.toLocaleString()}
                             </div>
                           </div>
                         </div>

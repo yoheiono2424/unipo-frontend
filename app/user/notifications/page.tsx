@@ -1,10 +1,11 @@
 'use client'
 
-import { Bell, Gift, Megaphone, Info, ChevronRight } from 'lucide-react'
+import { Megaphone, Info, ChevronRight } from 'lucide-react'
 import UserLayout from '@/components/user/UserLayout'
 
 export default function UserNotificationsPage() {
 
+  // 運営者が作成したお知らせのみ表示
   const notifications = [
     {
       id: 1,
@@ -18,26 +19,6 @@ export default function UserNotificationsPage() {
     },
     {
       id: 2,
-      type: 'giftcard',
-      icon: Gift,
-      title: 'ギフトカードが届きました',
-      message: 'ユニー稲沢店から500円分のギフトカードが届きました',
-      date: '2025/10/18',
-      isNew: true,
-      color: 'text-yellow-500'
-    },
-    {
-      id: 3,
-      type: 'point',
-      icon: Bell,
-      title: 'ポイントを獲得しました',
-      message: 'ユニー高蔵寺店で50ポイント獲得しました',
-      date: '2025/10/17',
-      isNew: true,
-      color: 'text-blue-500'
-    },
-    {
-      id: 4,
       type: 'info',
       icon: Info,
       title: 'システムメンテナンスのお知らせ',
@@ -47,7 +28,7 @@ export default function UserNotificationsPage() {
       color: 'text-gray-500'
     },
     {
-      id: 5,
+      id: 3,
       type: 'campaign',
       icon: Megaphone,
       title: 'アンケート回答のお願い',

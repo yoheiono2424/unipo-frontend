@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { User, ChevronRight, Bell, LogOut, Shield, HelpCircle, Lock, FileText, UserX } from 'lucide-react'
+import { User, ChevronRight, Bell, LogOut, Shield, Lock, FileText, UserX } from 'lucide-react'
 import UserLayout from '@/components/user/UserLayout'
 
 export default function UserMyPagePage() {
@@ -21,7 +21,6 @@ export default function UserMyPagePage() {
         { id: 'password', label: 'パスワード変更', icon: Lock, path: '/user/password/change', color: 'text-gray-600' },
         { id: 'terms', label: '利用規約', icon: FileText, path: '/user/terms', color: 'text-gray-600' },
         { id: 'privacy', label: 'プライバシーポリシー', icon: Shield, path: '/user/privacy', color: 'text-gray-600' },
-        { id: 'help', label: 'ヘルプ', icon: HelpCircle, path: '/user/help', color: 'text-gray-600' },
       ]
     }
   ]
