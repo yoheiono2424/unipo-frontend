@@ -12,7 +12,7 @@ export default function UserHomePage() {
 
   return (
     <UserLayout>
-      <div className="bg-gradient-to-b from-red-50 to-white min-h-screen">
+      <div className="bg-gradient-to-b from-orange-50 to-white min-h-screen">
         {/* 広告バナー */}
         <div className="px-4 pt-4 pb-2">
           <div className="relative rounded-2xl overflow-hidden shadow-lg cursor-pointer hover:shadow-xl transition-shadow">
@@ -31,7 +31,7 @@ export default function UserHomePage() {
 
         {/* ポイント残高カード */}
         <div className="px-4 py-4">
-          <div className="bg-gradient-to-br from-red-500 via-red-600 to-red-700 rounded-3xl shadow-2xl p-8 text-white relative overflow-hidden">
+          <div className="bg-gradient-to-br from-orange-500 via-orange-600 to-orange-700 rounded-3xl shadow-2xl p-8 text-white relative overflow-hidden">
             {/* 装飾的な背景要素 */}
             <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -ml-16 -mb-16"></div>
@@ -99,7 +99,7 @@ export default function UserHomePage() {
                 <div className="flex flex-col">
                   <span className="text-gray-900 font-semibold text-base">アンケート</span>
                   {hasUnansweredSurveys && (
-                    <span className="text-xs text-red-600 font-medium mt-0.5">未回答アンケートあり</span>
+                    <span className="text-xs text-orange-600 font-medium mt-0.5">未回答アンケートあり</span>
                   )}
                 </div>
               </div>

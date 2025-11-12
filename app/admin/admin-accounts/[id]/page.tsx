@@ -22,7 +22,7 @@ const mockAdminAccounts: AdminAccount[] = [
     id: "ADM001",
     name: "管理者 太郎",
     email: "admin@unipo.jp",
-    role: "スーパー管理者",
+    role: "審査担当者",
     department: "システム管理部",
     lastLogin: "2024-03-15 10:30",
     status: "有効",
@@ -33,7 +33,7 @@ const mockAdminAccounts: AdminAccount[] = [
     id: "ADM002",
     name: "運営 花子",
     email: "operator1@unipo.jp",
-    role: "運営担当者",
+    role: "一般担当者",
     department: "カスタマーサポート",
     lastLogin: "2024-03-14 15:45",
     status: "有効",
@@ -144,7 +144,7 @@ export default function AdminAccountDetailPage({ params }: { params: Promise<{ i
                     <Shield className="h-5 w-5 text-gray-600" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">役割</p>
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">権限</p>
                     <p className="mt-1 text-sm font-medium text-gray-900">{account.role}</p>
                   </div>
                 </div>

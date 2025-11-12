@@ -30,8 +30,8 @@ export default function AdminCampaignsPage() {
       pending: "bg-yellow-100 text-yellow-800",
       approved: "bg-green-100 text-green-800",
       rejected: "bg-red-100 text-red-800",
-      active: "bg-blue-100 text-blue-800",
-      completed: "bg-purple-100 text-purple-800",
+      active: "bg-green-100 text-green-800",
+      completed: "bg-gray-100 text-gray-800",
     };
 
     const statusLabels = {
@@ -39,8 +39,8 @@ export default function AdminCampaignsPage() {
       pending: "審査中",
       approved: "承認済み",
       rejected: "却下",
-      active: "実施中",
-      completed: "完了",
+      active: "公開中",
+      completed: "終了",
     };
 
     return (
@@ -121,7 +121,7 @@ export default function AdminCampaignsPage() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                審査ステータス
+                ステータス
               </label>
               <select
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
@@ -133,8 +133,8 @@ export default function AdminCampaignsPage() {
                 <option value="pending">審査中</option>
                 <option value="approved">承認済み</option>
                 <option value="rejected">却下</option>
-                <option value="active">実施中</option>
-                <option value="completed">完了</option>
+                <option value="active">公開中</option>
+                <option value="completed">終了</option>
               </select>
             </div>
           </div>

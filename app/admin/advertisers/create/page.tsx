@@ -5,6 +5,7 @@ import { ArrowLeft, Save, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { mockAgencies } from "@/lib/mock-data";
 
 export default function AdvertiserCreatePage() {
   const router = useRouter();
@@ -16,6 +17,8 @@ export default function AdvertiserCreatePage() {
     companyName: "",
     companyNameKana: "",
     industry: "",
+    agencyId: "",
+    agencyContactName: "",
     postalCode: "",
     prefecture: "",
     city: "",
@@ -725,6 +728,50 @@ export default function AdvertiserCreatePage() {
                       <option value="前払い">前払い</option>
                     </select>
                     <p className="text-xs text-gray-500 mt-1">初期は「前払い」のみ選択可能</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 代理店情報セクション */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+              <div className="p-6 border-b border-gray-100">
+                <h2 className="text-lg font-semibold text-gray-900">代理店情報</h2>
+              </div>
+              <div className="p-6 space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* 代理店名 */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      代理店名
+                    </label>
+                    <select
+                      value={formData.agencyId}
+                      onChange={(e) => setFormData({ ...formData, agencyId: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                    >
+                      <option value="">選択してください</option>
+                      {mockAgencies.map((agency) => (
+                        <option key={agency.id} value={agency.id}>
+                          {agency.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* 代理店担当者名 */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      代理店担当者名
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.agencyContactName}
+                      onChange={(e) => setFormData({ ...formData, agencyContactName: e.target.value })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                      placeholder="山本一郎"
+                      maxLength={50}
+                    />
                   </div>
                 </div>
               </div>

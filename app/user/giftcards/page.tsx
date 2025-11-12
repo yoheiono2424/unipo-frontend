@@ -57,7 +57,7 @@ export default function UserGiftCardsPage() {
 
   return (
     <UserLayout>
-      <div className="bg-gradient-to-b from-red-50 to-white min-h-screen">
+      <div className="bg-gradient-to-b from-orange-50 to-white min-h-screen">
         {/* ヘッダー */}
         <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
           <div className="max-w-[428px] mx-auto px-4 py-4">
@@ -67,7 +67,7 @@ export default function UserGiftCardsPage() {
 
         {/* 合計金額カード */}
         <div className="max-w-[428px] mx-auto px-4 py-6">
-          <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-3xl shadow-2xl p-6 text-white">
+          <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-3xl shadow-2xl p-6 text-white">
             <div className="flex items-center gap-2 mb-2">
               <Gift className="w-5 h-5" />
               <span className="text-sm font-medium opacity-90">利用可能残高</span>
@@ -78,7 +78,7 @@ export default function UserGiftCardsPage() {
             <div className="flex gap-3">
               <button
                 onClick={() => router.push('/user/giftcards/receive')}
-                className="flex-1 bg-white text-red-500 py-3 rounded-xl font-semibold hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
+                className="flex-1 bg-white text-orange-600 py-3 rounded-xl font-semibold hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
               >
                 <Plus className="w-5 h-5" />
                 受け取る
@@ -100,7 +100,7 @@ export default function UserGiftCardsPage() {
               onClick={() => setActiveTab('active')}
               className={`flex-1 py-3 rounded-xl font-semibold transition-colors ${
                 activeTab === 'active'
-                  ? 'bg-red-500 text-white'
+                  ? 'bg-orange-500 text-white'
                   : 'bg-white text-gray-700 border border-gray-300'
               }`}
             >
@@ -110,7 +110,7 @@ export default function UserGiftCardsPage() {
               onClick={() => setActiveTab('used')}
               className={`flex-1 py-3 rounded-xl font-semibold transition-colors ${
                 activeTab === 'used'
-                  ? 'bg-red-500 text-white'
+                  ? 'bg-orange-500 text-white'
                   : 'bg-white text-gray-700 border border-gray-300'
               }`}
             >
@@ -135,10 +135,10 @@ export default function UserGiftCardsPage() {
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-3">
                         <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                          <Gift className="w-6 h-6 text-red-500" />
+                          <Gift className="w-6 h-6 text-orange-600" />
                         </div>
                         <div>
-                          <div className="text-2xl font-bold text-red-500">¥{card.amount}</div>
+                          <div className="text-2xl font-bold text-orange-600">¥{card.amount}</div>
                           {card.isExpiring && (
                             <div className="inline-block bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full text-xs font-semibold mt-1">
                               期限間近

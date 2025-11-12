@@ -22,7 +22,7 @@ const mockAdminAccounts: AdminAccount[] = [
     id: "ADM001",
     name: "管理者 太郎",
     email: "admin@unipo.jp",
-    role: "スーパー管理者",
+    role: "審査担当者",
     department: "システム管理部",
     lastLogin: "2024-03-15 10:30",
     status: "有効",
@@ -32,7 +32,7 @@ const mockAdminAccounts: AdminAccount[] = [
     id: "ADM002",
     name: "運営 花子",
     email: "operator1@unipo.jp",
-    role: "運営担当者",
+    role: "一般担当者",
     department: "カスタマーサポート",
     lastLogin: "2024-03-14 15:45",
     status: "有効",
@@ -53,12 +53,14 @@ const mockAdminAccounts: AdminAccount[] = [
 export default function AdminAccountsPage() {
   const [searchName, setSearchName] = useState("");
   const [searchStatus, setSearchStatus] = useState("");
+  const [searchRole, setSearchRole] = useState("");
   const router = useRouter();
 
   const accounts = mockAdminAccounts.filter(account => {
     const nameMatch = searchName === "" || account.name.toLowerCase().includes(searchName.toLowerCase());
     const statusMatch = searchStatus === "" || searchStatus === "all" || account.status === searchStatus;
-    return nameMatch && statusMatch;
+    const roleMatch = searchRole === "" || searchRole === "all" || account.role === searchRole;
+    return nameMatch && statusMatch && roleMatch;
   });
 
   return (
@@ -80,7 +82,7 @@ export default function AdminAccountsPage() {
 
         {/* 検索・フィルタ */}
         <div className="bg-white rounded-lg shadow p-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 氏名
@@ -92,6 +94,20 @@ export default function AdminAccountsPage() {
                 value={searchName}
                 onChange={(e) => setSearchName(e.target.value)}
               />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                権限
+              </label>
+              <select
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                value={searchRole}
+                onChange={(e) => setSearchRole(e.target.value)}
+              >
+                <option value="">すべて</option>
+                <option value="一般担当者">一般担当者</option>
+                <option value="審査担当者">審査担当者</option>
+              </select>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">

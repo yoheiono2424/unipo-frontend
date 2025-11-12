@@ -44,6 +44,7 @@ function CreateDistributionRecordContent() {
     campaignId: "",
     campaignName: "",
     distributionCount: "",
+    adminMemo: "",
   });
 
   // URLパラメータからキャンペーン情報を取得
@@ -121,7 +122,7 @@ function CreateDistributionRecordContent() {
     router.push("/admin/distribution-records/1");
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -292,6 +293,21 @@ function CreateDistributionRecordContent() {
                     readOnly
                   />
                 </div>
+              </div>
+
+              {/* 運営者メモ */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  運営者メモ
+                </label>
+                <textarea
+                  name="adminMemo"
+                  value={formData.adminMemo}
+                  onChange={handleChange}
+                  rows={4}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  placeholder="例：特記事項や備考を入力"
+                />
               </div>
 
               {/* ドロップダウンを閉じるための透明なオーバーレイ */}

@@ -1,7 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Edit, Calendar, Building2, Users, Hash, Package, Plus, Search } from "lucide-react";
+import { ArrowLeft, Edit, Calendar, Building2, Users, Hash, Package, Plus, Search, Download } from "lucide-react";
 import Link from "next/link";
 import { use, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -20,6 +20,7 @@ const mockDistributionRecords = [
     startDate: "2025-01-01",
     endDate: "2025-01-31",
     status: "実施中",
+    adminMemo: "初回キャンペーンのため、配布状況を注視すること。\n特に配布枚数が予定を超過しないよう管理が必要。",
   },
   {
     id: "DST002",
@@ -34,6 +35,7 @@ const mockDistributionRecords = [
     startDate: "2025-02-01",
     endDate: "2025-02-14",
     status: "配布完了",
+    adminMemo: "",
   },
 ];
 
@@ -43,6 +45,9 @@ const mockDistributionHistory = [
     id: "1",
     distributionDate: "2025-01-15 10:30:00",
     userId: "USER001",
+    age: 28,
+    gender: "男性",
+    prefecture: "東京都",
     storeId: "STR001",
     storeName: "カフェ モカ",
     campaignId: "CMP001",
@@ -54,6 +59,9 @@ const mockDistributionHistory = [
     id: "2",
     distributionDate: "2025-01-15 11:45:00",
     userId: "USER002",
+    age: 35,
+    gender: "女性",
+    prefecture: "神奈川県",
     storeId: "STR001",
     storeName: "カフェ モカ",
     campaignId: "CMP001",
@@ -65,6 +73,9 @@ const mockDistributionHistory = [
     id: "3",
     distributionDate: "2025-01-16 14:20:00",
     userId: "USER003",
+    age: 42,
+    gender: "男性",
+    prefecture: "千葉県",
     storeId: "STR002",
     storeName: "レストラン サクラ",
     campaignId: "CMP001",
@@ -76,6 +87,9 @@ const mockDistributionHistory = [
     id: "4",
     distributionDate: "2025-01-16 15:30:00",
     userId: "USER004",
+    age: 26,
+    gender: "女性",
+    prefecture: "埼玉県",
     storeId: "STR003",
     storeName: "ショップ ひまわり",
     campaignId: "CMP002",
@@ -87,6 +101,9 @@ const mockDistributionHistory = [
     id: "5",
     distributionDate: "2025-01-17 09:15:00",
     userId: "USER005",
+    age: 31,
+    gender: "男性",
+    prefecture: "東京都",
     storeId: "STR002",
     storeName: "レストラン サクラ",
     campaignId: "CMP002",
@@ -130,6 +147,59 @@ export default function DistributionRecordDetailPage({ params }: { params: Promi
 
     return storeNameMatch && userIdMatch && dateMatch;
   });
+
+  // CSVダウンロード関数
+  const downloadCSV = () => {
+    // CSVヘッダー
+    const headers = [
+      "配布日時",
+      "ユーザーID",
+      "年齢",
+      "性別",
+      "都道府県",
+      "店舗ID",
+      "店舗名",
+      "キャンペーンID",
+      "キャンペーン名",
+      "広告主ID",
+      "広告主名"
+    ];
+
+    // CSVデータ
+    const rows = filteredHistory.map(history => [
+      history.distributionDate,
+      history.userId,
+      history.age,
+      history.gender,
+      history.prefecture,
+      history.storeId,
+      history.storeName,
+      history.campaignId,
+      history.campaignName,
+      history.advertiserId,
+      history.advertiserName
+    ]);
+
+    // CSV文字列生成
+    const csvContent = [
+      headers.join(","),
+      ...rows.map(row => row.join(","))
+    ].join("\n");
+
+    // BOM付きでUTF-8エンコード（Excelで文字化けしないように）
+    const bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+    const blob = new Blob([bom, csvContent], { type: "text/csv;charset=utf-8;" });
+
+    // ダウンロード
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `配布履歴_${record.recordId}_${new Date().toISOString().split("T")[0]}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
 
   const getStatusBadge = (status: string) => {
     switch(status) {
@@ -317,6 +387,21 @@ export default function DistributionRecordDetailPage({ params }: { params: Promi
                   </div>
                 </div>
               </div>
+
+              {/* 運営者メモ */}
+              <div className="md:col-span-2 group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                <div className="flex items-start gap-3">
+                  <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                    <Hash className="h-5 w-5 text-gray-600" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">運営者メモ</p>
+                    <p className="mt-1 text-sm font-medium text-gray-900 whitespace-pre-wrap">
+                      {record.adminMemo || "-"}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -384,9 +469,19 @@ export default function DistributionRecordDetailPage({ params }: { params: Promi
               </div>
             </div>
 
-            {/* 検索結果件数 */}
-            <div className="mt-4 text-sm text-gray-600">
-              検索結果: {filteredHistory.length}件
+            {/* 検索結果件数とCSVダウンロード */}
+            <div className="mt-4 flex items-center justify-between">
+              <div className="text-sm text-gray-600">
+                検索結果: {filteredHistory.length}件
+              </div>
+              <button
+                onClick={downloadCSV}
+                disabled={filteredHistory.length === 0}
+                className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center gap-2 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+              >
+                <Download className="h-4 w-4" />
+                CSVダウンロード
+              </button>
             </div>
           </div>
 
@@ -402,6 +497,15 @@ export default function DistributionRecordDetailPage({ params }: { params: Promi
                     ユーザーID
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    年齢
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    性別
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    都道府県
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     店舗ID
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -412,7 +516,7 @@ export default function DistributionRecordDetailPage({ params }: { params: Promi
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredHistory.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="px-6 py-12 text-center text-gray-500">
+                    <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
                       {searchStoreName || searchUserId || searchStartDate || searchEndDate
                         ? "検索条件に一致する配布履歴がありません"
                         : "配布履歴データがありません"}
@@ -430,6 +534,15 @@ export default function DistributionRecordDetailPage({ params }: { params: Promi
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {history.userId}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {history.age}歳
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {history.gender}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {history.prefecture}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {history.storeId}

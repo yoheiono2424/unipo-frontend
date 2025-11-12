@@ -102,7 +102,7 @@ export default function UserPointHistoryPage() {
 
   return (
     <UserLayout>
-      <div className="bg-gradient-to-b from-red-50 to-white">
+      <div className="bg-gradient-to-b from-orange-50 to-white">
         {/* ヘッダー */}
         <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
           <div className="max-w-[428px] mx-auto px-4 py-4">
@@ -118,26 +118,26 @@ export default function UserPointHistoryPage() {
                 onClick={() => setActiveTab('giftcard')}
                 className={`flex-1 py-3 text-center font-semibold transition-colors relative ${
                   activeTab === 'giftcard'
-                    ? 'text-red-500'
+                    ? 'text-orange-600'
                     : 'text-gray-600'
                 }`}
               >
                 ギフトカード履歴
                 {activeTab === 'giftcard' && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-500" />
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange-500" />
                 )}
               </button>
               <button
                 onClick={() => setActiveTab('point')}
                 className={`flex-1 py-3 text-center font-semibold transition-colors relative ${
                   activeTab === 'point'
-                    ? 'text-red-500'
+                    ? 'text-orange-600'
                     : 'text-gray-600'
                 }`}
               >
                 ポイント履歴
                 {activeTab === 'point' && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-500" />
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-orange-500" />
                 )}
               </button>
             </div>
@@ -156,7 +156,7 @@ export default function UserPointHistoryPage() {
                     onClick={() => setSelectedPeriod(period.id)}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                       selectedPeriod === period.id
-                        ? 'bg-red-500 text-white'
+                        ? 'bg-orange-500 text-white'
                         : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
                     }`}
                   >
@@ -218,7 +218,7 @@ export default function UserPointHistoryPage() {
                     onClick={() => setSelectedPeriod(period.id)}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                       selectedPeriod === period.id
-                        ? 'bg-red-500 text-white'
+                        ? 'bg-orange-500 text-white'
                         : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
                     }`}
                   >

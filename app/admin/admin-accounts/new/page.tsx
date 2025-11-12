@@ -13,7 +13,7 @@ export default function AdminAccountNewPage() {
     name: "",
     email: "",
     password: "",
-    role: "運営担当者",
+    role: "一般担当者",
     department: "",
     phone: "",
     status: "有効",
@@ -100,7 +100,7 @@ export default function AdminAccountNewPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    役割 <span className="text-red-500">*</span>
+                    権限 <span className="text-red-500">*</span>
                   </label>
                   <select
                     value={formData.role}
@@ -108,10 +108,8 @@ export default function AdminAccountNewPage() {
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   >
-                    <option value="スーパー管理者">スーパー管理者</option>
-                    <option value="運営担当者">運営担当者</option>
+                    <option value="一般担当者">一般担当者</option>
                     <option value="審査担当者">審査担当者</option>
-                    <option value="サポート担当者">サポート担当者</option>
                   </select>
                 </div>
 

@@ -3,7 +3,7 @@
 import AdminLayout from "@/components/admin/AdminLayout";
 import { ArrowLeft, Save, X } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { mockCampaigns } from "@/lib/mock-data";
 
@@ -45,38 +45,41 @@ export default function InvoiceNewPage() {
     dueDate: "",
     paymentMethod: "銀行振込",
     description: "",
+    amount: 0,
   });
 
-  // キャンペーン選択時に金額を自動計算
-  const calculateAmounts = () => {
+  // キャンペーン選択時にデフォルト金額を自動設定
+  useEffect(() => {
     if (!formData.campaign) {
-      return { amount: 0, tax: 0, totalAmount: 0 };
+      setFormData(prev => ({ ...prev, amount: 0 }));
+      return;
     }
 
     const selectedCampaign = mockCampaigns.find(c => c.campaignName === formData.campaign);
     if (!selectedCampaign) {
-      return { amount: 0, tax: 0, totalAmount: 0 };
+      setFormData(prev => ({ ...prev, amount: 0 }));
+      return;
     }
 
     const campaignPlan = mockCampaignPlans.find(p => p.id === selectedCampaign.campaignPlanId);
     if (!campaignPlan) {
-      return { amount: 0, tax: 0, totalAmount: 0 };
+      setFormData(prev => ({ ...prev, amount: 0 }));
+      return;
     }
 
-    const amount = campaignPlan.issuanceCount * campaignPlan.faceValue;
-    const tax = Math.floor(amount * 0.1);
-    const totalAmount = amount + tax;
-    return { amount, tax, totalAmount };
-  };
+    const calculatedAmount = campaignPlan.issuanceCount * campaignPlan.faceValue;
+    setFormData(prev => ({ ...prev, amount: calculatedAmount }));
+  }, [formData.campaign]);
 
-  const { amount, tax, totalAmount } = calculateAmounts();
+  // 入力された小計から消費税・合計金額を計算
+  const tax = Math.floor(formData.amount * 0.1);
+  const totalAmount = formData.amount + tax;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // ここで保存処理を行う（実際にはAPIコール等）
     const newInvoiceData = {
       ...formData,
-      amount,
       tax,
       totalAmount,
       invoiceNumber: `INV-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 1000)).padStart(3, '0')}`,
@@ -224,8 +227,20 @@ export default function InvoiceNewPage() {
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">金額計算</h3>
                 <div className="bg-gray-50 rounded-lg p-4 space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">小計</span>
-                    <span className="text-sm font-medium text-gray-900">￥{amount.toLocaleString()}</span>
+                    <label className="text-sm text-gray-600">
+                      小計 <span className="text-red-500">*</span>
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-gray-600">￥</span>
+                      <input
+                        type="number"
+                        value={formData.amount}
+                        onChange={(e) => setFormData({ ...formData, amount: Number(e.target.value) })}
+                        className="w-40 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 text-right"
+                        min="0"
+                        required
+                      />
+                    </div>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-gray-600">消費税（10%）</span>

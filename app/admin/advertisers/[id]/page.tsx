@@ -154,6 +154,30 @@ export default function AdvertiserDetailPage({ params }: { params: Promise<{ id:
                 <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
                   <div className="flex items-start gap-3">
                     <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                      <Building2 className="h-5 w-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">代理店名</p>
+                      <p className="mt-1 text-sm font-medium text-gray-900">{advertiser.agencyName || "—"}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
+                      <User className="h-5 w-5 text-gray-600" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-gray-500 uppercase tracking-wider">代理店担当者名</p>
+                      <p className="mt-1 text-sm font-medium text-gray-900">{advertiser.agencyContactName || "—"}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="group hover:bg-gray-50 p-4 rounded-lg transition-colors">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 bg-gray-100 rounded-lg group-hover:bg-white transition-colors">
                       <Calendar className="h-5 w-5 text-gray-600" />
                     </div>
                     <div className="flex-1">

@@ -20,12 +20,12 @@ export default function UserLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-red-50 to-white flex flex-col">
+    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white flex flex-col">
       {/* ヘッダー */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-[428px] mx-auto px-4 py-4 text-center">
           <div className="inline-flex items-center gap-2">
-            <div className="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-xl">U</span>
             </div>
             <span className="text-2xl font-bold text-gray-900">ユニーポ</span>
@@ -57,7 +57,7 @@ export default function UserLoginPage() {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="example@email.com"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                     required
                   />
                 </div>
@@ -75,7 +75,7 @@ export default function UserLoginPage() {
                     value={formData.password}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     placeholder="パスワードを入力"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                     required
                   />
                 </div>
@@ -84,7 +84,7 @@ export default function UserLoginPage() {
               {/* ログインボタン */}
               <button
                 type="submit"
-                className="w-full bg-red-500 text-white py-3 rounded-xl font-semibold hover:bg-red-600 transition-colors flex items-center justify-center gap-2"
+                className="w-full bg-orange-500 text-white py-3 rounded-xl font-semibold hover:bg-orange-700 transition-colors flex items-center justify-center gap-2"
               >
                 <LogIn className="w-5 h-5" />
                 ログイン
@@ -95,7 +95,7 @@ export default function UserLoginPage() {
             <div className="text-center">
               <button
                 type="button"
-                className="text-sm text-red-500 hover:text-red-600 font-medium"
+                className="text-sm text-orange-600 hover:text-orange-600 font-medium"
               >
                 パスワードをお忘れですか？
               </button>
@@ -108,7 +108,7 @@ export default function UserLoginPage() {
                 <button
                   type="button"
                   onClick={() => router.push('/user/auth/register')}
-                  className="text-red-500 hover:text-red-600 font-semibold"
+                  className="text-orange-600 hover:text-orange-600 font-semibold"
                 >
                   新規登録
                 </button>

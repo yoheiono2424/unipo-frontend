@@ -23,7 +23,7 @@ const mockAdminAccounts: AdminAccount[] = [
     id: "ADM001",
     name: "管理者 太郎",
     email: "admin@unipo.jp",
-    role: "スーパー管理者",
+    role: "審査担当者",
     department: "システム管理部",
     lastLogin: "2024-03-15 10:30",
     status: "有効",
@@ -34,7 +34,7 @@ const mockAdminAccounts: AdminAccount[] = [
     id: "ADM002",
     name: "運営 花子",
     email: "operator1@unipo.jp",
-    role: "運営担当者",
+    role: "一般担当者",
     department: "カスタマーサポート",
     lastLogin: "2024-03-14 15:45",
     status: "有効",
@@ -132,7 +132,7 @@ export default function AdminAccountEditPage({ params }: { params: Promise<{ id:
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    役割 <span className="text-red-500">*</span>
+                    権限 <span className="text-red-500">*</span>
                   </label>
                   <select
                     value={formData.role}
@@ -140,10 +140,8 @@ export default function AdminAccountEditPage({ params }: { params: Promise<{ id:
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                     required
                   >
-                    <option value="スーパー管理者">スーパー管理者</option>
-                    <option value="運営担当者">運営担当者</option>
+                    <option value="一般担当者">一般担当者</option>
                     <option value="審査担当者">審査担当者</option>
-                    <option value="サポート担当者">サポート担当者</option>
                   </select>
                 </div>
 

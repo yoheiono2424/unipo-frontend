@@ -15,7 +15,7 @@ export default function UserNotificationsPage() {
       message: 'ユニー高蔵寺店で使える500円クーポンプレゼント',
       date: '2025/10/19',
       isNew: true,
-      color: 'text-red-500'
+      color: 'text-orange-600'
     },
     {
       id: 2,
@@ -35,13 +35,13 @@ export default function UserNotificationsPage() {
       message: '新商品に関するアンケートにご協力ください（10ポイント獲得）',
       date: '2025/10/15',
       isNew: false,
-      color: 'text-red-500'
+      color: 'text-orange-600'
     },
   ]
 
   return (
     <UserLayout>
-      <div className="bg-gradient-to-b from-red-50 to-white min-h-screen">
+      <div className="bg-gradient-to-b from-orange-50 to-white min-h-screen">
         {/* ヘッダー */}
         <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
           <div className="max-w-[428px] mx-auto px-4 py-4">
@@ -70,7 +70,7 @@ export default function UserNotificationsPage() {
                       <div className="flex items-center gap-2 mb-1">
                         <h3 className="font-semibold text-gray-900">{notification.title}</h3>
                         {notification.isNew && (
-                          <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                          <span className="bg-orange-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
                             NEW
                           </span>
                         )}

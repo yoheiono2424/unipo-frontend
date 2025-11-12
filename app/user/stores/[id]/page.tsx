@@ -100,7 +100,7 @@ export default function UserStoreDetailPage() {
 
   return (
     <UserLayout>
-      <div className="bg-gradient-to-b from-red-50 to-white">
+      <div className="bg-gradient-to-b from-orange-50 to-white">
         {/* ヘッダー */}
         <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-[428px] mx-auto px-4 py-4 flex items-center">
@@ -154,7 +154,7 @@ export default function UserStoreDetailPage() {
           </div>
 
           {/* マップボタン */}
-          <button className="w-full mt-4 bg-red-500 text-white py-3 rounded-xl font-semibold hover:bg-red-600 transition-colors flex items-center justify-center gap-2">
+          <button className="w-full mt-4 bg-orange-500 text-white py-3 rounded-xl font-semibold hover:bg-orange-700 transition-colors flex items-center justify-center gap-2">
             <MapPin className="w-5 h-5" />
             地図アプリで開く
           </button>
@@ -173,7 +173,7 @@ export default function UserStoreDetailPage() {
                   <div className="p-4">
                     <div className="flex items-start gap-3">
                       <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
-                        <Gift className="w-5 h-5 text-red-500" />
+                        <Gift className="w-5 h-5 text-orange-600" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <h4 className="font-semibold text-gray-900 mb-1">{campaign.title}</h4>

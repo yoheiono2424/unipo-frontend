@@ -429,30 +429,6 @@ export default function NewCampaignPage() {
               </div>
             </div>
 
-            {/* 対象店舗 */}
-            <div className="bg-white rounded-lg shadow-sm p-6">
-              <h2 className="text-lg font-semibold mb-4">対象店舗</h2>
-              <div className="space-y-2 max-h-64 overflow-y-auto border border-gray-200 rounded-lg p-3">
-                {mockStores.map((store) => (
-                  <label key={store.id} className="flex items-center p-2 hover:bg-gray-50 rounded cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={formData.applicableStoreIds.includes(store.id)}
-                      onChange={() => handleStoreToggle(store.id)}
-                      className="mr-3"
-                    />
-                    <div className="flex-1">
-                      <div className="font-medium">{store.storeName}</div>
-                      <div className="text-sm text-gray-500">{store.storeNo}</div>
-                    </div>
-                  </label>
-                ))}
-              </div>
-              <p className="mt-2 text-sm text-gray-500">
-                選択済み: {formData.applicableStoreIds.length}店舗
-              </p>
-            </div>
-
             {/* キャンペーン画像 */}
             <div className="bg-white rounded-lg shadow-sm p-6">
               <h2 className="text-lg font-semibold mb-4">キャンペーン画像</h2>

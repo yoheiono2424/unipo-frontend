@@ -62,7 +62,7 @@ export default function UserSurveysPage() {
 
   return (
     <UserLayout>
-      <div className="bg-gradient-to-b from-red-50 to-white min-h-screen">
+      <div className="bg-gradient-to-b from-orange-50 to-white min-h-screen">
         {/* ヘッダー */}
         <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
           <div className="max-w-[428px] mx-auto px-4 py-4">
@@ -94,7 +94,7 @@ export default function UserSurveysPage() {
               onClick={() => setActiveTab('available')}
               className={`flex-1 py-3 rounded-xl font-semibold transition-colors ${
                 activeTab === 'available'
-                  ? 'bg-red-500 text-white'
+                  ? 'bg-orange-500 text-white'
                   : 'bg-white text-gray-700 border border-gray-300'
               }`}
             >
@@ -104,7 +104,7 @@ export default function UserSurveysPage() {
               onClick={() => setActiveTab('completed')}
               className={`flex-1 py-3 rounded-xl font-semibold transition-colors ${
                 activeTab === 'completed'
-                  ? 'bg-red-500 text-white'
+                  ? 'bg-orange-500 text-white'
                   : 'bg-white text-gray-700 border border-gray-300'
               }`}
             >

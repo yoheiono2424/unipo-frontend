@@ -32,7 +32,7 @@ export default function UserReferralPage() {
 
   return (
     <UserLayout>
-      <div className="bg-gradient-to-b from-red-50 to-white min-h-screen pb-8">
+      <div className="bg-gradient-to-b from-orange-50 to-white min-h-screen pb-8">
         {/* ヘッダー */}
         <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
           <div className="max-w-[428px] mx-auto px-4 py-4">
@@ -62,7 +62,7 @@ export default function UserReferralPage() {
               className={`w-full py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 shadow-lg ${
                 copiedUrl
                   ? 'bg-green-500 text-white'
-                  : 'bg-red-500 text-white hover:bg-red-600'
+                  : 'bg-orange-600 text-white hover:bg-orange-700'
               }`}
             >
               {copiedUrl ? (
@@ -99,7 +99,7 @@ export default function UserReferralPage() {
               className={`w-full py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 shadow-lg ${
                 copiedCode
                   ? 'bg-green-500 text-white'
-                  : 'bg-red-500 text-white hover:bg-red-600'
+                  : 'bg-orange-600 text-white hover:bg-orange-700'
               }`}
             >
               {copiedCode ? (

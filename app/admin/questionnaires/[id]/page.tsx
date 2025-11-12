@@ -60,7 +60,7 @@ export default function AdminQuestionnaireDetailPage({ params }: { params: Promi
     responseRate: '45.2%',
     targetResponses: 5000,
     responseLimit: 5000,
-    averageCompletionRate: '92.5%',
+    distributedCardsQR: 5432, // QR読み込みによる配布枚数
     highQualityRate: '78.3%',
     description: 'このアンケートは、春の新生活応援キャンペーンに参加されたお客様を対象に、商品・サービスの満足度や改善点についてお伺いするものです。',
     questions: [
@@ -162,10 +162,10 @@ export default function AdminQuestionnaireDetailPage({ params }: { params: Promi
           <div className="bg-white rounded-lg shadow-sm p-4">
             <div className="flex items-center justify-between mb-2">
               <BarChart className="text-purple-600" size={20} />
-              <span className="text-xs text-green-600 font-medium">+2.5%</span>
+              <span className="text-xs text-gray-500 font-medium">QR読み込み</span>
             </div>
-            <div className="text-2xl font-bold text-gray-900">{questionnaire.averageCompletionRate}</div>
-            <div className="text-sm text-gray-600">平均完了率</div>
+            <div className="text-2xl font-bold text-gray-900">{questionnaire.distributedCardsQR.toLocaleString()}</div>
+            <div className="text-sm text-gray-600">配布枚数（QR読み込み数）</div>
           </div>
         </div>
 

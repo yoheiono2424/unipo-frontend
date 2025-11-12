@@ -89,7 +89,7 @@ export default function UserSurveyAnswerPage() {
   const isAnswered = answers[currentQ.id] !== undefined && answers[currentQ.id] !== ''
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-red-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
       {/* ヘッダー */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-[428px] mx-auto px-4 py-4">

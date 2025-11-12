@@ -3,7 +3,7 @@
 import AdminLayout from "@/components/admin/AdminLayout";
 import { ArrowLeft, Edit, Building, User, Phone, Mail, Calendar, Store, DollarSign, Shield, MapPin, Search } from "lucide-react";
 import Link from "next/link";
-import { mockAgencies, mockStores } from "@/lib/mock-data";
+import { mockAgencies, mockStores, mockAdvertisers } from "@/lib/mock-data";
 import { use, useState } from "react";
 
 export default function AgencyDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -13,6 +13,11 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
   const [storeSearchTerm, setStoreSearchTerm] = useState("");
 
   const managedStores = mockStores.filter(s => s.agency === agency.name);
+
+  // この代理店に紐づく広告主を取得（広告主IDの昇順）
+  const managedAdvertisers = mockAdvertisers
+    .filter(a => a.agencyId === agency.id)
+    .sort((a, b) => a.id.localeCompare(b.id));
 
   // 検索フィルタリング
   const filteredStores = managedStores.filter(store =>
@@ -276,6 +281,70 @@ export default function AgencyDetailPage({ params }: { params: Promise<{ id: str
                     すべて表示 ({filteredStores.length}件) →
                   </Link>
                 )}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* 広告主一覧 */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+          <div className="p-6 border-b border-gray-100">
+            <h2 className="text-lg font-semibold text-gray-900">広告主一覧</h2>
+          </div>
+          <div className="p-6">
+            <div className="overflow-x-auto">
+              <table className="min-w-full">
+                <thead>
+                  <tr className="border-b">
+                    <th className="text-left py-2 text-sm font-medium text-gray-700">広告主ID</th>
+                    <th className="text-left py-2 text-sm font-medium text-gray-700">広告主名</th>
+                    <th className="text-left py-2 text-sm font-medium text-gray-700">ステータス</th>
+                    <th className="text-left py-2 text-sm font-medium text-gray-700">登録日</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {managedAdvertisers.length === 0 ? (
+                    <tr>
+                      <td colSpan={4} className="py-4 text-center text-gray-500">
+                        管理広告主がありません
+                      </td>
+                    </tr>
+                  ) : (
+                    managedAdvertisers.map((advertiser) => (
+                      <tr key={advertiser.id} className="border-b hover:bg-gray-50 transition-colors">
+                        <td className="py-3 text-sm text-gray-600 font-medium">
+                          {advertiser.id}
+                        </td>
+                        <td className="py-3 text-sm text-gray-600">
+                          <Link href={`/admin/advertisers/${advertiser.id}`} className="hover:text-indigo-600 font-medium">
+                            {advertiser.companyName}
+                          </Link>
+                        </td>
+                        <td className="py-3">
+                          <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                            advertiser.status === '承認済み'
+                              ? 'bg-green-100 text-green-800'
+                              : advertiser.status === '審査中'
+                              ? 'bg-yellow-100 text-yellow-800'
+                              : 'bg-gray-100 text-gray-800'
+                          }`}>
+                            {advertiser.status}
+                          </span>
+                        </td>
+                        <td className="py-3 text-sm text-gray-600">
+                          {advertiser.registeredDate ? new Date(advertiser.registeredDate).toLocaleDateString('ja-JP') : "—"}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            {/* 件数表示 */}
+            {managedAdvertisers.length > 0 && (
+              <div className="mt-4 text-sm text-gray-600">
+                全{managedAdvertisers.length}件
               </div>
             )}
           </div>

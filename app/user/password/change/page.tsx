@@ -37,7 +37,7 @@ export default function UserPasswordChangePage() {
 
   return (
     <UserLayout>
-      <div className="bg-gradient-to-b from-red-50 to-white min-h-screen">
+      <div className="bg-gradient-to-b from-orange-50 to-white min-h-screen">
         {/* ヘッダー */}
         <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
           <div className="max-w-[428px] mx-auto px-4 py-4 flex items-center">
@@ -59,7 +59,7 @@ export default function UserPasswordChangePage() {
               {/* 現在のパスワード */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  現在のパスワード <span className="text-red-500">*</span>
+                  現在のパスワード <span className="text-orange-600">*</span>
                 </label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -68,7 +68,7 @@ export default function UserPasswordChangePage() {
                     value={formData.currentPassword}
                     onChange={(e) => setFormData({ ...formData, currentPassword: e.target.value })}
                     placeholder="現在のパスワードを入力"
-                    className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                    className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                     required
                   />
                   <button
@@ -88,7 +88,7 @@ export default function UserPasswordChangePage() {
               {/* 新しいパスワード */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  新しいパスワード <span className="text-red-500">*</span>
+                  新しいパスワード <span className="text-orange-600">*</span>
                 </label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -97,7 +97,7 @@ export default function UserPasswordChangePage() {
                     value={formData.newPassword}
                     onChange={(e) => setFormData({ ...formData, newPassword: e.target.value })}
                     placeholder="新しいパスワードを入力"
-                    className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                    className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                     required
                     minLength={8}
                   />
@@ -119,7 +119,7 @@ export default function UserPasswordChangePage() {
               {/* 新しいパスワード（確認） */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  新しいパスワード（確認） <span className="text-red-500">*</span>
+                  新しいパスワード（確認） <span className="text-orange-600">*</span>
                 </label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -128,7 +128,7 @@ export default function UserPasswordChangePage() {
                     value={formData.confirmPassword}
                     onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                     placeholder="新しいパスワードを再入力"
-                    className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                    className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                     required
                     minLength={8}
                   />
@@ -150,7 +150,7 @@ export default function UserPasswordChangePage() {
             {/* 保存ボタン */}
             <button
               type="submit"
-              className="w-full bg-red-500 text-white py-4 rounded-xl font-semibold hover:bg-red-600 transition-colors flex items-center justify-center gap-2 shadow-lg"
+              className="w-full bg-orange-600 text-white py-4 rounded-xl font-semibold hover:bg-orange-700 transition-colors flex items-center justify-center gap-2 shadow-lg"
             >
               <Save className="w-5 h-5" />
               変更を保存

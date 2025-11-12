@@ -129,13 +129,6 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
               <p className="text-sm text-gray-600 mt-1">キャンペーンID: {campaign.id} | キャンペーンNO: {campaign.campaignNo}</p>
             </div>
           </div>
-          <Link
-            href={`/admin/campaigns/${resolvedParams.id}/assign-gift-cards`}
-            className="bg-purple-600 text-white px-5 py-2.5 rounded-lg hover:bg-purple-700 flex items-center gap-2 transition-colors font-medium"
-          >
-            <CreditCard className="h-4 w-4" />
-            ギフトカード割り当て
-          </Link>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -452,35 +445,6 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
                   placeholder="キャンペーンの詳細説明を入力してください"
                 />
-              </div>
-            </div>
-          </div>
-
-          {/* 対象店舗セクション */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-            <div className="p-6 border-b border-gray-100">
-              <div className="flex items-center gap-2">
-                <MapPin className="h-5 w-5 text-orange-500" />
-                <h2 className="text-lg font-semibold text-gray-900">対象店舗</h2>
-                <span className="ml-2 text-sm text-gray-500">({selectedStores.length}店舗選択)</span>
-              </div>
-            </div>
-            <div className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-96 overflow-y-auto">
-                {mockStores.map((store) => (
-                  <label
-                    key={store.id}
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selectedStores.includes(store.id)}
-                      onChange={() => handleStoreToggle(store.id)}
-                      className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                    />
-                    <span className="text-sm text-gray-700">{store.storeName || store.name}</span>
-                  </label>
-                ))}
               </div>
             </div>
           </div>

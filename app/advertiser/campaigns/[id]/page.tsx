@@ -343,27 +343,6 @@ export default function AdvertiserCampaignDetailPage({ params }: { params: Promi
           </div>
         </div>
 
-        {/* 対象店舗セクション */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-          <div className="p-6 border-b border-gray-100">
-            <div className="flex items-center gap-2">
-              <MapPin className="h-5 w-5 text-purple-500" />
-              <h2 className="text-lg font-semibold text-gray-900">対象店舗</h2>
-              <span className="ml-2 text-sm text-gray-500">({campaign.targetStoreNames?.length}店舗)</span>
-            </div>
-          </div>
-          <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-              {campaign.targetStoreNames?.map((storeName: string, index: number) => (
-                <div key={index} className="flex items-center gap-2 bg-gray-50 rounded-lg px-4 py-3">
-                  <MapPin className="h-4 w-4 text-gray-400" />
-                  <span className="text-sm text-gray-700">{storeName}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
         {/* キャンペーン画像セクション */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100">
           <div className="p-6 border-b border-gray-100">

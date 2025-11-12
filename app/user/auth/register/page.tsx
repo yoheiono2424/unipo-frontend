@@ -90,7 +90,7 @@ export default function UserRegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-red-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
       {/* ヘッダー */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-[428px] mx-auto px-4 py-4 flex items-center">
@@ -101,7 +101,7 @@ export default function UserRegisterPage() {
             ← 戻る
           </button>
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-orange-600 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-lg">U</span>
             </div>
             <span className="text-xl font-bold text-gray-900">ユニーポ</span>
@@ -123,7 +123,7 @@ export default function UserRegisterPage() {
             {/* ニックネーム */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                ニックネーム <span className="text-red-500">*</span>
+                ニックネーム <span className="text-orange-600">*</span>
               </label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -132,7 +132,7 @@ export default function UserRegisterPage() {
                   value={formData.nickname}
                   onChange={(e) => setFormData({ ...formData, nickname: e.target.value })}
                   placeholder="ユニーポ太郎"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                   required
                 />
               </div>
@@ -143,27 +143,27 @@ export default function UserRegisterPage() {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    姓 <span className="text-red-500">*</span>
+                    姓 <span className="text-orange-600">*</span>
                   </label>
                   <input
                     type="text"
                     value={formData.lastName}
                     onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                     placeholder="山田"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                     required
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    名 <span className="text-red-500">*</span>
+                    名 <span className="text-orange-600">*</span>
                   </label>
                   <input
                     type="text"
                     value={formData.firstName}
                     onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                     placeholder="太郎"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                     required
                   />
                 </div>
@@ -174,7 +174,7 @@ export default function UserRegisterPage() {
             {/* 生年月日 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                生年月日 <span className="text-red-500">*</span>
+                生年月日 <span className="text-orange-600">*</span>
               </label>
               <div className="relative">
                 <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -182,7 +182,7 @@ export default function UserRegisterPage() {
                   type="date"
                   value={formData.birthdate}
                   onChange={(e) => setFormData({ ...formData, birthdate: e.target.value })}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                   required
                 />
               </div>
@@ -191,12 +191,12 @@ export default function UserRegisterPage() {
             {/* 性別 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                性別 <span className="text-red-500">*</span>
+                性別 <span className="text-orange-600">*</span>
               </label>
               <select
                 value={formData.gender}
                 onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                 required
               >
                 <option value="">選択してください</option>
@@ -210,7 +210,7 @@ export default function UserRegisterPage() {
             {/* メールアドレス */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                メールアドレス（ログインID） <span className="text-red-500">*</span>
+                メールアドレス（ログインID） <span className="text-orange-600">*</span>
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -219,7 +219,7 @@ export default function UserRegisterPage() {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="example@email.com"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                   required
                 />
               </div>
@@ -228,7 +228,7 @@ export default function UserRegisterPage() {
             {/* パスワード */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                パスワード <span className="text-red-500">*</span>
+                パスワード <span className="text-orange-600">*</span>
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -237,7 +237,7 @@ export default function UserRegisterPage() {
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                   placeholder="8文字以上"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                   required
                   minLength={8}
                 />
@@ -247,7 +247,7 @@ export default function UserRegisterPage() {
             {/* パスワード確認 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                パスワード（確認） <span className="text-red-500">*</span>
+                パスワード（確認） <span className="text-orange-600">*</span>
               </label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -256,7 +256,7 @@ export default function UserRegisterPage() {
                   value={formData.passwordConfirm}
                   onChange={(e) => setFormData({ ...formData, passwordConfirm: e.target.value })}
                   placeholder="パスワードを再入力"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                   required
                   minLength={8}
                 />
@@ -266,7 +266,7 @@ export default function UserRegisterPage() {
             {/* 電話番号 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                電話番号 <span className="text-red-500">*</span>
+                電話番号 <span className="text-orange-600">*</span>
               </label>
               <div className="relative">
                 <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -275,7 +275,7 @@ export default function UserRegisterPage() {
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   placeholder="090-1234-5678"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                   required
                 />
               </div>
@@ -284,7 +284,7 @@ export default function UserRegisterPage() {
             {/* 郵便番号 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                郵便番号 <span className="text-red-500">*</span>
+                郵便番号 <span className="text-orange-600">*</span>
               </label>
               <div className="relative">
                 <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -293,7 +293,7 @@ export default function UserRegisterPage() {
                   value={formData.postalCode}
                   onChange={handlePostalCodeChange}
                   placeholder="123-4567"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                   required
                   maxLength={8}
                 />
@@ -306,14 +306,14 @@ export default function UserRegisterPage() {
             {/* 都道府県 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                都道府県 <span className="text-red-500">*</span>
+                都道府県 <span className="text-orange-600">*</span>
               </label>
               <input
                 type="text"
                 value={formData.prefecture}
                 onChange={(e) => setFormData({ ...formData, prefecture: e.target.value })}
                 placeholder="愛知県"
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                 required
               />
             </div>
@@ -321,14 +321,14 @@ export default function UserRegisterPage() {
             {/* 市区町村 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                市区町村 <span className="text-red-500">*</span>
+                市区町村 <span className="text-orange-600">*</span>
               </label>
               <input
                 type="text"
                 value={formData.city}
                 onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                 placeholder="名古屋市中区"
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                 required
               />
             </div>
@@ -336,7 +336,7 @@ export default function UserRegisterPage() {
             {/* 番地・建物名 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                番地・建物名 <span className="text-red-500">*</span>
+                番地・建物名 <span className="text-orange-600">*</span>
               </label>
               <div className="relative">
                 <Home className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -345,7 +345,7 @@ export default function UserRegisterPage() {
                   value={formData.address}
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                   placeholder="錦1-2-3 ○○ビル101"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                   required
                 />
               </div>
@@ -364,7 +364,7 @@ export default function UserRegisterPage() {
                   value={formData.referralCode}
                   onChange={(e) => setFormData({ ...formData, referralCode: e.target.value.toUpperCase() })}
                   placeholder="UNIPO2025ABC"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900 font-mono tracking-wider"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900 font-mono tracking-wider"
                   maxLength={12}
                 />
               </div>
@@ -378,13 +378,13 @@ export default function UserRegisterPage() {
                 id="terms"
                 checked={formData.agreeToTerms}
                 onChange={(e) => setFormData({ ...formData, agreeToTerms: e.target.checked })}
-                className="mt-1 w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-500"
+                className="mt-1 w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-600"
                 required
               />
               <label htmlFor="terms" className="text-sm text-gray-700">
-                <a href="#" className="text-red-500 hover:text-red-600 underline">利用規約</a>
+                <a href="#" className="text-orange-600 hover:text-orange-600 underline">利用規約</a>
                 と
-                <a href="#" className="text-red-500 hover:text-red-600 underline">プライバシーポリシー</a>
+                <a href="#" className="text-orange-600 hover:text-orange-600 underline">プライバシーポリシー</a>
                 に同意します
               </label>
             </div>
@@ -392,7 +392,7 @@ export default function UserRegisterPage() {
             {/* 登録ボタン */}
             <button
               type="submit"
-              className="w-full bg-red-500 text-white py-3 rounded-xl font-semibold hover:bg-red-600 transition-colors flex items-center justify-center gap-2 mt-6"
+              className="w-full bg-orange-600 text-white py-3 rounded-xl font-semibold hover:bg-orange-700 transition-colors flex items-center justify-center gap-2 mt-6"
             >
               <UserPlus className="w-5 h-5" />
               新規登録
@@ -406,7 +406,7 @@ export default function UserRegisterPage() {
               <button
                 type="button"
                 onClick={() => router.push('/user/auth/login')}
-                className="text-red-500 hover:text-red-600 font-semibold"
+                className="text-orange-600 hover:text-orange-600 font-semibold"
               >
                 ログイン
               </button>

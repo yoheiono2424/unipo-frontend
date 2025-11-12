@@ -73,7 +73,7 @@ export default function UserProfileEditPage() {
 
   return (
     <UserLayout>
-      <div className="bg-gradient-to-b from-red-50 to-white">
+      <div className="bg-gradient-to-b from-orange-50 to-white">
         {/* ヘッダー */}
         <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-[428px] mx-auto px-4 py-4 flex items-center">
@@ -113,7 +113,7 @@ export default function UserProfileEditPage() {
             {/* ニックネーム */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                ニックネーム <span className="text-red-500">*</span>
+                ニックネーム <span className="text-orange-600">*</span>
               </label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -122,7 +122,7 @@ export default function UserProfileEditPage() {
                   value={formData.nickname}
                   onChange={(e) => setFormData({ ...formData, nickname: e.target.value })}
                   placeholder="ユニーポ太郎"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                   required
                 />
               </div>
@@ -132,27 +132,27 @@ export default function UserProfileEditPage() {
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  姓 <span className="text-red-500">*</span>
+                  姓 <span className="text-orange-600">*</span>
                 </label>
                 <input
                   type="text"
                   value={formData.lastName}
                   onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                   placeholder="山田"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                   required
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  名 <span className="text-red-500">*</span>
+                  名 <span className="text-orange-600">*</span>
                 </label>
                 <input
                   type="text"
                   value={formData.firstName}
                   onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                   placeholder="太郎"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                   required
                 />
               </div>
@@ -161,7 +161,7 @@ export default function UserProfileEditPage() {
             {/* 生年月日 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                生年月日 <span className="text-red-500">*</span>
+                生年月日 <span className="text-orange-600">*</span>
               </label>
               <div className="relative">
                 <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -169,7 +169,7 @@ export default function UserProfileEditPage() {
                   type="date"
                   value={formData.birthdate}
                   onChange={(e) => setFormData({ ...formData, birthdate: e.target.value })}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                   required
                 />
               </div>
@@ -178,12 +178,12 @@ export default function UserProfileEditPage() {
             {/* 性別 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                性別 <span className="text-red-500">*</span>
+                性別 <span className="text-orange-600">*</span>
               </label>
               <select
                 value={formData.gender}
                 onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                 required
               >
                 <option value="">選択してください</option>
@@ -197,7 +197,7 @@ export default function UserProfileEditPage() {
             {/* メールアドレス */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                メールアドレス（ログインID） <span className="text-red-500">*</span>
+                メールアドレス（ログインID） <span className="text-orange-600">*</span>
               </label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -206,7 +206,7 @@ export default function UserProfileEditPage() {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   placeholder="example@email.com"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                   required
                 />
               </div>
@@ -232,7 +232,7 @@ export default function UserProfileEditPage() {
             {/* 郵便番号 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                郵便番号 <span className="text-red-500">*</span>
+                郵便番号 <span className="text-orange-600">*</span>
               </label>
               <div className="relative">
                 <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -241,7 +241,7 @@ export default function UserProfileEditPage() {
                   value={formData.postalCode}
                   onChange={handlePostalCodeChange}
                   placeholder="123-4567"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                   required
                   maxLength={8}
                 />
@@ -254,14 +254,14 @@ export default function UserProfileEditPage() {
             {/* 都道府県 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                都道府県 <span className="text-red-500">*</span>
+                都道府県 <span className="text-orange-600">*</span>
               </label>
               <input
                 type="text"
                 value={formData.prefecture}
                 onChange={(e) => setFormData({ ...formData, prefecture: e.target.value })}
                 placeholder="愛知県"
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                 required
               />
             </div>
@@ -269,14 +269,14 @@ export default function UserProfileEditPage() {
             {/* 市区町村 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                市区町村 <span className="text-red-500">*</span>
+                市区町村 <span className="text-orange-600">*</span>
               </label>
               <input
                 type="text"
                 value={formData.city}
                 onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                 placeholder="名古屋市中区"
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                 required
               />
             </div>
@@ -284,7 +284,7 @@ export default function UserProfileEditPage() {
             {/* 番地・建物名 */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                番地・建物名 <span className="text-red-500">*</span>
+                番地・建物名 <span className="text-orange-600">*</span>
               </label>
               <div className="relative">
                 <Home className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -293,7 +293,7 @@ export default function UserProfileEditPage() {
                   value={formData.address}
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                   placeholder="錦1-2-3 ○○ビル101"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                   required
                 />
               </div>
@@ -303,7 +303,7 @@ export default function UserProfileEditPage() {
           {/* 保存ボタン */}
           <button
             type="submit"
-            className="w-full bg-red-500 text-white py-4 rounded-xl font-semibold hover:bg-red-600 transition-colors flex items-center justify-center gap-2 shadow-lg"
+            className="w-full bg-orange-500 text-white py-4 rounded-xl font-semibold hover:bg-orange-700 transition-colors flex items-center justify-center gap-2 shadow-lg"
           >
             <Save className="w-5 h-5" />
             変更を保存

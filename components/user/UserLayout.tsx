@@ -3,6 +3,7 @@
 import { useRouter, usePathname } from 'next/navigation'
 import { Home, Search, QrCode, List, User, Bell } from 'lucide-react'
 import { ReactNode } from 'react'
+import Image from 'next/image'
 
 interface UserLayoutProps {
   children: ReactNode
@@ -28,10 +29,14 @@ export default function UserLayout({ children }: UserLayoutProps) {
       <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
         <div className="max-w-[428px] mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">U</span>
-            </div>
-            <span className="text-lg font-bold text-gray-900">ユニーポ</span>
+            <Image
+              src="/images/unipo-logo.png"
+              alt="ユニーポ"
+              width={120}
+              height={32}
+              className="h-8 w-auto"
+              priority
+            />
           </div>
           <button
             onClick={() => router.push('/user/notifications')}
@@ -39,7 +44,7 @@ export default function UserLayout({ children }: UserLayoutProps) {
           >
             <Bell className="w-6 h-6 text-gray-600" />
             {/* 通知バッジ */}
-            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+            <span className="absolute top-1 right-1 w-2 h-2 bg-orange-600 rounded-full"></span>
           </button>
         </div>
       </header>
@@ -67,7 +72,7 @@ export default function UserLayout({ children }: UserLayoutProps) {
                     onClick={() => router.push(item.path)}
                     className="flex flex-col items-center justify-center -mt-6"
                   >
-                    <div className="w-14 h-14 bg-red-500 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 transition-colors">
+                    <div className="w-14 h-14 bg-orange-600 rounded-full flex items-center justify-center shadow-lg hover:bg-orange-700 transition-colors">
                       <Icon className="w-8 h-8 text-white" />
                     </div>
                     <span className="text-xs text-gray-600 mt-1">{item.label}</span>
@@ -80,7 +85,7 @@ export default function UserLayout({ children }: UserLayoutProps) {
                   key={item.id}
                   onClick={() => router.push(item.path)}
                   className={`flex flex-col items-center justify-center py-2 px-4 transition-colors ${
-                    active ? 'text-red-500' : 'text-gray-600 hover:text-gray-900'
+                    active ? 'text-orange-600' : 'text-gray-600 hover:text-gray-900'
                   }`}
                 >
                   <Icon className="w-6 h-6" />

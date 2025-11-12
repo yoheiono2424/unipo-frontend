@@ -24,6 +24,7 @@ const mockDistributionRecords = [
     usageDate: "",
     distributionMethod: "メール送信",
     status: "配布済み",
+    adminMemo: "初回キャンペーンでの配布記録",
   },
   {
     id: "DST002",
@@ -42,6 +43,7 @@ const mockDistributionRecords = [
     usageDate: "2025-01-20",
     distributionMethod: "店頭配布",
     status: "使用済み",
+    adminMemo: "",
   },
 ];
 
@@ -73,6 +75,7 @@ export default function DistributionRecordEditPage({ params }: { params: Promise
     usageStatus: record.usageStatus,
     usageDate: record.usageDate || "",
     status: record.status,
+    adminMemo: record.adminMemo || "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -281,6 +284,20 @@ export default function DistributionRecordEditPage({ params }: { params: Promise
                     <option value="期限切れ">期限切れ</option>
                   </select>
                 </div>
+              </div>
+
+              {/* 運営者メモ */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  運営者メモ
+                </label>
+                <textarea
+                  value={formData.adminMemo}
+                  onChange={(e) => setFormData({ ...formData, adminMemo: e.target.value })}
+                  rows={4}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900"
+                  placeholder="例：特記事項や備考を入力"
+                />
               </div>
 
               <div className="border-t pt-6">

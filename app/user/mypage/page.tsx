@@ -42,7 +42,7 @@ export default function UserMyPagePage() {
 
   return (
     <UserLayout>
-      <div className="bg-gradient-to-b from-red-50 to-white min-h-screen pb-8">
+      <div className="bg-gradient-to-b from-orange-50 to-white min-h-screen pb-8">
         {/* プロフィールカード */}
         <div className="px-4 py-6">
           <div className="bg-white rounded-3xl shadow-lg p-6">
@@ -59,7 +59,7 @@ export default function UserMyPagePage() {
             {/* ポイント表示 */}
             <div className="grid grid-cols-2 gap-3 pt-4 border-t border-gray-100">
               <div className="text-center">
-                <div className="text-2xl font-bold text-red-500">1,234</div>
+                <div className="text-2xl font-bold text-orange-600">1,234</div>
                 <div className="text-xs text-gray-600 mt-1">保有ポイント</div>
               </div>
               <div className="text-center">
@@ -91,7 +91,7 @@ export default function UserMyPagePage() {
                       </div>
                       <span className="flex-1 text-left font-medium text-gray-900">{item.label}</span>
                       {item.badge && (
-                        <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full min-w-[20px] text-center">
+                        <span className="bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full min-w-[20px] text-center">
                           {item.badge}
                         </span>
                       )}
@@ -108,7 +108,7 @@ export default function UserMyPagePage() {
         <div className="px-4 mt-6">
           <button
             onClick={handleLogout}
-            className="w-full bg-white text-red-500 py-4 rounded-2xl font-semibold hover:bg-red-50 transition-colors border border-red-200 flex items-center justify-center gap-2 shadow-md"
+            className="w-full bg-white text-orange-600 py-4 rounded-2xl font-semibold hover:bg-orange-50 transition-colors border border-red-200 flex items-center justify-center gap-2 shadow-md"
           >
             <LogOut className="w-5 h-5" />
             ログアウト

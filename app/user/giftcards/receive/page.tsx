@@ -25,7 +25,7 @@ export default function UserGiftCardReceivePage() {
 
   return (
     <UserLayout>
-      <div className="bg-gradient-to-b from-red-50 to-white">
+      <div className="bg-gradient-to-b from-orange-50 to-white">
         {/* ヘッダー */}
         <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-[428px] mx-auto px-4 py-4 flex items-center">
@@ -42,7 +42,7 @@ export default function UserGiftCardReceivePage() {
       {/* メインコンテンツ */}
       <div className="max-w-[428px] mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <div className="w-24 h-24 bg-gradient-to-br from-red-500 to-red-600 rounded-full mx-auto mb-4 flex items-center justify-center">
+          <div className="w-24 h-24 bg-gradient-to-br from-orange-500 to-red-600 rounded-full mx-auto mb-4 flex items-center justify-center">
             <Gift className="w-12 h-12 text-white" />
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-2">ギフトカードを受け取る</h2>
@@ -53,7 +53,7 @@ export default function UserGiftCardReceivePage() {
           {/* コード入力 */}
           <div className="bg-white rounded-2xl shadow-lg p-6">
             <label className="block text-sm font-medium text-gray-700 mb-3">
-              受け取りコード <span className="text-red-500">*</span>
+              受け取りコード <span className="text-orange-600">*</span>
             </label>
             <div className="relative">
               <Key className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -62,7 +62,7 @@ export default function UserGiftCardReceivePage() {
                 value={code}
                 onChange={(e) => setCode(e.target.value.toUpperCase())}
                 placeholder="XXXX-XXXX-XXXX"
-                className="w-full pl-10 pr-4 py-4 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900 text-center text-lg font-mono tracking-wider"
+                className="w-full pl-10 pr-4 py-4 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900 text-center text-lg font-mono tracking-wider"
                 required
                 maxLength={14}
               />
@@ -79,7 +79,7 @@ export default function UserGiftCardReceivePage() {
             className={`w-full py-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 shadow-lg ${
               isReceiving || code.length < 12
                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                : 'bg-red-500 text-white hover:bg-red-600'
+                : 'bg-orange-500 text-white hover:bg-orange-700'
             }`}
           >
             {isReceiving ? (

@@ -1,7 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Edit, Calendar, Building2, TrendingUp, Gift, Clock, Shield, PlayCircle, PauseCircle, FileImage, MapPin, CreditCard, Hash, Package, FileText } from "lucide-react";
+import { ArrowLeft, Edit, Calendar, Building2, TrendingUp, Gift, Clock, Shield, PlayCircle, PauseCircle, FileImage, MapPin, CreditCard, Hash, Package, FileText, CheckCircle, XCircle } from "lucide-react";
 import Link from "next/link";
 import { use, useState } from "react";
 import { mockCampaigns } from "@/lib/mock-data";
@@ -11,7 +11,7 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
   const campaign = mockCampaigns.find(c => c.id === resolvedParams.id) || mockCampaigns[0];
 
   const [showStatusModal, setShowStatusModal] = useState(false);
-  const [statusAction, setStatusAction] = useState<'start' | 'pause' | 'complete' | null>(null);
+  const [statusAction, setStatusAction] = useState<'approve' | 'reject' | 'pause' | 'complete' | null>(null);
 
   const handleStatusChange = () => {
     // ステータス変更処理（実際にはAPIコール）
@@ -20,7 +20,7 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
     setStatusAction(null);
   };
 
-  const openStatusModal = (action: 'start' | 'pause' | 'complete') => {
+  const openStatusModal = (action: 'approve' | 'reject' | 'pause' | 'complete') => {
     setStatusAction(action);
     setShowStatusModal(true);
   };
@@ -31,6 +31,8 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
         return 'bg-green-50 text-green-700 ring-1 ring-green-600/20';
       case 'pending':
         return 'bg-yellow-50 text-yellow-700 ring-1 ring-yellow-600/20';
+      case 'rejected':
+        return 'bg-red-50 text-red-700 ring-1 ring-red-600/20';
       case 'completed':
         return 'bg-gray-50 text-gray-700 ring-1 ring-gray-600/20';
       default:
@@ -41,9 +43,11 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
   const getStatusText = (status: string) => {
     switch(status) {
       case 'active':
-        return '実施中';
+        return '公開中';
       case 'pending':
-        return '予定';
+        return '審査中';
+      case 'rejected':
+        return '却下';
       case 'completed':
         return '終了';
       default:
@@ -69,13 +73,22 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
           </div>
           <div className="flex gap-3">
             {campaign.status === 'pending' && (
-              <button
-                onClick={() => openStatusModal('start')}
-                className="bg-green-600 text-white px-5 py-2.5 rounded-lg hover:bg-green-700 flex items-center gap-2 transition-colors"
-              >
-                <PlayCircle className="h-4 w-4" />
-                開始
-              </button>
+              <>
+                <button
+                  onClick={() => openStatusModal('reject')}
+                  className="bg-red-600 text-white px-5 py-2.5 rounded-lg hover:bg-red-700 flex items-center gap-2 transition-colors"
+                >
+                  <XCircle className="h-4 w-4" />
+                  却下
+                </button>
+                <button
+                  onClick={() => openStatusModal('approve')}
+                  className="bg-green-600 text-white px-5 py-2.5 rounded-lg hover:bg-green-700 flex items-center gap-2 transition-colors"
+                >
+                  <CheckCircle className="h-4 w-4" />
+                  承認
+                </button>
+              </>
             )}
             {campaign.status === 'active' && (
               <>
@@ -95,6 +108,13 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
                 </button>
               </>
             )}
+            <Link
+              href={`/admin/campaigns/${campaign.id}/assign-gift-cards`}
+              className="bg-purple-600 text-white px-5 py-2.5 rounded-lg hover:bg-purple-700 flex items-center gap-2 transition-colors"
+            >
+              <CreditCard className="h-4 w-4" />
+              ギフトカード割り当て
+            </Link>
             <Link
               href={`/admin/campaigns/${campaign.id}/edit`}
               className="bg-indigo-600 text-white px-5 py-2.5 rounded-lg hover:bg-indigo-700 flex items-center gap-2 transition-colors"
@@ -320,27 +340,6 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
           </div>
         </div>
 
-        {/* 対象店舗セクション */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-          <div className="p-6 border-b border-gray-100">
-            <div className="flex items-center gap-2">
-              <MapPin className="h-5 w-5 text-purple-500" />
-              <h2 className="text-lg font-semibold text-gray-900">対象店舗</h2>
-              <span className="ml-2 text-sm text-gray-500">({campaign.targetStoreNames?.length}店舗)</span>
-            </div>
-          </div>
-          <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-              {campaign.targetStoreNames?.map((storeName: string, index: number) => (
-                <div key={index} className="flex items-center gap-2 bg-gray-50 rounded-lg px-4 py-3">
-                  <MapPin className="h-4 w-4 text-gray-400" />
-                  <span className="text-sm text-gray-700">{storeName}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
         {/* キャンペーン画像セクション */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100">
           <div className="p-6 border-b border-gray-100">
@@ -415,7 +414,8 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
           <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
             <h3 className="text-lg font-semibold mb-4">
               {
-                statusAction === 'start' ? 'キャンペーン開始' :
+                statusAction === 'approve' ? 'キャンペーン承認' :
+                statusAction === 'reject' ? 'キャンペーン却下' :
                 statusAction === 'pause' ? 'キャンペーン一時停止' :
                 'キャンペーン終了'
               }
@@ -427,7 +427,8 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
               </div>
               <p className="text-sm text-gray-600">
                 {
-                  statusAction === 'start' ? 'このキャンペーンを開始しますか？' :
+                  statusAction === 'approve' ? 'このキャンペーンを承認して公開しますか？' :
+                  statusAction === 'reject' ? 'このキャンペーンを却下しますか？' :
                   statusAction === 'pause' ? 'このキャンペーンを一時停止しますか？' :
                   'このキャンペーンを終了しますか？終了後は再開できません。'
                 }
@@ -446,13 +447,15 @@ export default function CampaignDetailPage({ params }: { params: Promise<{ id: s
               <button
                 onClick={handleStatusChange}
                 className={`flex-1 px-4 py-2 text-white rounded-lg ${
-                  statusAction === 'start' ? 'bg-green-600 hover:bg-green-700' :
+                  statusAction === 'approve' ? 'bg-green-600 hover:bg-green-700' :
+                  statusAction === 'reject' ? 'bg-red-600 hover:bg-red-700' :
                   statusAction === 'pause' ? 'bg-yellow-600 hover:bg-yellow-700' :
                   'bg-gray-600 hover:bg-gray-700'
                 }`}
               >
                 {
-                  statusAction === 'start' ? '開始する' :
+                  statusAction === 'approve' ? '承認する' :
+                  statusAction === 'reject' ? '却下する' :
                   statusAction === 'pause' ? '一時停止する' :
                   '終了する'
                 }

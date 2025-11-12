@@ -31,7 +31,7 @@ export default function UserGiftCardDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-red-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
       {/* ヘッダー */}
       <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-[428px] mx-auto px-4 py-4 flex items-center">
@@ -48,7 +48,7 @@ export default function UserGiftCardDetailPage() {
       {/* メインコンテンツ */}
       <div className="max-w-[428px] mx-auto px-4 py-6 space-y-6">
         {/* ギフトカード表示 */}
-        <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-3xl shadow-2xl p-8 text-white">
+        <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-3xl shadow-2xl p-8 text-white">
           <div className="text-center mb-6">
             <div className="inline-flex items-center gap-2 mb-4">
               <Gift className="w-6 h-6" />
@@ -74,7 +74,7 @@ export default function UserGiftCardDetailPage() {
         {/* 利用ボタン */}
         <button
           onClick={handleUseCard}
-          className="w-full bg-red-500 text-white py-4 rounded-xl font-semibold hover:bg-red-600 transition-colors flex items-center justify-center gap-2 shadow-lg"
+          className="w-full bg-orange-500 text-white py-4 rounded-xl font-semibold hover:bg-orange-700 transition-colors flex items-center justify-center gap-2 shadow-lg"
         >
           <QrCode className="w-5 h-5" />
           店舗で使用する

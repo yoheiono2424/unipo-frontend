@@ -191,7 +191,7 @@ export default function UserPointsPage() {
 
   return (
     <UserLayout>
-      <div className="bg-gradient-to-b from-red-50 to-white min-h-screen">
+      <div className="bg-gradient-to-b from-orange-50 to-white min-h-screen">
         {/* ヘッダー */}
         <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
           <div className="max-w-[428px] mx-auto px-4 py-4">
@@ -228,7 +228,7 @@ export default function UserPointsPage() {
                 onClick={() => setSelectedCategory(category.id)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors whitespace-nowrap ${
                   selectedCategory === category.id
-                    ? 'bg-red-500 text-white'
+                    ? 'bg-orange-500 text-white'
                     : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
                 }`}
               >
@@ -265,7 +265,7 @@ export default function UserPointsPage() {
                           className={`px-4 py-2 rounded-xl font-semibold transition-colors flex items-center gap-1 ${
                             currentPoints < item.points
                               ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
-                              : 'bg-red-500 text-white hover:bg-red-600'
+                              : 'bg-orange-500 text-white hover:bg-orange-700'
                           }`}
                         >
                           <Package className="w-4 h-4" />
@@ -308,7 +308,7 @@ export default function UserPointsPage() {
                   </button>
                   <button
                     onClick={handleConfirmExchange}
-                    className="flex-1 bg-red-500 text-white py-3 rounded-xl font-semibold hover:bg-red-600 transition-colors"
+                    className="flex-1 bg-orange-500 text-white py-3 rounded-xl font-semibold hover:bg-orange-700 transition-colors"
                   >
                     交換する
                   </button>
@@ -329,7 +329,7 @@ export default function UserPointsPage() {
                 <p className="text-sm text-gray-500 mb-6">ギフトカード一覧からご確認ください</p>
                 <button
                   onClick={closePopup}
-                  className="w-full bg-red-500 text-white py-3 rounded-xl font-semibold hover:bg-red-600 transition-colors"
+                  className="w-full bg-orange-500 text-white py-3 rounded-xl font-semibold hover:bg-orange-700 transition-colors"
                 >
                   閉じる
                 </button>
@@ -379,7 +379,7 @@ export default function UserPointsPage() {
                   </button>
                   <button
                     onClick={handlePhysicalExchange}
-                    className="flex-1 bg-red-500 text-white py-3 rounded-xl font-semibold hover:bg-red-600 transition-colors"
+                    className="flex-1 bg-orange-500 text-white py-3 rounded-xl font-semibold hover:bg-orange-700 transition-colors"
                   >
                     交換する
                   </button>
@@ -410,7 +410,7 @@ export default function UserPointsPage() {
                   {/* 郵便番号 */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      郵便番号 <span className="text-red-500">*</span>
+                      郵便番号 <span className="text-orange-600">*</span>
                     </label>
                     <div className="relative">
                       <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -419,7 +419,7 @@ export default function UserPointsPage() {
                         value={addressForm.postalCode}
                         onChange={handlePostalCodeChange}
                         placeholder="123-4567"
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                         required
                         maxLength={8}
                       />
@@ -432,14 +432,14 @@ export default function UserPointsPage() {
                   {/* 都道府県 */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      都道府県 <span className="text-red-500">*</span>
+                      都道府県 <span className="text-orange-600">*</span>
                     </label>
                     <input
                       type="text"
                       value={addressForm.prefecture}
                       onChange={(e) => setAddressForm({ ...addressForm, prefecture: e.target.value })}
                       placeholder="愛知県"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                       required
                     />
                   </div>
@@ -447,14 +447,14 @@ export default function UserPointsPage() {
                   {/* 市区町村 */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      市区町村 <span className="text-red-500">*</span>
+                      市区町村 <span className="text-orange-600">*</span>
                     </label>
                     <input
                       type="text"
                       value={addressForm.city}
                       onChange={(e) => setAddressForm({ ...addressForm, city: e.target.value })}
                       placeholder="名古屋市中区"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                       required
                     />
                   </div>
@@ -462,7 +462,7 @@ export default function UserPointsPage() {
                   {/* 番地・建物名 */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      番地・建物名 <span className="text-red-500">*</span>
+                      番地・建物名 <span className="text-orange-600">*</span>
                     </label>
                     <div className="relative">
                       <HomeIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -471,7 +471,7 @@ export default function UserPointsPage() {
                         value={addressForm.address}
                         onChange={(e) => setAddressForm({ ...addressForm, address: e.target.value })}
                         placeholder="錦1-2-3 ○○ビル101"
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-gray-900"
+                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-600 focus:border-transparent text-gray-900"
                         required
                       />
                     </div>
@@ -480,7 +480,7 @@ export default function UserPointsPage() {
                   <button
                     onClick={handleAddressSubmit}
                     disabled={!addressForm.postalCode || !addressForm.prefecture || !addressForm.city || !addressForm.address}
-                    className="w-full bg-red-500 text-white py-3 rounded-xl font-semibold hover:bg-red-600 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+                    className="w-full bg-orange-500 text-white py-3 rounded-xl font-semibold hover:bg-orange-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
                   >
                     登録して交換する
                   </button>
@@ -504,7 +504,7 @@ export default function UserPointsPage() {
                 </p>
                 <button
                   onClick={closePopup}
-                  className="w-full bg-red-500 text-white py-3 rounded-xl font-semibold hover:bg-red-600 transition-colors"
+                  className="w-full bg-orange-500 text-white py-3 rounded-xl font-semibold hover:bg-orange-700 transition-colors"
                 >
                   閉じる
                 </button>

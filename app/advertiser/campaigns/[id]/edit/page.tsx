@@ -395,36 +395,6 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
             </div>
           </div>
 
-          {/* 対象店舗セクション */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100">
-            <div className="p-6 border-b border-gray-100">
-              <div className="flex items-center gap-2">
-                <MapPin className="h-5 w-5 text-orange-500" />
-                <h2 className="text-lg font-semibold text-gray-900">対象店舗</h2>
-                <span className="ml-2 text-sm text-gray-500">({(campaign.targetStores || []).length}店舗選択)</span>
-              </div>
-            </div>
-            <div className="p-6">
-              <p className="text-sm text-gray-600 mb-4">※対象店舗は編集できません。変更が必要な場合は運営者にお問い合わせください。</p>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-96 overflow-y-auto">
-                {mockStores.map((store) => (
-                  <label
-                    key={store.id}
-                    className="flex items-center gap-3 p-3 rounded-lg bg-gray-50 cursor-not-allowed"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={(campaign.targetStores || []).includes(store.id)}
-                      disabled
-                      className="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 opacity-50"
-                    />
-                    <span className="text-sm text-gray-500">{store.storeName || store.name}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          </div>
-
           {/* キャンペーン画像セクション */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-100">
             <div className="p-6 border-b border-gray-100">
