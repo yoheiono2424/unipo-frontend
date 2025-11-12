@@ -18,8 +18,6 @@ import {
   LogOut,
   Menu,
   X,
-  Building2,
-  UsersRound,
   ShieldCheck,
   BarChart3,
   ChevronDown,

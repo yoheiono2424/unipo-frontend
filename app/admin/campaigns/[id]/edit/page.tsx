@@ -1,11 +1,11 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Save, X, Gift, Hash, Package, FileImage, MapPin, CreditCard, Users, Upload } from "lucide-react";
+import { ArrowLeft, Save, X, Gift, Hash, Package, FileImage, Users, Upload } from "lucide-react";
 import Link from "next/link";
 import { use, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { mockCampaigns, mockStores } from "@/lib/mock-data";
+import { mockCampaigns } from "@/lib/mock-data";
 
 // キャンペーンプランのモックデータ
 const campaignPlans = [
@@ -43,7 +43,6 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
     targetGender: "指定なし",
   });
 
-  const [selectedStores, setSelectedStores] = useState<string[]>(campaign.targetStores || []);
   const [imagePreview, setImagePreview] = useState<string>(campaign.campaignImage1 || "");
 
   // キャンペーンプラン選択時に発行枚数と額面を自動設定
@@ -72,7 +71,6 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
       ...formData,
       startDate: formData.startDate.replace(/-/g, ''),
       endDate: formData.endDate.replace(/-/g, ''),
-      targetStores: selectedStores,
     };
     console.log("保存データ:", saveData);
     // 詳細ページに戻る
@@ -81,14 +79,6 @@ export default function CampaignEditPage({ params }: { params: Promise<{ id: str
 
   const handleCancel = () => {
     router.push(`/admin/campaigns/${resolvedParams.id}`);
-  };
-
-  const handleStoreToggle = (storeId: string) => {
-    setSelectedStores(prev =>
-      prev.includes(storeId)
-        ? prev.filter(id => id !== storeId)
-        : [...prev, storeId]
-    );
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

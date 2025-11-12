@@ -5,7 +5,6 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import Link from "next/link";
 import { ChevronLeft, Save, Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { mockStores } from "@/lib/mock-data";
 
 // キャンペーンプランのモックデータ
 const campaignPlans = [
@@ -78,15 +77,6 @@ export default function NewCampaignPage() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleStoreToggle = (storeId: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      applicableStoreIds: prev.applicableStoreIds.includes(storeId)
-        ? prev.applicableStoreIds.filter((id) => id !== storeId)
-        : [...prev.applicableStoreIds, storeId],
-    }));
   };
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {

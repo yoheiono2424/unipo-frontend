@@ -1,11 +1,11 @@
 "use client";
 
 import AdvertiserLayout from "@/components/advertiser/AdvertiserLayout";
-import { ArrowLeft, Save, X, Gift, Hash, Package, FileImage, MapPin, Copy, Upload } from "lucide-react";
+import { ArrowLeft, Save, X, Gift, Hash, Package, FileImage, Copy, Upload } from "lucide-react";
 import Link from "next/link";
 import { use, useState } from "react";
 import { useRouter } from "next/navigation";
-import { mockCampaigns, mockStores } from "@/lib/mock-data";
+import { mockCampaigns } from "@/lib/mock-data";
 
 export default function CampaignEditPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();

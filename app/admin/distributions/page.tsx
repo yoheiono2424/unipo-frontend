@@ -35,12 +35,6 @@ type GroupDistribution = {
   storeCount: number;
 };
 
-type StoreDistributionType = typeof mockStoreDistributions[0] & {
-  groupId?: string;
-  companyId?: string;
-};
-
-
 const mockCampaignDistributions: CampaignDistribution[] = [
   {
     id: "DST001",

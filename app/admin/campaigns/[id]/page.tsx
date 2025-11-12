@@ -1,7 +1,7 @@
 "use client";
 
 import AdminLayout from "@/components/admin/AdminLayout";
-import { ArrowLeft, Edit, Calendar, Building2, TrendingUp, Gift, Clock, Shield, PlayCircle, PauseCircle, FileImage, MapPin, CreditCard, Hash, Package, FileText, CheckCircle, XCircle } from "lucide-react";
+import { ArrowLeft, Edit, Calendar, Building2, TrendingUp, Gift, Clock, Shield, PauseCircle, FileImage, CreditCard, Hash, Package, FileText, CheckCircle, XCircle } from "lucide-react";
 import Link from "next/link";
 import { use, useState } from "react";
 import { mockCampaigns } from "@/lib/mock-data";

@@ -1,7 +1,7 @@
 "use client";
 
 import AdvertiserLayout from "@/components/advertiser/AdvertiserLayout";
-import { ArrowLeft, Edit, Calendar, Building2, TrendingUp, Gift, Clock, Shield, FileImage, MapPin, CreditCard, Hash, Package, FileText } from "lucide-react";
+import { ArrowLeft, Edit, Calendar, Building2, TrendingUp, Gift, Clock, Shield, FileImage, CreditCard, Hash, Package, FileText } from "lucide-react";
 import Link from "next/link";
 import { use } from "react";
 
