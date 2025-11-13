@@ -153,60 +153,6 @@ export default function UserHomeStarbucksPage() {
             </div>
           </div>
         </div>
-
-        {/* ナビゲーション（ミニマル） */}
-        <div className="px-6 pb-8">
-          <div className="bg-white rounded-2xl shadow-sm p-5 border border-gray-100">
-            <h3 className="text-xs font-bold text-gray-700 tracking-wide uppercase mb-4">More</h3>
-            <div className="grid grid-cols-4 gap-4">
-              <button
-                onClick={() => router.push('/user/history')}
-                className="flex flex-col items-center gap-2"
-              >
-                <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center">
-                  <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <span className="text-[10px] text-gray-700 font-medium">履歴</span>
-              </button>
-
-              <button
-                onClick={() => router.push('/user/notifications')}
-                className="flex flex-col items-center gap-2"
-              >
-                <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center">
-                  <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                  </svg>
-                </div>
-                <span className="text-[10px] text-gray-700 font-medium">お知らせ</span>
-              </button>
-
-              <button
-                onClick={() => router.push('/user/mypage')}
-                className="flex flex-col items-center gap-2"
-              >
-                <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center">
-                  <User className="w-5 h-5 text-gray-700" />
-                </div>
-                <span className="text-[10px] text-gray-700 font-medium">設定</span>
-              </button>
-
-              <button
-                onClick={() => router.push('/user/help')}
-                className="flex flex-col items-center gap-2"
-              >
-                <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center">
-                  <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <span className="text-[10px] text-gray-700 font-medium">ヘルプ</span>
-              </button>
-            </div>
-          </div>
-        </div>
       </div>
     </UserLayout>
   )
