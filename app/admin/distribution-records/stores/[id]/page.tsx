@@ -11,7 +11,8 @@ import {
   Package,
   TrendingUp,
   Gift,
-  Search
+  Search,
+  Download
 } from "lucide-react";
 
 export default function StoreDistributionDetailPage() {
@@ -29,12 +30,47 @@ export default function StoreDistributionDetailPage() {
 
   // モックデータ：配布履歴
   const distributionHistory = [
-    { id: "1", date: "2025-01-29 14:30", userId: "U001234", campaignId: "CMP001", campaignName: "新春キャンペーン2025" },
-    { id: "2", date: "2025-01-29 13:45", userId: "U001235", campaignId: "CMP001", campaignName: "新春キャンペーン2025" },
-    { id: "3", date: "2025-01-29 12:20", userId: "U001236", campaignId: "CMP002", campaignName: "冬の感謝祭" },
-    { id: "4", date: "2025-01-28 16:15", userId: "U001237", campaignId: "CMP001", campaignName: "新春キャンペーン2025" },
-    { id: "5", date: "2025-01-28 15:00", userId: "U001238", campaignId: "CMP003", campaignName: "バレンタインフェア" },
+    { id: "1", date: "2025-01-29 14:30", userId: "U001234", age: 28, gender: "男性", prefecture: "愛知県", campaignId: "CMP001", campaignName: "新春キャンペーン2025" },
+    { id: "2", date: "2025-01-29 13:45", userId: "U001235", age: 35, gender: "女性", prefecture: "愛知県", campaignId: "CMP001", campaignName: "新春キャンペーン2025" },
+    { id: "3", date: "2025-01-29 12:20", userId: "U001236", age: 42, gender: "男性", prefecture: "岐阜県", campaignId: "CMP002", campaignName: "冬の感謝祭" },
+    { id: "4", date: "2025-01-28 16:15", userId: "U001237", age: 31, gender: "女性", prefecture: "愛知県", campaignId: "CMP001", campaignName: "新春キャンペーン2025" },
+    { id: "5", date: "2025-01-28 15:00", userId: "U001238", age: 26, gender: "男性", prefecture: "三重県", campaignId: "CMP003", campaignName: "バレンタインフェア" },
   ];
+
+  // CSVダウンロード関数
+  const downloadCSV = () => {
+    // CSVヘッダー
+    const headers = ["配布日時", "ユーザーID", "年齢", "性別", "都道府県", "キャンペーンID", "キャンペーン名"];
+
+    // CSVデータ
+    const csvData = filteredHistory.map(item => [
+      item.date,
+      item.userId,
+      item.age,
+      item.gender,
+      item.prefecture,
+      item.campaignId,
+      item.campaignName
+    ]);
+
+    // CSV文字列を生成（BOM付きUTF-8）
+    const BOM = "\uFEFF";
+    const csvContent = BOM + [
+      headers.join(","),
+      ...csvData.map(row => row.join(","))
+    ].join("\n");
+
+    // ダウンロード
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", `配布履歴_${storeData?.storeName}_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   // フィルタリング処理
   const filteredHistory = distributionHistory.filter(item => {
@@ -197,8 +233,15 @@ export default function StoreDistributionDetailPage() {
 
         {/* 配布履歴 */}
         <div className="bg-white rounded-lg shadow">
-          <div className="px-6 py-4 border-b border-gray-200">
+          <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
             <h2 className="text-lg font-semibold text-gray-900">配布履歴</h2>
+            <button
+              onClick={downloadCSV}
+              className="flex items-center space-x-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+            >
+              <Download className="h-4 w-4" />
+              <span>CSVダウンロード</span>
+            </button>
           </div>
 
           {/* 検索フィルター */}
@@ -256,6 +299,15 @@ export default function StoreDistributionDetailPage() {
                     ユーザーID
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    年齢
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    性別
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    都道府県
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     キャンペーンID
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -266,7 +318,7 @@ export default function StoreDistributionDetailPage() {
               <tbody className="bg-white divide-y divide-gray-200">
                 {filteredHistory.length === 0 ? (
                   <tr>
-                    <td colSpan={4} className="px-6 py-12 text-center text-gray-500">
+                    <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
                       配布履歴がありません
                     </td>
                   </tr>
@@ -282,6 +334,15 @@ export default function StoreDistributionDetailPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {item.userId}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {item.age}歳
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {item.gender}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {item.prefecture}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {item.campaignId}

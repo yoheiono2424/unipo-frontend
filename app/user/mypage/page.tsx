@@ -57,14 +57,10 @@ export default function UserMyPagePage() {
             </div>
 
             {/* ポイント表示 */}
-            <div className="grid grid-cols-2 gap-3 pt-4 border-t border-gray-100">
+            <div className="pt-4 border-t border-gray-100">
               <div className="text-center">
                 <div className="text-2xl font-bold text-orange-600">1,234</div>
                 <div className="text-xs text-gray-600 mt-1">保有ポイント</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900">8</div>
-                <div className="text-xs text-gray-600 mt-1">ギフトカード</div>
               </div>
             </div>
           </div>

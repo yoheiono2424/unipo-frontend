@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -71,6 +71,33 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const pathname = usePathname();
+
+  // 現在のパスに基づいて自動的にサブメニューを展開
+  useEffect(() => {
+    const itemsToExpand: string[] = [];
+
+    menuItems.forEach((item) => {
+      if (item.children) {
+        const isChildActive = item.children.some((child) =>
+          pathname.startsWith(child.href)
+        );
+        if (isChildActive) {
+          itemsToExpand.push(item.title);
+        }
+      }
+    });
+
+    setExpandedItems((prev) => {
+      // 既に展開されているアイテムは保持し、新しいアイテムを追加
+      const newItems = [...prev];
+      itemsToExpand.forEach((item) => {
+        if (!newItems.includes(item)) {
+          newItems.push(item);
+        }
+      });
+      return newItems;
+    });
+  }, [pathname]);
 
   const toggleExpanded = (title: string) => {
     setExpandedItems((prev) =>

@@ -16,7 +16,7 @@ export default function UserLayout({ children }: UserLayoutProps) {
   const navItems = [
     { id: 'home', label: 'ホーム', icon: Home, path: '/user/home' },
     { id: 'search', label: '検索', icon: Search, path: '/user/stores' },
-    { id: 'scan', label: 'スキャン', icon: QrCode, path: '/user/scan', special: true },
+    { id: 'scan', label: 'スキャン', icon: QrCode, path: '/user/qr/giftcards', special: true },
     { id: 'history', label: '履歴', icon: List, path: '/user/points/history' },
     { id: 'mypage', label: 'マイページ', icon: User, path: '/user/mypage' }
   ]

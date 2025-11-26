@@ -4,7 +4,8 @@ import StoreLayout from '@/components/store/StoreLayout'
 import StoreHeader from '@/components/store/StoreHeader'
 import DeleteConfirmModal from '@/components/store/DeleteConfirmModal'
 import { use, useState } from 'react'
-import { Trash2, FileText, Package, CheckCircle, DollarSign } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { Trash2, FileText, Package, CheckCircle, DollarSign, Plus } from 'lucide-react'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -12,6 +13,7 @@ interface PageProps {
 
 export default function StoreGiftcardDetailPage({ params }: PageProps) {
   const { id } = use(params)
+  const router = useRouter()
   const [distributedCount, setDistributedCount] = useState('155')
   const [showDeleteModal, setShowDeleteModal] = useState(false)
 
@@ -51,7 +53,18 @@ export default function StoreGiftcardDetailPage({ params }: PageProps) {
 
   return (
     <StoreLayout>
-      <StoreHeader title="ギフトカード詳細" />
+      <StoreHeader
+        title="ギフトカード詳細"
+        rightAction={
+          <button
+            onClick={() => router.push(`/store/giftcards/${id}/create-distribution`)}
+            className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium shadow-sm hover:bg-blue-700 transition-colors active:scale-95 whitespace-nowrap"
+          >
+            <Plus size={18} />
+            <span>配布作成</span>
+          </button>
+        }
+      />
 
       <div className="p-4 space-y-6 pb-20">
         {/* キャンペーン画像 */}
