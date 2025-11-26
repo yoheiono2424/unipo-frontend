@@ -31,6 +31,14 @@ function HomeContent() {
   return (
     <UserLayout>
       <div className="bg-gray-50 min-h-screen pb-6 relative">
+        {/* 会員番号表示欄 */}
+        <div className="bg-white border-b border-gray-100 px-4 py-2">
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-gray-500">会員番号</span>
+            <span className="text-sm font-bold text-gray-900 tracking-wide">USR-12345678</span>
+          </div>
+        </div>
+
         {/* 通知ポップアップ */}
         {showNotification && (
           <div className="fixed top-20 left-0 right-0 z-50 px-4 animate-slide-down">

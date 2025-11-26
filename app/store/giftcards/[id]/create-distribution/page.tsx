@@ -73,8 +73,7 @@ export default function CreateDistributionPage({ params }: PageProps) {
     }
 
     const results = mockMembers.filter(member =>
-      member.number.toLowerCase().includes(memberNumber.toLowerCase()) ||
-      member.name.includes(memberNumber)
+      member.number.toLowerCase().includes(memberNumber.toLowerCase())
     )
     setSearchResults(results)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -179,7 +178,7 @@ export default function CreateDistributionPage({ params }: PageProps) {
                       type="text"
                       value={memberNumber}
                       onChange={(e) => setMemberNumber(e.target.value)}
-                      placeholder="会員番号または名前を入力"
+                      placeholder="会員番号を入力"
                       className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 text-gray-900"
                     />
 
@@ -192,10 +191,7 @@ export default function CreateDistributionPage({ params }: PageProps) {
                             onClick={() => handleSelectMember(member)}
                             className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-b-0"
                           >
-                            <div className="text-sm font-medium text-gray-900">{member.name}</div>
-                            <div className="text-xs text-gray-500 mt-1">
-                              {member.number} · {member.age}歳 · {member.gender}
-                            </div>
+                            <div className="text-sm font-medium text-gray-900">{member.number}</div>
                           </button>
                         ))}
                       </div>
